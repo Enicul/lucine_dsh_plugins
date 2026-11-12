@@ -1,0 +1,7 @@
+# Layer applied when a profile lists this bundle. Set `libraryDir` in the
+# profile's own cordis.patch.yml to read from another folder.
+- insert:
+    - id: focus-reader
+      name: dsh-focus-reader
+      config:
+        libraryDir: '~/Documents/reading'

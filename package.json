@@ -1,0 +1,7 @@
+{
+  "name": "research-os",
+  "private": true,
+  "description": "Personal DeepSeek Harness (DSH) plugins: one independently installable bundle per package",
+  "type": "module",
+  "license": "MIT"
+}
