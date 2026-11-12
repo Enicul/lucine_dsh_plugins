@@ -38,7 +38,7 @@ window.__ModuleLoader__.load({
 		const READER_ASK_ROUTE = "focus-reader/ask";
 		//#endregion
 		//#region \0dsh-css:./src/client/ReaderPage.module.css.mjs
-		const css = ".xJC7vG_page{--fr-ai:var(--dsw-alias-state-business-primary);--fr-ai-soft:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);--fr-hl:#ffd03c80;--fr-read:\"Source Serif 4\", \"Iowan Old Style\", Georgia, \"Songti SC\", serif;--fr-mono:ui-monospace, \"SF Mono\", Menlo, monospace;scrollbar-gutter:stable;width:100%;min-width:0;height:100%;min-height:0;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);padding:0 16px 96px;font-size:14px;line-height:1.5;overflow:auto}.xJC7vG_bar{z-index:3;background:var(--dsw-alias-bg-base);flex-wrap:wrap;align-items:center;gap:8px 16px;max-width:1180px;margin:0 auto;padding:10px 0;display:flex;position:sticky;top:0}.xJC7vG_select{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;flex:0 420px;padding:6px 8px}.xJC7vG_toggle{color:var(--dsw-alias-label-secondary);align-items:center;gap:6px;display:flex}.xJC7vG_grid,.xJC7vG_gridLane{grid-template-columns:minmax(0,760px);justify-content:center;align-items:start;display:grid}.xJC7vG_gridLane{grid-template-columns:minmax(0,720px) minmax(0,420px)}.xJC7vG_paper{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;padding:28px clamp(18px,5%,56px) 40px}.xJC7vG_h1,.xJC7vG_h2{font-family:var(--fr-read);text-wrap:balance;margin:22px 0 8px;font-size:26px;line-height:1.2}.xJC7vG_h2{font-size:20px}.xJC7vG_h3{color:var(--dsw-alias-label-secondary);letter-spacing:.06em;text-transform:uppercase;margin:24px 0 6px;font-size:13px;font-weight:600}.xJC7vG_para,.xJC7vG_code{font-family:var(--fr-read);white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 16px;font-size:18px;line-height:1.7;transition:opacity .18s linear}.xJC7vG_code{border-radius:var(--dsw-radius-md);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);padding:10px 12px;font-size:13px;line-height:1.55}@media (prefers-reduced-motion:reduce){.xJC7vG_para,.xJC7vG_code{transition:none}}.xJC7vG_flash{background:var(--fr-ai-soft);box-shadow:0 0 0 6px var(--fr-ai-soft);border-radius:2px}.xJC7vG_pn{color:var(--dsw-alias-label-tertiary);font-family:var(--fr-mono);user-select:none;margin-right:8px;font-size:11px}.xJC7vG_hl{color:inherit;background:var(--fr-hl);cursor:pointer;border-radius:2px;padding:1px 0}.xJC7vG_anchor{border-bottom:2px solid var(--fr-ai);color:inherit;background:var(--fr-ai-soft);cursor:pointer;padding:1px 0}.xJC7vG_badge,.xJC7vG_badgeButton{min-width:18px;height:18px;color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-family:var(--fr-mono);user-select:none;border:0;border-radius:9px;flex:none;justify-content:center;align-items:center;padding:0 5px;font-size:11px;font-weight:500;display:inline-flex}.xJC7vG_badgeButton{vertical-align:2px;cursor:pointer;margin-left:3px}.xJC7vG_box,.xJC7vG_boxPinned{border:1px solid var(--fr-ai);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);flex-direction:column;min-width:0;font-size:14px;line-height:1.5;display:flex}.xJC7vG_boxPinned{border-width:2px}.xJC7vG_boxHead{border-bottom:1px solid var(--dsw-alias-border-l1);align-items:center;gap:8px;padding:8px 10px;display:flex}.xJC7vG_boxTitle{flex:1;min-width:0;font-weight:600}.xJC7vG_boxBody{flex-direction:column;gap:8px;min-height:0;max-height:420px;padding:10px;display:flex;overflow:auto}.xJC7vG_quote{border:0;border-left:3px solid var(--fr-ai);color:var(--dsw-alias-label-secondary);font-family:var(--fr-read);text-align:left;overflow-wrap:anywhere;cursor:pointer;background:0 0;padding:0 0 0 8px;font-size:14px}.xJC7vG_msgMe,.xJC7vG_msgAi{border-radius:var(--dsw-radius-md);overflow-wrap:anywhere;padding:7px 10px}.xJC7vG_msgMe{background:var(--dsw-alias-bg-base);margin-left:14%}.xJC7vG_msgAi{background:var(--fr-ai-soft);margin-right:6%}.xJC7vG_msgText{white-space:pre-wrap}.xJC7vG_role{color:var(--dsw-alias-label-tertiary);letter-spacing:.07em;text-transform:uppercase;font-size:10px;font-weight:700}.xJC7vG_row{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.xJC7vG_field{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;flex:140px;padding:6px 9px}.xJC7vG_button,.xJC7vG_primary{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);color:inherit;font:inherit;cursor:pointer;background:0 0;padding:4px 9px;font-size:13px}.xJC7vG_button:hover{background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_primary{border-color:var(--fr-ai);color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-weight:600}.xJC7vG_primary:disabled{opacity:.5;cursor:default}.xJC7vG_icon,.xJC7vG_iconOn{border-radius:var(--dsw-radius-md);color:var(--dsw-alias-label-secondary);font:inherit;cursor:pointer;background:0 0;border:0;padding:2px 8px;font-size:13px}.xJC7vG_icon:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_iconOn{color:var(--dsw-static-neutral-00);background:var(--fr-ai)}.xJC7vG_link{border:1px solid var(--fr-ai);max-width:100%;color:var(--fr-ai);font:inherit;cursor:pointer;background:0 0;border-radius:999px;align-items:center;gap:6px;padding:2px 10px;font-size:12px;display:inline-flex}.xJC7vG_link span,.xJC7vG_pick span:last-child,.xJC7vG_grow{text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}.xJC7vG_picker{border:1px dashed var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);flex-direction:column;gap:6px;padding:8px;display:flex}.xJC7vG_pick,.xJC7vG_folded{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);width:100%;color:inherit;font:inherit;text-align:left;cursor:pointer;background:0 0;align-items:center;gap:8px;padding:6px 8px;font-size:13px;display:flex}.xJC7vG_folded{border-left:3px solid var(--fr-ai);background:var(--dsw-alias-bg-layer-1)}.xJC7vG_grow{color:var(--dsw-alias-label-secondary)}.xJC7vG_inlineSlot{margin:-4px 0 18px}.xJC7vG_muted{color:var(--dsw-alias-label-tertiary)}.xJC7vG_error{max-width:1180px;color:var(--dsw-alias-state-error-primary);margin:0 auto 8px}.xJC7vG_empty{max-width:760px;color:var(--dsw-alias-label-secondary);flex-direction:column;gap:4px;margin:48px auto;display:flex}.xJC7vG_lane{min-width:0;position:relative}.xJC7vG_lane .xJC7vG_box,.xJC7vG_lane .xJC7vG_boxPinned{position:absolute;left:40px;right:0}.xJC7vG_lane .xJC7vG_boxBody{max-height:360px}.xJC7vG_lane svg{pointer-events:none;width:40px;position:absolute;top:0;left:0;overflow:visible}.xJC7vG_lane path{fill:none;stroke:var(--fr-ai);stroke-width:2px}.xJC7vG_lane circle{fill:var(--fr-ai)}.xJC7vG_selbar{z-index:40;border-radius:var(--dsw-radius-md);background:var(--dsw-alias-label-primary);gap:2px;padding:4px;display:flex;position:fixed;transform:translate(-50%,calc(-100% - 8px));box-shadow:0 4px 16px #00000040}.xJC7vG_selbar button{border-radius:var(--dsw-radius-sm);color:var(--dsw-alias-bg-base);font:inherit;white-space:nowrap;cursor:pointer;background:0 0;border:0;padding:6px 10px;font-weight:500}.xJC7vG_selbar button:hover{background:#7f7f7f59}";
+		const css = ".xJC7vG_page{--fr-ai:var(--dsw-alias-state-business-primary);--fr-ai-soft:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);--fr-hl:#ffd03c80;--fr-read:\"Source Serif 4\", \"Iowan Old Style\", Georgia, \"Songti SC\", serif;--fr-mono:ui-monospace, \"SF Mono\", Menlo, monospace;scrollbar-gutter:stable;width:100%;min-width:0;height:100%;min-height:0;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);padding:0 16px 96px;font-size:14px;line-height:1.5;overflow:auto}.xJC7vG_bar{z-index:3;background:var(--dsw-alias-bg-base);flex-wrap:wrap;align-items:center;gap:8px 16px;max-width:1180px;margin:0 auto;padding:10px 0;display:flex;position:sticky;top:0}.xJC7vG_select{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;flex:0 420px;padding:6px 8px}.xJC7vG_toggle{color:var(--dsw-alias-label-secondary);align-items:center;gap:6px;display:flex}.xJC7vG_grid,.xJC7vG_gridLane{grid-template-columns:minmax(0,760px);justify-content:center;align-items:start;display:grid}.xJC7vG_gridLane{grid-template-columns:minmax(0,720px) minmax(0,420px)}.xJC7vG_paper{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;padding:28px clamp(18px,5%,56px) 40px}.xJC7vG_h1,.xJC7vG_h2{font-family:var(--fr-read);text-wrap:balance;margin:22px 0 8px;font-size:26px;line-height:1.2}.xJC7vG_h2{font-size:20px}.xJC7vG_h3{color:var(--dsw-alias-label-secondary);letter-spacing:.06em;text-transform:uppercase;margin:24px 0 6px;font-size:13px;font-weight:600}.xJC7vG_para,.xJC7vG_code{font-family:var(--fr-read);white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 16px;font-size:18px;line-height:1.7;transition:opacity .18s linear}.xJC7vG_code{border-radius:var(--dsw-radius-md);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);padding:10px 12px;font-size:13px;line-height:1.55}@media (prefers-reduced-motion:reduce){.xJC7vG_para,.xJC7vG_code{transition:none}}.xJC7vG_flash{background:var(--fr-ai-soft);box-shadow:0 0 0 6px var(--fr-ai-soft);border-radius:2px}.xJC7vG_pn{color:var(--dsw-alias-label-tertiary);font-family:var(--fr-mono);user-select:none;margin-right:8px;font-size:11px}.xJC7vG_hl{color:inherit;background:var(--fr-hl);cursor:pointer;border-radius:2px;padding:1px 0}.xJC7vG_anchor{border-bottom:2px solid var(--fr-ai);color:inherit;background:var(--fr-ai-soft);cursor:pointer;padding:1px 0}.xJC7vG_badge,.xJC7vG_badgeButton{min-width:18px;height:18px;color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-family:var(--fr-mono);user-select:none;border:0;border-radius:9px;flex:none;justify-content:center;align-items:center;padding:0 5px;font-size:11px;font-weight:500;display:inline-flex}.xJC7vG_badgeButton{vertical-align:2px;cursor:pointer;margin-left:3px}.xJC7vG_box,.xJC7vG_boxPinned{border:1px solid var(--fr-ai);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;font-family:var(--fr-read);flex-direction:column;font-size:16px;line-height:1.6;display:flex}.xJC7vG_boxPinned{border-width:2px}.xJC7vG_boxHead{border-bottom:1px solid var(--dsw-alias-border-l1);align-items:center;gap:8px;padding:8px 10px;display:flex}.xJC7vG_boxTitle{flex:1;min-width:0;font-weight:600}.xJC7vG_boxBody{flex-direction:column;gap:8px;min-height:0;max-height:420px;padding:10px;display:flex;overflow:auto}.xJC7vG_quote{border:0;border-left:3px solid var(--fr-ai);color:var(--dsw-alias-label-secondary);font-family:var(--fr-read);text-align:left;overflow-wrap:anywhere;cursor:pointer;background:0 0;padding:0 0 0 8px;font-size:15px;font-style:italic}.xJC7vG_msgMe,.xJC7vG_msgAi{border-radius:var(--dsw-radius-md);overflow-wrap:anywhere;padding:7px 10px}.xJC7vG_msgMe{background:var(--dsw-alias-bg-base);margin-left:14%}.xJC7vG_msgAi{background:var(--fr-ai-soft);margin-right:6%}.xJC7vG_msgMe .xJC7vG_msgText{white-space:pre-wrap}.xJC7vG_role{color:var(--dsw-alias-label-tertiary);letter-spacing:.07em;text-transform:uppercase;font-size:10px;font-weight:700}.xJC7vG_row{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.xJC7vG_field{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;flex:140px;padding:6px 9px}.xJC7vG_button,.xJC7vG_primary{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);color:inherit;font:inherit;cursor:pointer;background:0 0;padding:4px 9px;font-size:13px}.xJC7vG_button:hover{background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_primary{border-color:var(--fr-ai);color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-weight:600}.xJC7vG_primary:disabled{opacity:.5;cursor:default}.xJC7vG_icon,.xJC7vG_iconOn{border-radius:var(--dsw-radius-md);color:var(--dsw-alias-label-secondary);font:inherit;cursor:pointer;background:0 0;border:0;padding:2px 8px;font-size:13px}.xJC7vG_icon:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_iconOn{color:var(--dsw-static-neutral-00);background:var(--fr-ai)}.xJC7vG_link{border:1px solid var(--fr-ai);max-width:100%;color:var(--fr-ai);font:inherit;cursor:pointer;background:0 0;border-radius:999px;align-items:center;gap:6px;padding:2px 10px;font-size:12px;display:inline-flex}.xJC7vG_link span,.xJC7vG_pick span:last-child,.xJC7vG_grow{text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}.xJC7vG_picker{border:1px dashed var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);flex-direction:column;gap:6px;padding:8px;display:flex}.xJC7vG_pick,.xJC7vG_folded{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);width:100%;color:inherit;font:inherit;text-align:left;cursor:pointer;background:0 0;align-items:center;gap:8px;padding:6px 8px;font-size:13px;display:flex}.xJC7vG_folded{border-left:3px solid var(--fr-ai);background:var(--dsw-alias-bg-layer-1)}.xJC7vG_grow{color:var(--dsw-alias-label-secondary)}.xJC7vG_inlineSlot{margin:-4px 0 18px}.xJC7vG_muted{color:var(--dsw-alias-label-tertiary)}.xJC7vG_error{max-width:1180px;color:var(--dsw-alias-state-error-primary);margin:0 auto 8px}.xJC7vG_empty{max-width:760px;color:var(--dsw-alias-label-secondary);flex-direction:column;gap:4px;margin:48px auto;display:flex}.xJC7vG_lane{align-self:stretch;min-width:0;padding-left:20px}.xJC7vG_lane>*{animation:.16s ease-out xJC7vG_fr-settle;position:sticky;box-shadow:0 6px 20px #0000001f}.xJC7vG_lane .xJC7vG_boxBody{max-height:min(46vh,380px)}.xJC7vG_laneChip{border:1px solid var(--dsw-alias-border-l1);border-left:3px solid var(--fr-ai);border-radius:var(--dsw-radius-md);width:100%;height:36px;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;text-align:left;white-space:nowrap;cursor:pointer;align-items:center;gap:8px;padding:0 10px;font-size:13px;display:flex}@keyframes xJC7vG_fr-settle{0%{opacity:.4;transform:translateY(4px)}}@media (prefers-reduced-motion:reduce){.xJC7vG_lane>*{animation:none}}.xJC7vG_selbar{z-index:40;border-radius:var(--dsw-radius-md);background:var(--dsw-alias-label-primary);gap:2px;padding:4px;display:flex;position:fixed;transform:translate(-50%,calc(-100% - 8px));box-shadow:0 4px 16px #00000040}.xJC7vG_selbar button{border-radius:var(--dsw-radius-sm);color:var(--dsw-alias-bg-base);font:inherit;white-space:nowrap;cursor:pointer;background:0 0;border:0;padding:6px 10px;font-weight:500}.xJC7vG_selbar button:hover{background:#7f7f7f59}.xJC7vG_mdP,.xJC7vG_mdHeading,.xJC7vG_mdList,.xJC7vG_mdPre{margin:0 0 8px}.xJC7vG_mdP:last-child,.xJC7vG_mdList:last-child,.xJC7vG_mdPre:last-child{margin-bottom:0}.xJC7vG_mdHeading{font-weight:600}.xJC7vG_mdList{padding-left:22px}.xJC7vG_mdList li{margin:2px 0}.xJC7vG_mdCode,.xJC7vG_mdPre{border-radius:var(--dsw-radius-sm);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);font-size:.82em}.xJC7vG_mdCode{padding:1px 4px}.xJC7vG_mdPre{white-space:pre;padding:8px 10px;overflow-x:auto}.xJC7vG_mdLink{text-decoration:underline dotted}";
 		const tagId = "dsh-focus-reader/ReaderPage.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -64,6 +64,7 @@ window.__ModuleLoader__.load({
 			"field": "xJC7vG_field",
 			"flash": "xJC7vG_flash",
 			"folded": "xJC7vG_folded",
+			"fr-settle": "xJC7vG_fr-settle",
 			"grid": "xJC7vG_grid",
 			"gridLane": "xJC7vG_gridLane",
 			"grow": "xJC7vG_grow",
@@ -75,7 +76,14 @@ window.__ModuleLoader__.load({
 			"iconOn": "xJC7vG_iconOn",
 			"inlineSlot": "xJC7vG_inlineSlot",
 			"lane": "xJC7vG_lane",
+			"laneChip": "xJC7vG_laneChip",
 			"link": "xJC7vG_link",
+			"mdCode": "xJC7vG_mdCode",
+			"mdHeading": "xJC7vG_mdHeading",
+			"mdLink": "xJC7vG_mdLink",
+			"mdList": "xJC7vG_mdList",
+			"mdP": "xJC7vG_mdP",
+			"mdPre": "xJC7vG_mdPre",
 			"msgAi": "xJC7vG_msgAi",
 			"msgMe": "xJC7vG_msgMe",
 			"msgText": "xJC7vG_msgText",
@@ -95,14 +103,113 @@ window.__ModuleLoader__.load({
 			"toggle": "xJC7vG_toggle"
 		};
 		//#endregion
+		//#region src/client/Markdown.tsx
+		const INLINE = /(`[^`\n]+`|\*\*[^*\n]+\*\*|__[^_\n]+__|\*[^*\s][^*\n]*\*|\[[^\]\n]+\]\([^)\s]+\))/g;
+		function inline(text, keyPrefix) {
+			return text.split(INLINE).map((part, index) => {
+				const key = `${keyPrefix}-${index}`;
+				if (index % 2 === 0) return part;
+				if (part.startsWith("`")) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("code", {
+					className: ReaderPage_module_css_default.mdCode,
+					children: part.slice(1, -1)
+				}, key);
+				if (part.startsWith("**") || part.startsWith("__")) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("strong", { children: inline(part.slice(2, -2), key) }, key);
+				if (part.startsWith("*")) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("em", { children: inline(part.slice(1, -1), key) }, key);
+				return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+					className: ReaderPage_module_css_default.mdLink,
+					title: part.slice(part.indexOf("](") + 2, -1),
+					children: part.slice(1, part.indexOf("]("))
+				}, key);
+			});
+		}
+		const BULLET = /^\s*[-*+]\s+(.*)$/;
+		const NUMBER = /^\s*\d+[.)]\s+(.*)$/;
+		const HEADING = /^#{1,6}\s+(.*)$/;
+		const FENCE = /^\s*(```|~~~)/;
+		/**
+		* Render Markdown text as React elements.
+		* @param props - `text` is the Markdown source.
+		* @returns block elements in source order.
+		*/
+		function Markdown({ text }) {
+			const out = [];
+			const lines = text.replace(/\r\n?/g, "\n").split("\n");
+			let para = [];
+			let list;
+			const flush = () => {
+				const key = out.length;
+				if (para.length > 0) out.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					className: ReaderPage_module_css_default.mdP,
+					children: inline(para.join(" "), `p${key}`)
+				}, key));
+				if (list !== void 0) {
+					const Tag = list.ordered ? "ol" : "ul";
+					out.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)(Tag, {
+						className: ReaderPage_module_css_default.mdList,
+						children: list.items.map((item, index) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("li", { children: inline(item, `l${key}-${index}`) }, index))
+					}, key));
+				}
+				para = [];
+				list = void 0;
+			};
+			for (let index = 0; index < lines.length; index += 1) {
+				const line = lines[index] ?? "";
+				if (FENCE.test(line)) {
+					flush();
+					const code = [];
+					index += 1;
+					while (index < lines.length && !FENCE.test(lines[index] ?? "")) {
+						code.push(lines[index] ?? "");
+						index += 1;
+					}
+					out.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)("pre", {
+						className: ReaderPage_module_css_default.mdPre,
+						children: code.join("\n")
+					}, out.length));
+					continue;
+				}
+				const heading = HEADING.exec(line);
+				const bullet = BULLET.exec(line);
+				const number = NUMBER.exec(line);
+				if (heading !== null) {
+					flush();
+					out.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: ReaderPage_module_css_default.mdHeading,
+						children: inline(heading[1] ?? "", `h${out.length}`)
+					}, out.length));
+				} else if (bullet !== null || number !== null) {
+					const ordered = bullet === null;
+					if (para.length > 0 || list !== void 0 && list.ordered !== ordered) flush();
+					list ??= {
+						ordered,
+						items: []
+					};
+					list.items.push((bullet ?? number)?.[1] ?? "");
+				} else if (line.trim() === "") flush();
+				else if (list !== void 0) {
+					const last = list.items.length - 1;
+					list.items[last] = `${list.items[last] ?? ""} ${line.trim()}`;
+				} else para.push(line.trim());
+			}
+			flush();
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(react_jsx_runtime.Fragment, { children: out });
+		}
+		//#endregion
 		//#region src/client/ReaderPage.tsx
 		/**
 		* Reader page: one centred reading column whose brightness follows the scroll
 		* position, highlights, and AI sessions that open beside the passage they are
-		* anchored to. Opening a session closes every other one that is not pinned.
+		* anchored to. A session follows its passage, holds at the top once it gets
+		* there, and folds into a one-line chip when the next open session arrives.
+		* Opening a session closes every other one that is not pinned.
 		*/
 		/** Container width above which sessions sit in a lane beside the text. */
 		const WIDE = 980;
+		/** Distance from the top of the page at which a session holds, below the document bar. */
+		const STICK_TOP = 58;
+		/** Height reserved for each folded session above a held one. */
+		const CHIP_ROW = 44;
+		const LANE_GAP = 12;
 		const LAST_DOC_KEY = "focus-reader:last-doc";
 		const EMPTY = {
 			highlights: [],
@@ -168,6 +275,7 @@ window.__ModuleLoader__.load({
 			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: session.pinned ? ReaderPage_module_css_default.boxPinned : ReaderPage_module_css_default.box,
 				"data-box": session.id,
+				"data-slot": session.id,
 				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 					className: ReaderPage_module_css_default.boxHead,
 					children: [
@@ -220,7 +328,7 @@ window.__ModuleLoader__.load({
 								children: message.role === "me" ? t("session.me") : t("session.ai")
 							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 								className: ReaderPage_module_css_default.msgText,
-								children: message.text
+								children: message.role === "ai" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Markdown, { text: message.text }) : message.text
 							})]
 						}, index)),
 						busy && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
@@ -324,6 +432,7 @@ window.__ModuleLoader__.load({
 			const [dim, setDim] = (0, react.useState)(true);
 			const [wide, setWide] = (0, react.useState)(true);
 			const [selected, setSelected] = (0, react.useState)(void 0);
+			const [docked, setDocked] = (0, react.useState)(/* @__PURE__ */ new Set());
 			const pageRef = (0, react.useRef)(null);
 			const laneRef = (0, react.useRef)(null);
 			const notesRef = (0, react.useRef)(notes);
@@ -555,6 +664,27 @@ window.__ModuleLoader__.load({
 					el.style.opacity = String(Math.max(.28, Math.min(1, 1 - ((dist[index] ?? 0) - nearest) * 1.15)));
 				});
 			}, [dim]);
+			const checkDock = (0, react.useCallback)(() => {
+				const lane = laneRef.current;
+				const page = pageRef.current;
+				if (lane === null || page === null) return;
+				const pageTop = page.getBoundingClientRect().top;
+				const els = [...lane.querySelectorAll("[data-slot]")];
+				const next = /* @__PURE__ */ new Set();
+				els.forEach((el, index) => {
+					const after = els[index + 1];
+					const id = el.dataset.slot;
+					if (after === void 0 || id === void 0) {
+						el.style.clipPath = "";
+						return;
+					}
+					const afterTop = after.getBoundingClientRect().top;
+					const cut = el.getBoundingClientRect().bottom - (afterTop - LANE_GAP);
+					el.style.clipPath = cut > 0 && el.dataset.box !== void 0 ? `inset(0 0 ${cut}px 0 round 10px)` : "";
+					if (afterTop <= pageTop + STICK_TOP + (index + 1) * CHIP_ROW + .5) next.add(id);
+				});
+				setDocked((current) => current.size === next.size && [...next].every((id) => current.has(id)) ? current : next);
+			}, []);
 			(0, react.useEffect)(() => {
 				const page = pageRef.current;
 				if (page === null) return;
@@ -564,6 +694,7 @@ window.__ModuleLoader__.load({
 					frame = requestAnimationFrame(() => {
 						frame = 0;
 						applyFocus();
+						checkDock();
 					});
 				};
 				page.addEventListener("scroll", queue, { passive: true });
@@ -571,7 +702,7 @@ window.__ModuleLoader__.load({
 					page.removeEventListener("scroll", queue);
 					cancelAnimationFrame(frame);
 				};
-			}, [applyFocus]);
+			}, [applyFocus, checkDock]);
 			const openList = sessions.filter((session) => open.has(session.id)).sort((a, b) => a.p - b.p || a.start - b.start);
 			const laneOn = wide && openList.length > 0;
 			(0, react.useLayoutEffect)(() => {
@@ -581,36 +712,22 @@ window.__ModuleLoader__.load({
 				if (lane === null || page === null || !laneOn) return;
 				const place = () => {
 					const laneTop = lane.getBoundingClientRect().top;
-					const tops = /* @__PURE__ */ new Map();
-					let floor = 0;
-					for (const box of lane.querySelectorAll("[data-box]")) {
-						const session = sessions.find((item) => item.id === box.dataset.box);
+					let bottom = 0;
+					lane.querySelectorAll("[data-slot]").forEach((el, index) => {
+						const session = sessions.find((item) => item.id === el.dataset.slot);
 						const para = session === void 0 ? null : page.querySelector(`[data-p="${session.p}"]`);
-						if (session === void 0 || para === null) continue;
-						const top = Math.max(para.getBoundingClientRect().top - laneTop, floor);
-						box.style.top = `${top}px`;
-						tops.set(session.id, top);
-						floor = top + box.offsetHeight + 12;
-					}
-					lane.style.minHeight = `${floor}px`;
-					const svg = lane.querySelector("svg");
-					if (svg === null) return;
-					svg.setAttribute("height", String(floor));
-					const parts = [];
-					const seen = /* @__PURE__ */ new Set();
-					for (const session of sessions) for (const id of session.links) {
-						const key = [session.id, id].sort().join("|");
-						const y1 = tops.get(session.id);
-						const y2 = tops.get(id);
-						if (seen.has(key) || y1 === void 0 || y2 === void 0) continue;
-						seen.add(key);
-						parts.push(`<path d="M 38 ${y1 + 20} C 4 ${y1 + 20}, 4 ${y2 + 20}, 38 ${y2 + 20}"/><circle cx="38" cy="${y1 + 20}" r="3.5"/><circle cx="38" cy="${y2 + 20}" r="3.5"/>`);
-					}
-					svg.innerHTML = parts.join("");
+						if (para === null) return;
+						const want = para.getBoundingClientRect().top - laneTop;
+						const top = Math.max(want, bottom + (index === 0 ? 0 : LANE_GAP));
+						el.style.marginTop = `${top - bottom}px`;
+						el.style.top = `${STICK_TOP + index * CHIP_ROW}px`;
+						bottom = top + el.offsetHeight;
+					});
+					checkDock();
 				};
 				place();
 				const observer = new ResizeObserver(place);
-				for (const box of lane.querySelectorAll("[data-box]")) observer.observe(box);
+				for (const el of lane.querySelectorAll("[data-slot]")) observer.observe(el);
 				return () => {
 					observer.disconnect();
 				};
@@ -854,10 +971,29 @@ window.__ModuleLoader__.load({
 								className: ReaderPage_module_css_default.muted,
 								children: t("moved", { count: lost })
 							}), body]
-						}), laneOn && /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						}), laneOn && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: ReaderPage_module_css_default.lane,
 							ref: laneRef,
-							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("svg", { "aria-hidden": "true" }), openList.map(box)]
+							children: openList.map((session) => docked.has(session.id) ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								"data-slot": session.id,
+								className: ReaderPage_module_css_default.laneChip,
+								title: t("session.goto"),
+								onClick: () => {
+									flash(session.p);
+								},
+								children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: ReaderPage_module_css_default.badge,
+										children: session.n
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["↑ ¶", session.p + 1] }),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: ReaderPage_module_css_default.grow,
+										children: session.msgs.length > 0 ? short(session.msgs.at(-1)?.text ?? "", 80) : t("session.blank")
+									})
+								]
+							}, session.id) : box(session))
 						})]
 					}),
 					selected !== void 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {

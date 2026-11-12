@@ -4,9 +4,10 @@ A DSH Web page for reading Markdown and plain-text files. It adds a **Reader** e
 
 - **Scroll-following focus.** The paragraph at the reading line is fully bright and the rest fade with distance. A checkbox turns this off.
 - **Highlight.** Select text inside one paragraph and choose Highlight. Click a highlight to remove it.
-- **AI sessions.** Select text and choose Open AI session. The session opens beside the passage and can be continued at any time.
+- **AI sessions.** Select text and choose Open AI session. The session opens beside the passage and can be continued at any time. Replies render Markdown.
+- **Scrolling.** A session follows its passage, holds at the top once it gets there, and folds into a one-line chip when the next open session arrives. Click the chip to return to its passage.
 - **Pin.** Opening a session closes every other session unless it is pinned.
-- **Link.** Two sessions can be linked; a linked session opens next to the one you came from, joined by a line.
+- **Link.** Two sessions can be linked; a linked session opens next to the one you came from.
 - On a narrow page, sessions unfold under their paragraph.
 
 ## Install

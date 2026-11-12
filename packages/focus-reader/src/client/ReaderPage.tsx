@@ -1,7 +1,9 @@
 /**
  * Reader page: one centred reading column whose brightness follows the scroll
  * position, highlights, and AI sessions that open beside the passage they are
- * anchored to. Opening a session closes every other one that is not pinned.
+ * anchored to. A session follows its passage, holds at the top once it gets
+ * there, and folds into a one-line chip when the next open session arrives.
+ * Opening a session closes every other one that is not pinned.
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
@@ -11,6 +13,7 @@ import {
   type ReaderAnchor, type ReaderAskPayload, type ReaderAskRequest, type ReaderBlock, type ReaderDocPayload,
   type ReaderDocsPayload, type ReaderNotes, type ReaderSession,
 } from '../shared.ts'
+import { Markdown } from './Markdown.tsx'
 import css from './ReaderPage.module.css'
 
 type ReaderPageProps = PropsRuntime<'main'> & PropsLocale<'focus-reader'>
@@ -18,6 +21,11 @@ type Translate = ReaderPageProps['t']
 
 /** Container width above which sessions sit in a lane beside the text. */
 const WIDE = 980
+/** Distance from the top of the page at which a session holds, below the document bar. */
+const STICK_TOP = 58
+/** Height reserved for each folded session above a held one. */
+const CHIP_ROW = 44
+const LANE_GAP = 12
 const LAST_DOC_KEY = 'focus-reader:last-doc'
 const EMPTY: ReaderNotes = { highlights: [], sessions: [] }
 
@@ -96,7 +104,7 @@ function SessionBox(props: BoxProps) {
   const linked = session.links.map(id => sessions.find(other => other.id === id)).filter(other => other !== undefined)
   const others = sessions.filter(other => other.id !== session.id && !session.links.includes(other.id))
   return (
-    <div className={session.pinned ? css.boxPinned : css.box} data-box={session.id}>
+    <div className={session.pinned ? css.boxPinned : css.box} data-box={session.id} data-slot={session.id}>
       <div className={css.boxHead}>
         <span className={css.badge}>{session.n}</span>
         <span className={css.boxTitle}>¶{session.p + 1}</span>
@@ -111,7 +119,7 @@ function SessionBox(props: BoxProps) {
         {session.msgs.map((message, index) => (
           <div key={index} className={message.role === 'me' ? css.msgMe : css.msgAi}>
             <div className={css.role}>{message.role === 'me' ? t('session.me') : t('session.ai')}</div>
-            <div className={css.msgText}>{message.text}</div>
+            <div className={css.msgText}>{message.role === 'ai' ? <Markdown text={message.text} /> : message.text}</div>
           </div>
         ))}
         {busy && <div className={css.muted}>{t('session.thinking')}</div>}
@@ -180,6 +188,7 @@ export function ReaderPage({ t }: ReaderPageProps) {
   const [dim, setDim] = useState(true)
   const [wide, setWide] = useState(true)
   const [selected, setSelected] = useState<Selected | undefined>(undefined)
+  const [docked, setDocked] = useState<ReadonlySet<string>>(new Set())
   const pageRef = useRef<HTMLDivElement>(null)
   const laneRef = useRef<HTMLDivElement>(null)
   const notesRef = useRef(notes)
@@ -349,22 +358,47 @@ export function ReaderPage({ t }: ReaderPageProps) {
     els.forEach((el, index) => { el.style.opacity = String(Math.max(0.28, Math.min(1, 1 - ((dist[index] ?? 0) - nearest) * 1.15))) })
   }, [dim])
 
+  // A held session folds into a chip once the next open session has reached the top, and unfolds when it leaves again.
+  const checkDock = useCallback((): void => {
+    const lane = laneRef.current
+    const page = pageRef.current
+    if (lane === null || page === null) return
+    const pageTop = page.getBoundingClientRect().top
+    const els = [...lane.querySelectorAll<HTMLElement>('[data-slot]')]
+    const next = new Set<string>()
+    els.forEach((el, index) => {
+      const after = els[index + 1]
+      const id = el.dataset.slot
+      if (after === undefined || id === undefined) {
+        el.style.clipPath = ''
+        return
+      }
+      const afterTop = after.getBoundingClientRect().top
+      // The arriving session covers the held one from below; the covered part is clipped so the two never overlap.
+      const cut = el.getBoundingClientRect().bottom - (afterTop - LANE_GAP)
+      el.style.clipPath = cut > 0 && el.dataset.box !== undefined ? `inset(0 0 ${cut}px 0 round 10px)` : ''
+      if (afterTop <= pageTop + STICK_TOP + (index + 1) * CHIP_ROW + 0.5) next.add(id)
+    })
+    setDocked(current => (current.size === next.size && [...next].every(id => current.has(id)) ? current : next))
+  }, [])
+
   useEffect(() => {
     const page = pageRef.current
     if (page === null) return
     let frame = 0
     const queue = (): void => {
       if (frame !== 0) return
-      frame = requestAnimationFrame(() => { frame = 0; applyFocus() })
+      frame = requestAnimationFrame(() => { frame = 0; applyFocus(); checkDock() })
     }
     page.addEventListener('scroll', queue, { passive: true })
     return () => { page.removeEventListener('scroll', queue); cancelAnimationFrame(frame) }
-  }, [applyFocus])
+  }, [applyFocus, checkDock])
 
   const openList = sessions.filter(session => open.has(session.id)).sort((a, b) => a.p - b.p || a.start - b.start)
   const laneOn = wide && openList.length > 0
 
-  // Lane boxes sit beside their paragraph, pushed down when the one above would overlap; curves join linked open boxes.
+  // Lane layout. Each open session is a sticky element whose resting place is beside its paragraph, so the browser
+  // itself holds it at the top while the reader scrolls on. Only the margins that set those resting places are computed here.
   useLayoutEffect(() => {
     applyFocus()
     const lane = laneRef.current
@@ -372,38 +406,23 @@ export function ReaderPage({ t }: ReaderPageProps) {
     if (lane === null || page === null || !laneOn) return
     const place = (): void => {
       const laneTop = lane.getBoundingClientRect().top
-      const tops = new Map<string, number>()
-      let floor = 0
-      for (const box of lane.querySelectorAll<HTMLElement>('[data-box]')) {
-        const session = sessions.find(item => item.id === box.dataset.box)
+      let bottom = 0
+      lane.querySelectorAll<HTMLElement>('[data-slot]').forEach((el, index) => {
+        const session = sessions.find(item => item.id === el.dataset.slot)
         const para = session === undefined ? null : page.querySelector<HTMLElement>(`[data-p="${session.p}"]`)
-        if (session === undefined || para === null) continue
-        const top = Math.max(para.getBoundingClientRect().top - laneTop, floor)
-        box.style.top = `${top}px`
-        tops.set(session.id, top)
-        floor = top + box.offsetHeight + 12
-      }
-      lane.style.minHeight = `${floor}px`
-      const svg = lane.querySelector('svg')
-      if (svg === null) return
-      svg.setAttribute('height', String(floor))
-      const parts: string[] = []
-      const seen = new Set<string>()
-      for (const session of sessions) {
-        for (const id of session.links) {
-          const key = [session.id, id].sort().join('|')
-          const y1 = tops.get(session.id)
-          const y2 = tops.get(id)
-          if (seen.has(key) || y1 === undefined || y2 === undefined) continue
-          seen.add(key)
-          parts.push(`<path d="M 38 ${y1 + 20} C 4 ${y1 + 20}, 4 ${y2 + 20}, 38 ${y2 + 20}"/><circle cx="38" cy="${y1 + 20}" r="3.5"/><circle cx="38" cy="${y2 + 20}" r="3.5"/>`)
-        }
-      }
-      svg.innerHTML = parts.join('')
+        if (para === null) return
+        const want = para.getBoundingClientRect().top - laneTop
+        const top = Math.max(want, bottom + (index === 0 ? 0 : LANE_GAP))
+        el.style.marginTop = `${top - bottom}px`
+        // Sessions above this one are chips by the time it reaches the top, so it holds just below their rows.
+        el.style.top = `${STICK_TOP + index * CHIP_ROW}px`
+        bottom = top + el.offsetHeight
+      })
+      checkDock()
     }
     place()
     const observer = new ResizeObserver(place)
-    for (const box of lane.querySelectorAll('[data-box]')) observer.observe(box)
+    for (const el of lane.querySelectorAll('[data-slot]')) observer.observe(el)
     return () => { observer.disconnect() }
   })
 
@@ -549,8 +568,13 @@ export function ReaderPage({ t }: ReaderPageProps) {
           </article>
           {laneOn && (
             <div className={css.lane} ref={laneRef}>
-              <svg aria-hidden="true" />
-              {openList.map(box)}
+              {openList.map(session => (docked.has(session.id) ? (
+                <button key={session.id} type="button" data-slot={session.id} className={css.laneChip} title={t('session.goto')} onClick={() => { flash(session.p) }}>
+                  <span className={css.badge}>{session.n}</span>
+                  <span>↑ ¶{session.p + 1}</span>
+                  <span className={css.grow}>{session.msgs.length > 0 ? short(session.msgs.at(-1)?.text ?? '', 80) : t('session.blank')}</span>
+                </button>
+              ) : box(session)))}
             </div>
           )}
         </div>
