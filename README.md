@@ -5,7 +5,8 @@ Personal [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DS
 ```
 research-os/
 ├── packages/
-│   └── focus-reader/        # read Markdown and text with highlights and AI sessions
+│   ├── focus-reader/        # read Markdown and text with highlights and AI sessions
+│   └── voyage/              # night-sea home page, daily steps, capture box, Waiting list, theme
 ├── package.json
 └── README.md
 ```

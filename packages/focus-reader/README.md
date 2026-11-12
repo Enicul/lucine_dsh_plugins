@@ -9,6 +9,7 @@ A DSH Web page for reading Markdown and plain-text files. It adds a **Reader** e
 - **Pin.** Opening a session closes every other session unless it is pinned.
 - **Link.** Two sessions can be linked; a linked session opens next to the one you came from.
 - On a narrow page, sessions unfold under their paragraph.
+- **Still water.** In a dark theme the page is an even night-blue and the text sits on it without a card.
 
 ## Install
 

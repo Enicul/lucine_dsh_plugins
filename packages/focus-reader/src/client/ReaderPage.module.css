@@ -531,3 +531,27 @@
   text-decoration: underline;
   text-decoration-style: dotted;
 }
+
+/* Still water: in a dark theme the page is a deep, even night and the text sits on it without a card. */
+:global(body[data-ds-dark-theme]) .page {
+  --fr-ai: #8cfff0;
+  --fr-ai-soft: rgba(140, 255, 240, 0.12);
+  --fr-hl: rgba(255, 210, 122, 0.3);
+  background: linear-gradient(180deg, #0e1536 0%, #16214e 70%, #1b2a5c 100%) fixed;
+}
+
+:global(body[data-ds-dark-theme]) .bar {
+  background: #0e1536;
+}
+
+:global(body[data-ds-dark-theme]) .paper {
+  border-color: transparent;
+  background: transparent;
+}
+
+:global(body[data-ds-dark-theme]) .primary,
+:global(body[data-ds-dark-theme]) .badge,
+:global(body[data-ds-dark-theme]) .badgeButton,
+:global(body[data-ds-dark-theme]) .iconOn {
+  color: #0e1536;
+}

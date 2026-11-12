@@ -1,0 +1,81 @@
+/** Web dictionaries for the voyage pages and the capture box. */
+
+/** Locale namespace owned by this plugin. */
+export const NS = 'voyage'
+
+/** English dictionary and key source. */
+export const en = {
+  panel: 'Voyage',
+  'tab.home': 'Home',
+  'tab.waiting': 'Waiting · {count}',
+  'course.title': "Today's course",
+  'course.deepSea': 'Deep sea',
+  'course.boat': 'Boat',
+  'course.fire': 'Fire',
+  'course.deepSea.hint': 'One step toward the mission',
+  'course.boat.hint': 'One thing that keeps life steady',
+  'course.fire.hint': 'One thing that gives energy back',
+  'course.tick': 'Mark "{kind}" done',
+  'next.label': 'Next step · {kind}',
+  'next.unset': 'Write today\'s first step in the panel on the right.',
+  'next.allDone': 'You brought the fire back.',
+  'next.today': 'Today',
+  'side.hide': 'Hide',
+  'side.show': 'Show today\'s course',
+  'capture.button': 'Capture a thought',
+  'capture.count': '{count} waiting',
+  'capture.title': 'Capture · it is filed to Waiting and you stay where you are',
+  'capture.placeholder': 'What just came to mind?',
+  'capture.keys': 'Enter files it · Esc closes',
+  'capture.filed': 'Filed. Back to what you were doing.',
+  'capture.command': 'Capture a thought',
+  'waiting.title': 'Waiting',
+  'waiting.lead': 'Thoughts you captured. Nothing here needs you until you open it.',
+  'waiting.sort': 'Sort with AI',
+  'waiting.sorting': 'Sorting…',
+  'waiting.empty': 'Nothing is waiting.',
+  'waiting.done': 'Done',
+  'waiting.unsorted': 'Not sorted yet',
+  loading: 'Loading…',
+  failed: 'That did not work: {message}',
+} satisfies Record<string, string>
+
+/** Plugin locale key union. */
+export type VoyageKey = keyof typeof en
+
+/** Simplified Chinese dictionary checked against the English key set. */
+export const zh = {
+  panel: '航海',
+  'tab.home': '主页',
+  'tab.waiting': '停靠 · {count}',
+  'course.title': '今日航线',
+  'course.deepSea': '往深海走一步',
+  'course.boat': '稳住船',
+  'course.fire': '带着火回来',
+  'course.deepSea.hint': '朝主线目标走的一步',
+  'course.boat.hint': '让生活保持平稳的一件事',
+  'course.fire.hint': '能恢复能量的一件事',
+  'course.tick': '把“{kind}”标为完成',
+  'next.label': '下一步 · {kind}',
+  'next.unset': '在右侧面板写下今天的第一步。',
+  'next.allDone': '你把火带回来了。',
+  'next.today': '今天',
+  'side.hide': '收起',
+  'side.show': '显示今日航线',
+  'capture.button': '记下一个想法',
+  'capture.count': '已停靠 {count} 件',
+  'capture.title': '记一下 · 它会被放进“停靠”，你留在原处',
+  'capture.placeholder': '刚才想到了什么？',
+  'capture.keys': '回车存入 · Esc 关闭',
+  'capture.filed': '已存入。回到你刚才在做的事。',
+  'capture.command': '记下一个想法',
+  'waiting.title': '停靠',
+  'waiting.lead': '你记下的想法。在你打开之前，这里什么都不需要你处理。',
+  'waiting.sort': '用 AI 整理',
+  'waiting.sorting': '正在整理…',
+  'waiting.empty': '没有停靠的想法。',
+  'waiting.done': '完成',
+  'waiting.unsorted': '尚未整理',
+  loading: '正在加载…',
+  failed: '操作未成功：{message}',
+} satisfies Record<VoyageKey, string>

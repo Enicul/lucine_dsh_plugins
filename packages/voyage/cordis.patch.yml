@@ -1,0 +1,7 @@
+# Layer applied when a profile lists this bundle. Set `dataDir` in the
+# profile's own cordis.patch.yml to keep the day's steps and captured thoughts elsewhere.
+- insert:
+    - id: voyage
+      name: dsh-voyage
+      config:
+        dataDir: '~/Documents/voyage'
