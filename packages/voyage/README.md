@@ -4,11 +4,12 @@ A night-sea home page for DeepSeek Harness: the day's three steps, a capture box
 
 ## What it adds
 
-- **Voyage page.** Opens when the app starts. Home shows an animated night sea and the next unfinished step. Each finished step moves the boat toward the lighthouse; when all three are done the light comes on.
+- **Today page.** Listed first in the sidebar as "Today" and opened when the app starts. Home shows an animated night sea and the next unfinished step. Each finished step moves the boat toward the lighthouse; when all three are done the light comes on.
 - **Today's course.** A side panel with three steps you write each day: Deep sea (toward the mission), Boat (keeps life steady), Fire (gives energy back). Text saves after a short pause in typing. The panel can be hidden.
 - **Capture box.** Command + L in the desktop app (Control + L on Windows and Linux) opens a one-line box over any page. Enter files the thought and returns focus to where it was. In a web browser the command is Command or Control + Shift + L, because browsers keep the unshifted key for the address bar. The binding can be changed in the app's keyboard settings.
 - **Waiting.** Every open thought, each also drawn as a lantern on the water. "Sort with AI" groups them; "Done" closes one.
-- **Glow tide theme.** Night-blue surfaces laid over the built-in dark palette for every page. Loading the plugin switches the saved theme preference to dark.
+- **Sea theme.** Every page except Today uses pale, low-saturation blue-grey surfaces laid over the built-in light palette. Today keeps its own night-sea colours. Loading the plugin switches the saved theme preference to light; if dark is chosen in settings, the night-blue surfaces are used instead.
+- **Sidebar brand.** A moon-over-water mark and the name "Deep Sea" replace the local-build title in the sidebar. The browser tab and window title are set elsewhere in the app and still read "DSH Local Build".
 
 ## Install
 
@@ -48,6 +49,6 @@ Everything is in `<dataDir>/voyage.json`: each day's three steps by date, and ev
 - Steps do not carry over to the next day, and past days are saved but not shown.
 - DSH does not yet suggest or rank the day's steps.
 - Thoughts cannot be edited, regrouped by hand, or reopened after "Done".
-- If the theme is later switched to light in settings, the night surfaces stay and some controls become hard to read; disable the plugin to use a light theme.
+- The plugin sets the theme preference to light each time it loads, so a dark choice in settings lasts only until the next start.
 - Tests cover the data file functions only. The routes, page and capture box have no automated tests.
 - English and Simplified Chinese.

@@ -289,10 +289,14 @@
   outline: none;
 }
 
-.stepInput::placeholder,
-.captureInput::placeholder {
+.stepInput::placeholder {
   color: var(--vy-dim);
   opacity: 0.7;
+}
+
+.captureInput::placeholder {
+  color: var(--dsw-alias-label-secondary);
+  opacity: 0.8;
 }
 
 .stepInputDone {
@@ -335,7 +339,7 @@
   outline-offset: 2px;
 }
 
-/* The capture box is rendered into the document body, outside `.page`, so it carries its own colours. */
+/* The capture box is rendered into the document body, over whichever page is open, so it takes the app's own colours. */
 .captureVeil {
   position: fixed;
   inset: 0;
@@ -343,7 +347,7 @@
   display: grid;
   place-items: start center;
   padding: 18vh 20px 0;
-  background: rgba(8, 12, 32, 0.45);
+  background: rgba(20, 28, 62, 0.28);
   pointer-events: auto;
 }
 
@@ -353,32 +357,31 @@
   gap: 10px;
   width: min(520px, 100%);
   padding: 18px;
-  border: 1px solid rgba(200, 215, 255, 0.2);
+  border: 1px solid var(--dsw-alias-border-l2);
   border-radius: 16px;
-  color: #eef2ff;
-  background: rgba(22, 30, 68, 0.96);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  color: var(--dsw-alias-label-primary);
+  background: var(--dsw-alias-bg-layer-1);
+  box-shadow: 0 20px 60px rgba(20, 28, 62, 0.25);
   font-size: 14px;
 }
 
-.captureBox .small,
-.captureNote {
-  --vy-dim: #b4bfdf;
+.captureBox .small {
+  color: var(--dsw-alias-label-secondary);
 }
 
 .captureInput {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid rgba(200, 215, 255, 0.2);
+  border: 1px solid var(--dsw-alias-border-l2);
   border-radius: 12px;
   color: inherit;
-  background: rgba(10, 16, 40, 0.5);
+  background: var(--dsw-alias-bg-base);
   font: inherit;
   font-size: 17px;
 }
 
 .captureInput:focus {
-  border-color: #8cfff0;
+  border-color: var(--dsw-alias-brand-primary);
   outline: none;
 }
 
@@ -388,10 +391,11 @@
   left: 50%;
   z-index: 1000;
   padding: 8px 16px;
-  border: 1px solid rgba(255, 210, 122, 0.5);
+  border: 1px solid var(--dsw-alias-border-l2);
   border-radius: 999px;
-  color: #ffd27a;
-  background: rgba(22, 30, 68, 0.96);
+  color: var(--dsw-alias-label-primary);
+  background: var(--dsw-alias-bg-layer-1);
+  box-shadow: 0 8px 24px rgba(20, 28, 62, 0.18);
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
@@ -403,4 +407,10 @@
   .side {
     width: 240px;
   }
+}
+
+.brandName {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }

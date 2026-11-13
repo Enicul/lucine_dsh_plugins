@@ -4,9 +4,105 @@ window.__ModuleLoader__.load({
 		var module = { exports: {} };
 		var exports = module.exports;
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+		let react_jsx_runtime = require("react/jsx-runtime");
 		let react = require("react");
 		let react_dom = require("react-dom");
-		let react_jsx_runtime = require("react/jsx-runtime");
+		//#region \0dsh-css:./src/client/Voyage.module.css.mjs
+		const css = ".Hm-TGG_page{--vy-ink:#eef2ff;--vy-dim:#b4bfdf;--vy-glass:#141c3ead;--vy-line:#c8d7ff33;--vy-fire:#ffd27a;--vy-tide:#8cfff0;width:100%;min-width:0;height:100%;min-height:0;color:var(--vy-ink);background:#141c44;font-size:14px;line-height:1.5;display:flex;position:relative;overflow:hidden}.Hm-TGG_scene{object-fit:cover;width:100%;height:100%;position:absolute;inset:0}.Hm-TGG_stage{flex-direction:column;flex:1;gap:12px;min-width:0;min-height:0;padding:14px 20px 24px;display:flex;position:relative;overflow:auto}.Hm-TGG_tabs{gap:4px;display:flex}.Hm-TGG_tab,.Hm-TGG_tabOn{color:var(--vy-dim);background:var(--vy-glass);backdrop-filter:blur(8px);font:inherit;cursor:pointer;border:0;border-radius:999px;padding:6px 14px}.Hm-TGG_tab:hover{color:var(--vy-ink)}.Hm-TGG_tabOn{color:var(--vy-fire);background:#3c3446bf;font-weight:600}.Hm-TGG_small{color:var(--vy-dim);letter-spacing:.03em;font-size:12px}.Hm-TGG_title{text-wrap:balance;margin:0;font-size:18px;font-weight:600;line-height:1.3}.Hm-TGG_error{border:1px solid var(--vy-fire);color:var(--vy-fire);background:var(--vy-glass);border-radius:10px;margin:0;padding:8px 12px}.Hm-TGG_next{background:var(--vy-glass);backdrop-filter:blur(10px);border-radius:16px;flex-direction:column;align-self:flex-start;gap:4px;max-width:min(520px,100%);margin-top:auto;padding:16px;display:flex}.Hm-TGG_column{flex-direction:column;gap:10px;width:min(640px,100%);margin:0 auto;display:flex}.Hm-TGG_head{flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;display:flex}.Hm-TGG_sort{color:var(--vy-tide);font:inherit;cursor:pointer;background:#143c50b3;border:1px solid #8cfff080;border-radius:999px;padding:7px 14px;font-weight:600}.Hm-TGG_sort:disabled{opacity:.6;cursor:default}.Hm-TGG_group{flex-direction:column;gap:8px;display:flex}.Hm-TGG_groupName{color:var(--vy-fire);letter-spacing:.06em;text-transform:uppercase;margin:8px 0 0;font-size:12px;font-weight:600}.Hm-TGG_row{border:1px solid var(--vy-line);background:var(--vy-glass);backdrop-filter:blur(8px);border-radius:12px;align-items:center;gap:10px;padding:9px 11px;display:flex}.Hm-TGG_rowText{overflow-wrap:anywhere;flex:1;min-width:0}.Hm-TGG_rowDone,.Hm-TGG_fold{border:1px solid var(--vy-line);color:var(--vy-dim);font:inherit;cursor:pointer;background:0 0;border-radius:999px;padding:3px 10px;font-size:12px}.Hm-TGG_rowDone:hover,.Hm-TGG_fold:hover{color:var(--vy-ink)}.Hm-TGG_side{border-left:1px solid var(--vy-line);backdrop-filter:blur(12px);background:#0c122c80;flex-direction:column;flex:none;gap:12px;width:310px;padding:14px;display:flex;position:relative;overflow:auto}.Hm-TGG_fold{align-self:flex-end}.Hm-TGG_unfold{border:0;border-left:1px solid var(--vy-line);width:28px;color:var(--vy-dim);font:inherit;cursor:pointer;background:#0c122c80;flex:none;position:relative}.Hm-TGG_widget{border:1px solid var(--vy-line);border-radius:14px;flex-direction:column;gap:8px;padding:14px;display:flex}.Hm-TGG_step{border:1px solid var(--vy-line);border-radius:12px;align-items:flex-start;gap:10px;padding:8px 10px;display:flex}.Hm-TGG_tick,.Hm-TGG_tickOn{border:2px solid var(--vy-dim);color:#0000;cursor:pointer;background:0 0;border-radius:50%;flex:none;place-items:center;width:22px;height:22px;margin-top:2px;padding:0;font-size:12px;display:grid}.Hm-TGG_tick:disabled{opacity:.4;cursor:default}.Hm-TGG_tickOn{border-color:var(--vy-fire);color:#2a2340;background:var(--vy-fire)}.Hm-TGG_stepBody{flex-direction:column;flex:1;min-width:0;display:flex}.Hm-TGG_kind{color:var(--vy-dim);font-size:12px;font-weight:600}.Hm-TGG_stepInput,.Hm-TGG_stepInputDone{width:100%;color:var(--vy-ink);font:inherit;background:0 0;border:0;border-bottom:1px solid #0000;padding:2px 0}.Hm-TGG_stepInput:focus,.Hm-TGG_stepInputDone:focus{border-bottom-color:var(--vy-tide);outline:none}.Hm-TGG_stepInput::placeholder{color:var(--vy-dim);opacity:.7}.Hm-TGG_captureInput::placeholder{color:var(--dsw-alias-label-secondary);opacity:.8}.Hm-TGG_stepInputDone{color:var(--vy-dim);text-decoration:line-through}.Hm-TGG_capture{width:100%;color:var(--vy-fire);font:inherit;text-align:left;cursor:pointer;background:#ffd27a1f;border:1px solid #ffd27a80;border-radius:12px;padding:10px 12px;font-weight:600}.Hm-TGG_peek{color:var(--vy-dim);text-overflow:ellipsis;white-space:nowrap;margin:0;font-size:13px;overflow:hidden}.Hm-TGG_tab:focus-visible,.Hm-TGG_tabOn:focus-visible,.Hm-TGG_sort:focus-visible,.Hm-TGG_rowDone:focus-visible,.Hm-TGG_fold:focus-visible,.Hm-TGG_unfold:focus-visible,.Hm-TGG_tick:focus-visible,.Hm-TGG_tickOn:focus-visible,.Hm-TGG_capture:focus-visible{outline:2px solid var(--vy-fire);outline-offset:2px}.Hm-TGG_captureVeil{z-index:1000;pointer-events:auto;background:#141c3e47;place-items:start center;padding:18vh 20px 0;display:grid;position:fixed;inset:0}.Hm-TGG_captureBox{border:1px solid var(--dsw-alias-border-l2);width:min(520px,100%);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border-radius:16px;flex-direction:column;gap:10px;padding:18px;font-size:14px;display:flex;box-shadow:0 20px 60px #141c3e40}.Hm-TGG_captureBox .Hm-TGG_small{color:var(--dsw-alias-label-secondary)}.Hm-TGG_captureInput{border:1px solid var(--dsw-alias-border-l2);width:100%;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;border-radius:12px;padding:12px 14px;font-size:17px}.Hm-TGG_captureInput:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.Hm-TGG_captureNote{z-index:1000;border:1px solid var(--dsw-alias-border-l2);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);white-space:nowrap;pointer-events:none;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;position:fixed;bottom:48px;left:50%;transform:translate(-50%);box-shadow:0 8px 24px #141c3e2e}@container (width<=700px){.Hm-TGG_side{width:240px}}.Hm-TGG_brandName{letter-spacing:.02em;font-size:15px;font-weight:600}";
+		const tagId = "dsh-voyage/Voyage.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "dsh-voyage";
+			tag.dataset.pluginCss = tagId;
+			tag.textContent = css;
+			document.head.appendChild(tag);
+		}
+		var Voyage_module_css_default = {
+			"brandName": "Hm-TGG_brandName",
+			"capture": "Hm-TGG_capture",
+			"captureBox": "Hm-TGG_captureBox",
+			"captureInput": "Hm-TGG_captureInput",
+			"captureNote": "Hm-TGG_captureNote",
+			"captureVeil": "Hm-TGG_captureVeil",
+			"column": "Hm-TGG_column",
+			"error": "Hm-TGG_error",
+			"fold": "Hm-TGG_fold",
+			"group": "Hm-TGG_group",
+			"groupName": "Hm-TGG_groupName",
+			"head": "Hm-TGG_head",
+			"kind": "Hm-TGG_kind",
+			"next": "Hm-TGG_next",
+			"page": "Hm-TGG_page",
+			"peek": "Hm-TGG_peek",
+			"row": "Hm-TGG_row",
+			"rowDone": "Hm-TGG_rowDone",
+			"rowText": "Hm-TGG_rowText",
+			"scene": "Hm-TGG_scene",
+			"side": "Hm-TGG_side",
+			"small": "Hm-TGG_small",
+			"sort": "Hm-TGG_sort",
+			"stage": "Hm-TGG_stage",
+			"step": "Hm-TGG_step",
+			"stepBody": "Hm-TGG_stepBody",
+			"stepInput": "Hm-TGG_stepInput",
+			"stepInputDone": "Hm-TGG_stepInputDone",
+			"tab": "Hm-TGG_tab",
+			"tabOn": "Hm-TGG_tabOn",
+			"tabs": "Hm-TGG_tabs",
+			"tick": "Hm-TGG_tick",
+			"tickOn": "Hm-TGG_tickOn",
+			"title": "Hm-TGG_title",
+			"unfold": "Hm-TGG_unfold",
+			"widget": "Hm-TGG_widget"
+		};
+		//#endregion
+		//#region src/client/Brand.tsx
+		/**
+		* Render the moon-over-water mark at the size the sidebar asks for.
+		* @param props - the sidebar's share: the requested edge.
+		* @returns decorative mark.
+		*/
+		function BrandMark({ size }) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("svg", {
+				width: size,
+				height: size,
+				viewBox: "0 0 24 24",
+				fill: "none",
+				"aria-hidden": "true",
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+						cx: "12",
+						cy: "9",
+						r: "5",
+						fill: "#f0c36d"
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", {
+						d: "M2.500 17c2.400-1.600 4.700-1.600 7.100 0s4.700 1.600 7.100 0 3.200-1.300 4.800-.6",
+						stroke: "#4f8fa8",
+						strokeWidth: "1.600",
+						strokeLinecap: "round"
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", {
+						d: "M4.500 20.500c1.900-1.200 3.800-1.200 5.700 0s3.800 1.200 5.700 0",
+						stroke: "#4f8fa8",
+						strokeWidth: "1.600",
+						strokeLinecap: "round",
+						opacity: "0.6"
+					})
+				]
+			});
+		}
+		/**
+		* Render the product name beside the mark.
+		* @returns the name.
+		*/
+		function BrandName(_props) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+				className: Voyage_module_css_default.brandName,
+				children: "Deep Sea"
+			});
+		}
+		//#endregion
 		//#region src/client/capture.ts
 		/** Open and close signal for the capture box, shared by the shortcut, the side-panel button and the box. */
 		let open = false;
@@ -148,54 +244,6 @@ window.__ModuleLoader__.load({
 			return (0, react.useSyncExternalStore)(subscribe, () => view);
 		}
 		//#endregion
-		//#region \0dsh-css:./src/client/Voyage.module.css.mjs
-		const css = ".Hm-TGG_page{--vy-ink:#eef2ff;--vy-dim:#b4bfdf;--vy-glass:#141c3ead;--vy-line:#c8d7ff33;--vy-fire:#ffd27a;--vy-tide:#8cfff0;width:100%;min-width:0;height:100%;min-height:0;color:var(--vy-ink);background:#141c44;font-size:14px;line-height:1.5;display:flex;position:relative;overflow:hidden}.Hm-TGG_scene{object-fit:cover;width:100%;height:100%;position:absolute;inset:0}.Hm-TGG_stage{flex-direction:column;flex:1;gap:12px;min-width:0;min-height:0;padding:14px 20px 24px;display:flex;position:relative;overflow:auto}.Hm-TGG_tabs{gap:4px;display:flex}.Hm-TGG_tab,.Hm-TGG_tabOn{color:var(--vy-dim);background:var(--vy-glass);backdrop-filter:blur(8px);font:inherit;cursor:pointer;border:0;border-radius:999px;padding:6px 14px}.Hm-TGG_tab:hover{color:var(--vy-ink)}.Hm-TGG_tabOn{color:var(--vy-fire);background:#3c3446bf;font-weight:600}.Hm-TGG_small{color:var(--vy-dim);letter-spacing:.03em;font-size:12px}.Hm-TGG_title{text-wrap:balance;margin:0;font-size:18px;font-weight:600;line-height:1.3}.Hm-TGG_error{border:1px solid var(--vy-fire);color:var(--vy-fire);background:var(--vy-glass);border-radius:10px;margin:0;padding:8px 12px}.Hm-TGG_next{background:var(--vy-glass);backdrop-filter:blur(10px);border-radius:16px;flex-direction:column;align-self:flex-start;gap:4px;max-width:min(520px,100%);margin-top:auto;padding:16px;display:flex}.Hm-TGG_column{flex-direction:column;gap:10px;width:min(640px,100%);margin:0 auto;display:flex}.Hm-TGG_head{flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;display:flex}.Hm-TGG_sort{color:var(--vy-tide);font:inherit;cursor:pointer;background:#143c50b3;border:1px solid #8cfff080;border-radius:999px;padding:7px 14px;font-weight:600}.Hm-TGG_sort:disabled{opacity:.6;cursor:default}.Hm-TGG_group{flex-direction:column;gap:8px;display:flex}.Hm-TGG_groupName{color:var(--vy-fire);letter-spacing:.06em;text-transform:uppercase;margin:8px 0 0;font-size:12px;font-weight:600}.Hm-TGG_row{border:1px solid var(--vy-line);background:var(--vy-glass);backdrop-filter:blur(8px);border-radius:12px;align-items:center;gap:10px;padding:9px 11px;display:flex}.Hm-TGG_rowText{overflow-wrap:anywhere;flex:1;min-width:0}.Hm-TGG_rowDone,.Hm-TGG_fold{border:1px solid var(--vy-line);color:var(--vy-dim);font:inherit;cursor:pointer;background:0 0;border-radius:999px;padding:3px 10px;font-size:12px}.Hm-TGG_rowDone:hover,.Hm-TGG_fold:hover{color:var(--vy-ink)}.Hm-TGG_side{border-left:1px solid var(--vy-line);backdrop-filter:blur(12px);background:#0c122c80;flex-direction:column;flex:none;gap:12px;width:310px;padding:14px;display:flex;position:relative;overflow:auto}.Hm-TGG_fold{align-self:flex-end}.Hm-TGG_unfold{border:0;border-left:1px solid var(--vy-line);width:28px;color:var(--vy-dim);font:inherit;cursor:pointer;background:#0c122c80;flex:none;position:relative}.Hm-TGG_widget{border:1px solid var(--vy-line);border-radius:14px;flex-direction:column;gap:8px;padding:14px;display:flex}.Hm-TGG_step{border:1px solid var(--vy-line);border-radius:12px;align-items:flex-start;gap:10px;padding:8px 10px;display:flex}.Hm-TGG_tick,.Hm-TGG_tickOn{border:2px solid var(--vy-dim);color:#0000;cursor:pointer;background:0 0;border-radius:50%;flex:none;place-items:center;width:22px;height:22px;margin-top:2px;padding:0;font-size:12px;display:grid}.Hm-TGG_tick:disabled{opacity:.4;cursor:default}.Hm-TGG_tickOn{border-color:var(--vy-fire);color:#2a2340;background:var(--vy-fire)}.Hm-TGG_stepBody{flex-direction:column;flex:1;min-width:0;display:flex}.Hm-TGG_kind{color:var(--vy-dim);font-size:12px;font-weight:600}.Hm-TGG_stepInput,.Hm-TGG_stepInputDone{width:100%;color:var(--vy-ink);font:inherit;background:0 0;border:0;border-bottom:1px solid #0000;padding:2px 0}.Hm-TGG_stepInput:focus,.Hm-TGG_stepInputDone:focus{border-bottom-color:var(--vy-tide);outline:none}.Hm-TGG_stepInput::placeholder,.Hm-TGG_captureInput::placeholder{color:var(--vy-dim);opacity:.7}.Hm-TGG_stepInputDone{color:var(--vy-dim);text-decoration:line-through}.Hm-TGG_capture{width:100%;color:var(--vy-fire);font:inherit;text-align:left;cursor:pointer;background:#ffd27a1f;border:1px solid #ffd27a80;border-radius:12px;padding:10px 12px;font-weight:600}.Hm-TGG_peek{color:var(--vy-dim);text-overflow:ellipsis;white-space:nowrap;margin:0;font-size:13px;overflow:hidden}.Hm-TGG_tab:focus-visible,.Hm-TGG_tabOn:focus-visible,.Hm-TGG_sort:focus-visible,.Hm-TGG_rowDone:focus-visible,.Hm-TGG_fold:focus-visible,.Hm-TGG_unfold:focus-visible,.Hm-TGG_tick:focus-visible,.Hm-TGG_tickOn:focus-visible,.Hm-TGG_capture:focus-visible{outline:2px solid var(--vy-fire);outline-offset:2px}.Hm-TGG_captureVeil{z-index:1000;pointer-events:auto;background:#080c2073;place-items:start center;padding:18vh 20px 0;display:grid;position:fixed;inset:0}.Hm-TGG_captureBox{color:#eef2ff;background:#161e44f5;border:1px solid #c8d7ff33;border-radius:16px;flex-direction:column;gap:10px;width:min(520px,100%);padding:18px;font-size:14px;display:flex;box-shadow:0 20px 60px #00000073}.Hm-TGG_captureBox .Hm-TGG_small,.Hm-TGG_captureNote{--vy-dim:#b4bfdf}.Hm-TGG_captureInput{width:100%;color:inherit;font:inherit;background:#0a102880;border:1px solid #c8d7ff33;border-radius:12px;padding:12px 14px;font-size:17px}.Hm-TGG_captureInput:focus{border-color:#8cfff0;outline:none}.Hm-TGG_captureNote{z-index:1000;color:#ffd27a;white-space:nowrap;pointer-events:none;background:#161e44f5;border:1px solid #ffd27a80;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;position:fixed;bottom:48px;left:50%;transform:translate(-50%)}@container (width<=700px){.Hm-TGG_side{width:240px}}";
-		const tagId = "dsh-voyage/Voyage.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
-			const tag = document.createElement("style");
-			tag.dataset.plugin = "dsh-voyage";
-			tag.dataset.pluginCss = tagId;
-			tag.textContent = css;
-			document.head.appendChild(tag);
-		}
-		var Voyage_module_css_default = {
-			"capture": "Hm-TGG_capture",
-			"captureBox": "Hm-TGG_captureBox",
-			"captureInput": "Hm-TGG_captureInput",
-			"captureNote": "Hm-TGG_captureNote",
-			"captureVeil": "Hm-TGG_captureVeil",
-			"column": "Hm-TGG_column",
-			"error": "Hm-TGG_error",
-			"fold": "Hm-TGG_fold",
-			"group": "Hm-TGG_group",
-			"groupName": "Hm-TGG_groupName",
-			"head": "Hm-TGG_head",
-			"kind": "Hm-TGG_kind",
-			"next": "Hm-TGG_next",
-			"page": "Hm-TGG_page",
-			"peek": "Hm-TGG_peek",
-			"row": "Hm-TGG_row",
-			"rowDone": "Hm-TGG_rowDone",
-			"rowText": "Hm-TGG_rowText",
-			"scene": "Hm-TGG_scene",
-			"side": "Hm-TGG_side",
-			"small": "Hm-TGG_small",
-			"sort": "Hm-TGG_sort",
-			"stage": "Hm-TGG_stage",
-			"step": "Hm-TGG_step",
-			"stepBody": "Hm-TGG_stepBody",
-			"stepInput": "Hm-TGG_stepInput",
-			"stepInputDone": "Hm-TGG_stepInputDone",
-			"tab": "Hm-TGG_tab",
-			"tabOn": "Hm-TGG_tabOn",
-			"tabs": "Hm-TGG_tabs",
-			"tick": "Hm-TGG_tick",
-			"tickOn": "Hm-TGG_tickOn",
-			"title": "Hm-TGG_title",
-			"unfold": "Hm-TGG_unfold",
-			"widget": "Hm-TGG_widget"
-		};
-		//#endregion
 		//#region src/client/CaptureBox.tsx
 		/** The capture box: one line, filed to Waiting, shown over whatever page is open. */
 		/** How long the "filed" note stays, in milliseconds. */
@@ -290,7 +338,7 @@ window.__ModuleLoader__.load({
 		const NS = "voyage";
 		/** English dictionary and key source. */
 		const en = {
-			panel: "Voyage",
+			panel: "Today",
 			"tab.home": "Home",
 			"tab.waiting": "Waiting · {count}",
 			"course.title": "Today's course",
@@ -326,7 +374,7 @@ window.__ModuleLoader__.load({
 		};
 		/** Simplified Chinese dictionary checked against the English key set. */
 		const zh = {
-			panel: "航海",
+			panel: "今天",
 			"tab.home": "主页",
 			"tab.waiting": "停靠 · {count}",
 			"course.title": "今日航线",
@@ -1024,17 +1072,36 @@ window.__ModuleLoader__.load({
 			code: "KeyL",
 			modifiers: ["primary", "shift"]
 		};
-		/** Night-sea surfaces laid over the built-in dark palette; the same value serves both palette modes. */
-		const GLOW_TIDE = {
-			"--dsw-alias-bg-base": "#121a40",
-			"--dsw-alias-bg-layer-1": "#18224f",
-			"--dsw-alias-bg-layer-2": "#1d2a5e",
-			"--dsw-alias-bg-overlay": "#1b2658",
-			"--dsw-alias-border-l1": "rgba(200, 215, 255, 0.1)",
-			"--dsw-alias-border-l2": "rgba(200, 215, 255, 0.18)",
-			"--dsw-alias-label-primary": "#eef2ff",
-			"--dsw-alias-label-secondary": "#b4bfdf",
-			"--dsw-specific-sidebar-fill": "#0f1638"
+		/**
+		* Sea-tinted surfaces as `[light value, dark value]`. The light values are pale, low-saturation blue-greys
+		* for every page; the dark values are the night-sea surfaces, used only if the dark palette is chosen in settings.
+		*/
+		const SEA = {
+			"--dsw-alias-bg-base": ["#f3f5fa", "#121a40"],
+			"--dsw-alias-bg-layer-1": ["#fbfcfe", "#18224f"],
+			"--dsw-alias-bg-layer-2": ["#f6f8fc", "#1d2a5e"],
+			"--dsw-alias-bg-overlay": ["#e6ebf5", "#1b2658"],
+			"--dsw-alias-border-l1": ["rgba(40, 60, 120, 0.08)", "rgba(200, 215, 255, 0.1)"],
+			"--dsw-alias-border-l2": ["rgba(40, 60, 120, 0.16)", "rgba(200, 215, 255, 0.18)"],
+			"--dsw-alias-brand-primary": ["#24305c", "#f4f6ff"],
+			"--dsw-alias-label-primary": ["#1e2742", "#eef2ff"],
+			"--dsw-alias-label-secondary": ["#56617e", "#b4bfdf"],
+			"--dsw-specific-sidebar-fill": ["#e8edf6", "#0f1638"]
+		};
+		/**
+		* The dark end of the app's neutral scale, as `[built-in value, night-blue value]`. Buttons, inputs and
+		* cards take their fills from this scale, so tinting it recolours them without naming each one. The
+		* built-in value is kept for the light palette, where these steps are text colours.
+		*/
+		const NIGHT_NEUTRALS = {
+			"--dsw-static-neutral-bluish-1000": ["rgb(15, 17, 21)", "#0b1030"],
+			"--dsw-static-neutral-bluish-950": ["rgb(21, 21, 23)", "#101737"],
+			"--dsw-static-neutral-bluish-900": ["rgb(27, 27, 28)", "#141c44"],
+			"--dsw-static-neutral-bluish-875": ["rgb(35, 35, 36)", "#18224f"],
+			"--dsw-static-neutral-bluish-850": ["rgb(44, 44, 46)", "#1d2a5e"],
+			"--dsw-static-neutral-bluish-800": ["rgb(53, 54, 56)", "#23316b"],
+			"--dsw-static-neutral-bluish-750": ["rgb(67, 69, 74)", "#2b3b7a"],
+			"--dsw-static-neutral-bluish-700": ["rgb(97, 102, 107)", "#40508f"]
 		};
 		/** Required browser services: slots, localized copy, keyboard commands, the panel switcher, and themes. */
 		const inject = [
@@ -1045,7 +1112,7 @@ window.__ModuleLoader__.load({
 			"theme"
 		];
 		/**
-		* Register the dictionaries, the theme, the page with its sidebar entry, and the capture box with its command.
+		* Register the dictionaries, the theme, the page with its sidebar entry, the sidebar brand, and the capture box with its command.
 		* @param ctx - browser services used by these contributions.
 		*/
 		function apply(ctx) {
@@ -1054,11 +1121,17 @@ window.__ModuleLoader__.load({
 				en
 			}), "voyage: dictionaries");
 			const t = ctx.locale.bind(NS);
-			ctx.effect(() => ctx.theme.overrideTokens(THEME_ID, Object.fromEntries(Object.entries(GLOW_TIDE).map(([token, value]) => [token, {
-				light: value,
-				dark: value
-			}]))), "voyage: theme");
-			ctx.theme.setTheme("dark");
+			ctx.effect(() => ctx.theme.overrideTokens(THEME_ID, {
+				...Object.fromEntries(Object.entries(NIGHT_NEUTRALS).map(([token, [light, dark]]) => [token, {
+					light,
+					dark
+				}])),
+				...Object.fromEntries(Object.entries(SEA).map(([token, [light, dark]]) => [token, {
+					light,
+					dark
+				}]))
+			}), "voyage: theme");
+			ctx.theme.setTheme("light");
 			ctx.effect(() => ctx.slots.inject("main", () => {
 				const dispose = ctx.slots.register({
 					name: "main",
@@ -1071,10 +1144,12 @@ window.__ModuleLoader__.load({
 			ctx.effect(() => ctx.slots.inject("sidebar.panellist", () => ctx.slots.register({
 				name: "sidebar.panellist",
 				id: PANEL_ID,
-				order: 1,
+				order: -3,
 				locale: NS,
 				label: () => t("panel")
 			}, VoyageIcon)), "voyage: sidebar entry");
+			ctx.effect(() => ctx.slots.inject("sidebar.brand.mark", () => ctx.slots.register({ name: "sidebar.brand.mark" }, BrandMark)), "voyage: brand mark");
+			ctx.effect(() => ctx.slots.inject("sidebar.brand.name", () => ctx.slots.register({ name: "sidebar.brand.name" }, BrandName)), "voyage: brand name");
 			ctx.effect(() => ctx.slots.inject("shell.overlay", () => ctx.slots.register({
 				name: "shell.overlay",
 				id: "voyage-capture",

@@ -39,7 +39,7 @@ export function apply(ctx: Context): void {
   ctx.effect(() => ctx.slots.inject('sidebar.panellist', () => ctx.slots.register({
     name: 'sidebar.panellist',
     id: PANEL_ID,
-    order: 6,
+    order: -2,
     locale: NS,
     label: () => t('panel'),
   }, ReaderIcon)), 'focus-reader: sidebar entry')

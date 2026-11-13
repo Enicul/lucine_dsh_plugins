@@ -5,7 +5,7 @@ export const NS = 'voyage'
 
 /** English dictionary and key source. */
 export const en = {
-  panel: 'Voyage',
+  panel: 'Today',
   'tab.home': 'Home',
   'tab.waiting': 'Waiting · {count}',
   'course.title': "Today's course",
@@ -45,7 +45,7 @@ export type VoyageKey = keyof typeof en
 
 /** Simplified Chinese dictionary checked against the English key set. */
 export const zh = {
-  panel: '航海',
+  panel: '今天',
   'tab.home': '主页',
   'tab.waiting': '停靠 · {count}',
   'course.title': '今日航线',
