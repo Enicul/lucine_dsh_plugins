@@ -16,6 +16,14 @@ export const READER_NOTES_ROUTE = 'focus-reader/notes'
 export const READER_ASK_PATH = '/focus-reader/ask'
 /** Document-relative form of the ask route. */
 export const READER_ASK_ROUTE = 'focus-reader/ask'
+/** Host route path importing a paper from a link into the library folder. */
+export const READER_ADD_PATH = '/focus-reader/add'
+/** Document-relative form of the import route. */
+export const READER_ADD_ROUTE = 'focus-reader/add'
+/** Host route path returning one picture of the library folder. */
+export const READER_PICTURE_PATH = '/focus-reader/picture'
+/** Document-relative form of the picture route. */
+export const READER_PICTURE_ROUTE = 'focus-reader/picture'
 
 /** One file of the library folder. */
 export interface ReaderDocEntry {
@@ -48,8 +56,10 @@ export interface ReaderMessage {
   readonly text: string
 }
 
-/** An AI session anchored to a passage. */
+/** A box of messages anchored to a passage: a discussion with the model, or the reader's own comments. */
 export interface ReaderSession extends ReaderAnchor {
+  /** `ai` is a discussion with the model. `comment` holds only the reader's messages and is never sent to the model. */
+  readonly kind: 'ai' | 'comment'
   /** Display number, stable for the life of the session. */
   readonly n: number
   readonly msgs: readonly ReaderMessage[]
@@ -91,4 +101,24 @@ export interface ReaderAskPayload {
   readonly text: string
   /** Model that answered, as `provider/model`. */
   readonly model: string
+}
+
+/** Request body of the import route. */
+export interface ReaderAddRequest {
+  /** What the reader pasted: an arXiv address or identifier. */
+  readonly url: string
+  /** True to fetch a paper again that is already in the library; its document keeps its name and notes file. */
+  readonly refresh?: boolean
+}
+
+/** Response body of the import route. */
+export interface ReaderAddPayload {
+  /** Name of the paper's document, relative to the library folder. */
+  readonly name: string
+  /** True when the paper was already in the library and nothing was fetched. */
+  readonly existing: boolean
+  /** Pictures saved next to the document by this request. */
+  readonly pictures: number
+  /** Pictures of the paper that could not be downloaded. */
+  readonly missingPictures: number
 }

@@ -19,7 +19,7 @@ export class LibraryError extends Error {
    * @param status - HTTP status the route answers with.
    * @param message - text shown to the reader.
    */
-  constructor(readonly status: 400 | 404 | 413, message: string) {
+  constructor(readonly status: 400 | 404 | 413 | 502, message: string) {
     super(message)
   }
 }
@@ -41,14 +41,72 @@ export function expandDir(dir: string): string {
  * @throws {LibraryError} when the name leaves the folder, enters a dot folder, or is not a text document.
  */
 export function resolveDoc(libraryDir: string, name: string): string {
+  if (!EXTENSIONS.has(extname(name).toLowerCase())) throw new LibraryError(400, 'only .md, .markdown and .txt files can be read')
+  return resolveInside(libraryDir, name)
+}
+
+function resolveInside(libraryDir: string, name: string): string {
   const parts = name.split('/')
   if (name === '' || parts.some(part => part === '' || part.startsWith('.'))) {
     throw new LibraryError(400, 'invalid document name')
   }
-  if (!EXTENSIONS.has(extname(name).toLowerCase())) throw new LibraryError(400, 'only .md, .markdown and .txt files can be read')
   const path = resolve(libraryDir, ...parts)
   if (!path.startsWith(libraryDir + sep)) throw new LibraryError(400, 'invalid document name')
   return path
+}
+
+/** Picture file types the library serves, with the media type each is sent as. */
+const PICTURE_TYPES: Readonly<Record<string, string>> = {
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml',
+}
+
+/**
+ * Resolve a picture name inside the library folder.
+ * @param libraryDir - absolute library folder.
+ * @param name - path relative to the library, with `/` separators.
+ * @returns the absolute file path and the media type of its extension.
+ * @throws {LibraryError} when the name leaves the folder, enters a dot folder, or is not a picture file.
+ */
+export function resolvePicture(libraryDir: string, name: string): { path: string; type: string } {
+  const type = PICTURE_TYPES[extname(name).toLowerCase()]
+  if (type === undefined) throw new LibraryError(400, 'only .png, .jpg, .gif, .webp and .svg pictures can be shown')
+  return { path: resolveInside(libraryDir, name), type }
+}
+
+/**
+ * Read one picture of the library.
+ * @param libraryDir - absolute library folder.
+ * @param name - picture name relative to the library.
+ * @param maxBytes - larger files are refused.
+ * @returns the file's bytes and media type.
+ * @throws {LibraryError} when the picture is missing, too large, or badly named.
+ */
+export async function readPicture(libraryDir: string, name: string, maxBytes: number): Promise<{ bytes: Buffer; type: string }> {
+  const { path, type } = resolvePicture(libraryDir, name)
+  let size: number
+  try {
+    size = (await stat(path)).size
+  } catch (error: unknown) {
+    void error
+    throw new LibraryError(404, 'no such picture')
+  }
+  if (size > maxBytes) throw new LibraryError(413, `picture is larger than ${maxBytes} bytes`)
+  return { bytes: await readFile(path), type }
+}
+
+/**
+ * Add a picture to the library, writing a temporary file first so an interrupted write leaves no partial picture.
+ * @param libraryDir - absolute library folder.
+ * @param name - picture name relative to the library.
+ * @param bytes - file content.
+ * @throws {LibraryError} when the name is not a picture name inside the library.
+ */
+export async function savePicture(libraryDir: string, name: string, bytes: Uint8Array): Promise<void> {
+  const { path } = resolvePicture(libraryDir, name)
+  await mkdir(dirname(path), { recursive: true })
+  const temporary = `${path}.${process.pid}.tmp`
+  await writeFile(temporary, bytes)
+  await rename(temporary, path)
 }
 
 /**
@@ -177,6 +235,8 @@ export function cleanNotes(value: unknown): ReaderNotes {
     if (anchor === undefined || !isRecord(raw) || !Number.isInteger(raw.n)) continue
     sessions.push({
       ...anchor,
+      // Notes saved before comments existed carry no kind; all of them are model discussions.
+      kind: raw.kind === 'comment' ? 'comment' : 'ai',
       n: raw.n as number,
       msgs: (Array.isArray(raw.msgs) ? raw.msgs : []).map(messageOf).filter(item => item !== undefined),
       links: (Array.isArray(raw.links) ? raw.links : []).filter((id): id is string => typeof id === 'string'),
@@ -224,6 +284,41 @@ export async function writeNotes(libraryDir: string, name: string, notes: Reader
   await mkdir(dirname(path), { recursive: true })
   const temporary = `${path}.${process.pid}.tmp`
   await writeFile(temporary, `${JSON.stringify(notes, null, 2)}\n`, 'utf8')
+  await rename(temporary, path)
+}
+
+/**
+ * Find a document in one library folder by the start of its file name.
+ * @param libraryDir - absolute library folder.
+ * @param folder - folder relative to the library, with `/` separators.
+ * @param prefix - the file name equals `<prefix>.md` or starts with `<prefix> `.
+ * @returns the document name relative to the library, or `undefined` when no file matches or the folder is missing.
+ */
+export async function findDoc(libraryDir: string, folder: string, prefix: string): Promise<string | undefined> {
+  resolveDoc(libraryDir, `${folder}/x.md`)
+  let names: string[]
+  try {
+    names = await readdir(resolve(libraryDir, ...folder.split('/')))
+  } catch (error: unknown) {
+    if (isRecord(error) && error.code === 'ENOENT') return undefined
+    throw error
+  }
+  const found = names.sort().find(name => name === `${prefix}.md` || (name.startsWith(`${prefix} `) && name.endsWith('.md')))
+  return found === undefined ? undefined : `${folder}/${found}`
+}
+
+/**
+ * Add a document to the library, writing a temporary file first so an interrupted write leaves no partial document.
+ * @param libraryDir - absolute library folder.
+ * @param name - document name relative to the library.
+ * @param text - document content.
+ * @throws {LibraryError} when the name is not a readable document name inside the library.
+ */
+export async function saveDoc(libraryDir: string, name: string, text: string): Promise<void> {
+  const path = resolveDoc(libraryDir, name)
+  await mkdir(dirname(path), { recursive: true })
+  const temporary = `${path}.${process.pid}.tmp`
+  await writeFile(temporary, text, 'utf8')
   await rename(temporary, path)
 }
 

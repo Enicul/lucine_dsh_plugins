@@ -6,6 +6,7 @@ window.__ModuleLoader__.load({
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 		let react_jsx_runtime = require("react/jsx-runtime");
 		let react = require("react");
+		let _deepseek_ai_dsh_client_ui_primitives = require("@deepseek-ai/dsh-client-ui-primitives");
 		//#region src/client/ReaderIcon.tsx
 		/**
 		* Render an open-book glyph at the size the sidebar asks for; the sidebar owns the label.
@@ -36,9 +37,13 @@ window.__ModuleLoader__.load({
 		const READER_NOTES_ROUTE = "focus-reader/notes";
 		/** Document-relative form of the ask route. */
 		const READER_ASK_ROUTE = "focus-reader/ask";
+		/** Document-relative form of the import route. */
+		const READER_ADD_ROUTE = "focus-reader/add";
+		/** Document-relative form of the picture route. */
+		const READER_PICTURE_ROUTE = "focus-reader/picture";
 		//#endregion
 		//#region \0dsh-css:./src/client/ReaderPage.module.css.mjs
-		const css = ".xJC7vG_page{--fr-ai:var(--dsw-alias-state-business-primary);--fr-ai-soft:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);--fr-hl:#ffd03c80;--fr-read:\"Source Serif 4\", \"Iowan Old Style\", Georgia, \"Songti SC\", serif;--fr-mono:ui-monospace, \"SF Mono\", Menlo, monospace;scrollbar-gutter:stable;width:100%;min-width:0;height:100%;min-height:0;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);padding:0 16px 96px;font-size:14px;line-height:1.5;overflow:auto}.xJC7vG_bar{z-index:3;background:var(--dsw-alias-bg-base);flex-wrap:wrap;align-items:center;gap:8px 16px;max-width:1180px;margin:0 auto;padding:10px 0;display:flex;position:sticky;top:0}.xJC7vG_select{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;flex:0 420px;padding:6px 8px}.xJC7vG_toggle{color:var(--dsw-alias-label-secondary);align-items:center;gap:6px;display:flex}.xJC7vG_grid,.xJC7vG_gridLane{grid-template-columns:minmax(0,760px);justify-content:center;align-items:start;display:grid}.xJC7vG_gridLane{grid-template-columns:minmax(0,720px) minmax(0,420px)}.xJC7vG_paper{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;padding:28px clamp(18px,5%,56px) 40px}.xJC7vG_h1,.xJC7vG_h2{font-family:var(--fr-read);text-wrap:balance;margin:22px 0 8px;font-size:26px;line-height:1.2}.xJC7vG_h2{font-size:20px}.xJC7vG_h3{color:var(--dsw-alias-label-secondary);letter-spacing:.06em;text-transform:uppercase;margin:24px 0 6px;font-size:13px;font-weight:600}.xJC7vG_para,.xJC7vG_code{font-family:var(--fr-read);white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 16px;font-size:18px;line-height:1.7;transition:opacity .18s linear}.xJC7vG_code{border-radius:var(--dsw-radius-md);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);padding:10px 12px;font-size:13px;line-height:1.55}@media (prefers-reduced-motion:reduce){.xJC7vG_para,.xJC7vG_code{transition:none}}.xJC7vG_flash{background:var(--fr-ai-soft);box-shadow:0 0 0 6px var(--fr-ai-soft);border-radius:2px}.xJC7vG_pn{color:var(--dsw-alias-label-tertiary);font-family:var(--fr-mono);user-select:none;margin-right:8px;font-size:11px}.xJC7vG_hl{color:inherit;background:var(--fr-hl);cursor:pointer;border-radius:2px;padding:1px 0}.xJC7vG_anchor{border-bottom:2px solid var(--fr-ai);color:inherit;background:var(--fr-ai-soft);cursor:pointer;padding:1px 0}.xJC7vG_badge,.xJC7vG_badgeButton{min-width:18px;height:18px;color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-family:var(--fr-mono);user-select:none;border:0;border-radius:9px;flex:none;justify-content:center;align-items:center;padding:0 5px;font-size:11px;font-weight:500;display:inline-flex}.xJC7vG_badgeButton{vertical-align:2px;cursor:pointer;margin-left:3px}.xJC7vG_box,.xJC7vG_boxPinned{border:1px solid var(--fr-ai);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;font-family:var(--fr-read);flex-direction:column;font-size:16px;line-height:1.6;display:flex}.xJC7vG_boxPinned{border-width:2px}.xJC7vG_boxHead{border-bottom:1px solid var(--dsw-alias-border-l1);align-items:center;gap:8px;padding:8px 10px;display:flex}.xJC7vG_boxTitle{flex:1;min-width:0;font-weight:600}.xJC7vG_boxBody{flex-direction:column;gap:8px;min-height:0;max-height:420px;padding:10px;display:flex;overflow:auto}.xJC7vG_quote{border:0;border-left:3px solid var(--fr-ai);color:var(--dsw-alias-label-secondary);font-family:var(--fr-read);text-align:left;overflow-wrap:anywhere;cursor:pointer;background:0 0;padding:0 0 0 8px;font-size:15px;font-style:italic}.xJC7vG_msgMe,.xJC7vG_msgAi{border-radius:var(--dsw-radius-md);overflow-wrap:anywhere;padding:7px 10px}.xJC7vG_msgMe{background:var(--dsw-alias-bg-base);margin-left:14%}.xJC7vG_msgAi{background:var(--fr-ai-soft);margin-right:6%}.xJC7vG_msgMe .xJC7vG_msgText{white-space:pre-wrap}.xJC7vG_role{color:var(--dsw-alias-label-tertiary);letter-spacing:.07em;text-transform:uppercase;font-size:10px;font-weight:700}.xJC7vG_row{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.xJC7vG_field{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;flex:140px;padding:6px 9px}.xJC7vG_button,.xJC7vG_primary{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);color:inherit;font:inherit;cursor:pointer;background:0 0;padding:4px 9px;font-size:13px}.xJC7vG_button:hover{background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_primary{border-color:var(--fr-ai);color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-weight:600}.xJC7vG_primary:disabled{opacity:.5;cursor:default}.xJC7vG_icon,.xJC7vG_iconOn{border-radius:var(--dsw-radius-md);color:var(--dsw-alias-label-secondary);font:inherit;cursor:pointer;background:0 0;border:0;padding:2px 8px;font-size:13px}.xJC7vG_icon:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_iconOn{color:var(--dsw-static-neutral-00);background:var(--fr-ai)}.xJC7vG_link{border:1px solid var(--fr-ai);max-width:100%;color:var(--fr-ai);font:inherit;cursor:pointer;background:0 0;border-radius:999px;align-items:center;gap:6px;padding:2px 10px;font-size:12px;display:inline-flex}.xJC7vG_link span,.xJC7vG_pick span:last-child,.xJC7vG_grow{text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}.xJC7vG_picker{border:1px dashed var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);flex-direction:column;gap:6px;padding:8px;display:flex}.xJC7vG_pick,.xJC7vG_folded{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);width:100%;color:inherit;font:inherit;text-align:left;cursor:pointer;background:0 0;align-items:center;gap:8px;padding:6px 8px;font-size:13px;display:flex}.xJC7vG_folded{border-left:3px solid var(--fr-ai);background:var(--dsw-alias-bg-layer-1)}.xJC7vG_grow{color:var(--dsw-alias-label-secondary)}.xJC7vG_inlineSlot{margin:-4px 0 18px}.xJC7vG_muted{color:var(--dsw-alias-label-tertiary)}.xJC7vG_error{max-width:1180px;color:var(--dsw-alias-state-error-primary);margin:0 auto 8px}.xJC7vG_empty{max-width:760px;color:var(--dsw-alias-label-secondary);flex-direction:column;gap:4px;margin:48px auto;display:flex}.xJC7vG_lane{align-self:stretch;min-width:0;padding-left:20px}.xJC7vG_lane>*{animation:.16s ease-out xJC7vG_fr-settle;position:sticky;box-shadow:0 6px 20px #0000001f}.xJC7vG_lane .xJC7vG_boxBody{max-height:min(46vh,380px)}.xJC7vG_laneChip{border:1px solid var(--dsw-alias-border-l1);border-left:3px solid var(--fr-ai);border-radius:var(--dsw-radius-md);width:100%;height:36px;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;text-align:left;white-space:nowrap;cursor:pointer;align-items:center;gap:8px;padding:0 10px;font-size:13px;display:flex}@keyframes xJC7vG_fr-settle{0%{opacity:.4;transform:translateY(4px)}}@media (prefers-reduced-motion:reduce){.xJC7vG_lane>*{animation:none}}.xJC7vG_selbar{z-index:40;border-radius:var(--dsw-radius-md);background:var(--dsw-alias-label-primary);gap:2px;padding:4px;display:flex;position:fixed;transform:translate(-50%,calc(-100% - 8px));box-shadow:0 4px 16px #00000040}.xJC7vG_selbar button{border-radius:var(--dsw-radius-sm);color:var(--dsw-alias-bg-base);font:inherit;white-space:nowrap;cursor:pointer;background:0 0;border:0;padding:6px 10px;font-weight:500}.xJC7vG_selbar button:hover{background:#7f7f7f59}.xJC7vG_mdP,.xJC7vG_mdHeading,.xJC7vG_mdList,.xJC7vG_mdPre{margin:0 0 8px}.xJC7vG_mdP:last-child,.xJC7vG_mdList:last-child,.xJC7vG_mdPre:last-child{margin-bottom:0}.xJC7vG_mdHeading{font-weight:600}.xJC7vG_mdList{padding-left:22px}.xJC7vG_mdList li{margin:2px 0}.xJC7vG_mdCode,.xJC7vG_mdPre{border-radius:var(--dsw-radius-sm);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);font-size:.82em}.xJC7vG_mdCode{padding:1px 4px}.xJC7vG_mdPre{white-space:pre;padding:8px 10px;overflow-x:auto}.xJC7vG_mdLink{text-decoration:underline dotted}body[data-ds-dark-theme] .xJC7vG_page{--fr-ai:#8cfff0;--fr-ai-soft:#8cfff01f;--fr-hl:#ffd27a4d;background:linear-gradient(#0e1536 0%,#16214e 70%,#1b2a5c 100%) fixed}body[data-ds-dark-theme] .xJC7vG_bar{background:#0e1536}body[data-ds-dark-theme] .xJC7vG_paper{background:0 0;border-color:#0000}body[data-ds-dark-theme] .xJC7vG_primary,body[data-ds-dark-theme] .xJC7vG_badge,body[data-ds-dark-theme] .xJC7vG_badgeButton,body[data-ds-dark-theme] .xJC7vG_iconOn{color:#0e1536}";
+		const css = ".xJC7vG_page{--fr-ai:var(--dsw-alias-state-business-primary);--fr-ai-soft:color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);--fr-hl:#ffd03c80;--fr-note:#4f8a73;--fr-note-soft:#4f8a733d;--fr-read:\"Source Serif 4\", \"Iowan Old Style\", Georgia, \"Songti SC\", serif;--fr-mono:ui-monospace, \"SF Mono\", Menlo, monospace;box-sizing:border-box;scrollbar-gutter:stable;width:100%;min-width:0;height:100%;min-height:0;color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-base);padding:0 16px 96px;font-size:14px;line-height:1.5;overflow:auto}.xJC7vG_bar{z-index:3;max-width:1180px;padding:10px 0;background:var(--dsw-alias-bg-base);flex-wrap:wrap;align-items:center;gap:8px 16px;margin:0 auto;padding-inline-start:max(0px, calc(var(--dsh-frame-leading-clearance,0px) - 16px));display:flex;position:sticky;top:0}.xJC7vG_select{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;flex:0 420px;padding:6px 8px}.xJC7vG_toggle{color:var(--dsw-alias-label-secondary);align-items:center;gap:6px;display:flex}.xJC7vG_add{flex:240px;align-items:center;gap:6px;min-width:0;max-width:380px;margin-inline-start:auto;display:flex}.xJC7vG_addInput{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;flex:auto;padding:6px 8px}.xJC7vG_addInput::placeholder{color:var(--dsw-alias-label-tertiary)}.xJC7vG_add .xJC7vG_button{font-size:inherit;padding:6px 12px}.xJC7vG_add .xJC7vG_button:disabled{opacity:.5;cursor:default}.xJC7vG_note{max-width:1180px;color:var(--dsw-alias-label-secondary);flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0 auto 8px;display:flex}.xJC7vG_tex,.xJC7vG_texBlock{white-space:normal}.xJC7vG_tex>div,.xJC7vG_tex>div>p{color:inherit;font:inherit;margin:0;display:inline}.xJC7vG_texBlock{text-align:center;padding:2px 0;display:block;overflow-x:auto}.xJC7vG_texBlock>div{color:inherit;font-size:inherit}.xJC7vG_figure,.xJC7vG_table{margin:0 0 16px;transition:opacity .18s linear}.xJC7vG_figure{overflow-wrap:anywhere;color:var(--dsw-alias-label-tertiary);text-align:center}.xJC7vG_picture{border-radius:var(--dsw-radius-md);background:#fff;max-width:100%;height:auto}.xJC7vG_table{font-size:14px;overflow-x:auto}.xJC7vG_grid,.xJC7vG_gridLane{grid-template-columns:minmax(0,760px);justify-content:center;align-items:start;display:grid}.xJC7vG_gridLane{grid-template-columns:minmax(0,720px) minmax(0,420px)}.xJC7vG_paper{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;padding:28px clamp(18px,5%,56px) 40px}.xJC7vG_h1,.xJC7vG_h2{font-family:var(--fr-read);text-wrap:balance;margin:22px 0 8px;font-size:26px;line-height:1.2}.xJC7vG_h2{font-size:20px}.xJC7vG_h3{color:var(--dsw-alias-label-secondary);letter-spacing:.06em;text-transform:uppercase;margin:24px 0 6px;font-size:13px;font-weight:600}.xJC7vG_para,.xJC7vG_code{font-family:var(--fr-read);white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 16px;font-size:18px;line-height:1.7;transition:opacity .18s linear}.xJC7vG_code{border-radius:var(--dsw-radius-md);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);padding:10px 12px;font-size:13px;line-height:1.55}@media (prefers-reduced-motion:reduce){.xJC7vG_para,.xJC7vG_code{transition:none}}.xJC7vG_flash{background:var(--fr-ai-soft);box-shadow:0 0 0 6px var(--fr-ai-soft);border-radius:2px}.xJC7vG_pn{color:var(--dsw-alias-label-tertiary);font-family:var(--fr-mono);user-select:none;margin-right:8px;font-size:11px}.xJC7vG_hl{color:inherit;background:var(--fr-hl);cursor:pointer;border-radius:2px;padding:1px 0}.xJC7vG_anchor{border-bottom:2px solid var(--fr-ai);color:inherit;background:var(--fr-ai-soft);cursor:pointer;padding:1px 0}.xJC7vG_badge,.xJC7vG_badgeButton{min-width:18px;height:18px;color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-family:var(--fr-mono);user-select:none;border:0;border-radius:9px;flex:none;justify-content:center;align-items:center;padding:0 5px;font-size:11px;font-weight:500;display:inline-flex}.xJC7vG_badgeButton{vertical-align:2px;cursor:pointer;margin-left:3px}.xJC7vG_box,.xJC7vG_boxPinned{border:1px solid var(--fr-ai);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-bg-layer-1);min-width:0;font-family:var(--fr-read);flex-direction:column;font-size:16px;line-height:1.6;display:flex}.xJC7vG_boxPinned{border-width:2px}.xJC7vG_boxHead{border-bottom:1px solid var(--dsw-alias-border-l1);align-items:center;gap:8px;padding:8px 10px;display:flex}.xJC7vG_boxTitle{flex:1;min-width:0;font-weight:600}.xJC7vG_boxBody{flex-direction:column;gap:8px;min-height:0;max-height:420px;padding:10px;display:flex;overflow:auto}.xJC7vG_quote{border:0;border-left:3px solid var(--fr-ai);color:var(--dsw-alias-label-secondary);font-family:var(--fr-read);text-align:left;overflow-wrap:anywhere;cursor:pointer;background:0 0;padding:0 0 0 8px;font-size:15px;font-style:italic}.xJC7vG_msgMe,.xJC7vG_msgAi{border-radius:var(--dsw-radius-md);overflow-wrap:anywhere;padding:7px 10px}.xJC7vG_msgMe{background:var(--dsw-alias-bg-base);margin-left:14%}.xJC7vG_msgAi{background:var(--fr-ai-soft);margin-right:6%}.xJC7vG_noteTone{--fr-ai:var(--fr-note);--fr-ai-soft:var(--fr-note-soft)}.xJC7vG_msgNote{border-radius:var(--dsw-radius-md);background:var(--fr-ai-soft);white-space:pre-wrap;overflow-wrap:anywhere;padding:7px 10px}.xJC7vG_msgMe .xJC7vG_msgText{white-space:pre-wrap}.xJC7vG_role{color:var(--dsw-alias-label-tertiary);letter-spacing:.07em;text-transform:uppercase;font-size:10px;font-weight:700}.xJC7vG_row{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.xJC7vG_field{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);min-width:0;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;flex:140px;padding:6px 9px}.xJC7vG_button,.xJC7vG_primary{border:1px solid var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);color:inherit;font:inherit;cursor:pointer;background:0 0;padding:4px 9px;font-size:13px}.xJC7vG_button:hover{background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_primary{border-color:var(--fr-ai);color:var(--dsw-static-neutral-00);background:var(--fr-ai);font-weight:600}.xJC7vG_primary:disabled{opacity:.5;cursor:default}.xJC7vG_icon,.xJC7vG_iconOn{border-radius:var(--dsw-radius-md);color:var(--dsw-alias-label-secondary);font:inherit;cursor:pointer;background:0 0;border:0;padding:2px 8px;font-size:13px}.xJC7vG_icon:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}.xJC7vG_iconOn{color:var(--dsw-static-neutral-00);background:var(--fr-ai)}.xJC7vG_link{border:1px solid var(--fr-ai);max-width:100%;color:var(--fr-ai);font:inherit;cursor:pointer;background:0 0;border-radius:999px;align-items:center;gap:6px;padding:2px 10px;font-size:12px;display:inline-flex}.xJC7vG_link span,.xJC7vG_pick span:last-child,.xJC7vG_grow{text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}.xJC7vG_picker{border:1px dashed var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-md);flex-direction:column;gap:6px;padding:8px;display:flex}.xJC7vG_pick,.xJC7vG_folded{border:1px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);width:100%;color:inherit;font:inherit;text-align:left;cursor:pointer;background:0 0;align-items:center;gap:8px;padding:6px 8px;font-size:13px;display:flex}.xJC7vG_folded{border-left:3px solid var(--fr-ai);background:var(--dsw-alias-bg-layer-1)}.xJC7vG_grow{color:var(--dsw-alias-label-secondary)}.xJC7vG_inlineSlot{margin:-4px 0 18px}.xJC7vG_muted{color:var(--dsw-alias-label-tertiary)}.xJC7vG_error{max-width:1180px;color:var(--dsw-alias-state-error-primary);margin:0 auto 8px}.xJC7vG_empty{max-width:760px;color:var(--dsw-alias-label-secondary);flex-direction:column;gap:4px;margin:48px auto;display:flex}.xJC7vG_lane{align-self:stretch;min-width:0;padding-left:20px}.xJC7vG_lane>*{animation:.16s ease-out xJC7vG_fr-settle;position:sticky;box-shadow:0 6px 20px #0000001f}.xJC7vG_lane .xJC7vG_boxBody{max-height:min(46vh,380px)}.xJC7vG_laneChip{border:1px solid var(--dsw-alias-border-l1);border-left:3px solid var(--fr-ai);border-radius:var(--dsw-radius-md);width:100%;height:36px;color:inherit;background:var(--dsw-alias-bg-layer-1);font:inherit;text-align:left;white-space:nowrap;cursor:pointer;align-items:center;gap:8px;padding:0 10px;font-size:13px;display:flex}@keyframes xJC7vG_fr-settle{0%{opacity:.4;transform:translateY(4px)}}@media (prefers-reduced-motion:reduce){.xJC7vG_lane>*{animation:none}}.xJC7vG_selbar{z-index:40;border-radius:var(--dsw-radius-md);background:var(--dsw-alias-label-primary);gap:2px;padding:4px;display:flex;position:fixed;transform:translate(-50%,calc(-100% - 8px));box-shadow:0 4px 16px #00000040}.xJC7vG_selbar button{border-radius:var(--dsw-radius-sm);color:var(--dsw-alias-bg-base);font:inherit;white-space:nowrap;cursor:pointer;background:0 0;border:0;padding:6px 10px;font-weight:500}.xJC7vG_selbar button:hover{background:#7f7f7f59}.xJC7vG_mdP,.xJC7vG_mdHeading,.xJC7vG_mdList,.xJC7vG_mdPre{margin:0 0 8px}.xJC7vG_mdP:last-child,.xJC7vG_mdList:last-child,.xJC7vG_mdPre:last-child{margin-bottom:0}.xJC7vG_mdHeading{font-weight:600}.xJC7vG_mdList{padding-left:22px}.xJC7vG_mdList li{margin:2px 0}.xJC7vG_mdCode,.xJC7vG_mdPre{border-radius:var(--dsw-radius-sm);background:var(--dsw-alias-bg-base);font-family:var(--fr-mono);font-size:.82em}.xJC7vG_mdCode{padding:1px 4px}.xJC7vG_mdPre{white-space:pre;padding:8px 10px;overflow-x:auto}.xJC7vG_mdLink{text-decoration:underline dotted}body[data-ds-dark-theme] .xJC7vG_page{--fr-ai:#8cfff0;--fr-ai-soft:#8cfff01f;--fr-hl:#ffd27a4d;background:linear-gradient(#0e1536 0%,#16214e 70%,#1b2a5c 100%) fixed}body[data-ds-dark-theme] .xJC7vG_bar{background:#0e1536}body[data-ds-dark-theme] .xJC7vG_paper{background:0 0;border-color:#0000}body[data-ds-dark-theme] .xJC7vG_primary,body[data-ds-dark-theme] .xJC7vG_badge,body[data-ds-dark-theme] .xJC7vG_badgeButton,body[data-ds-dark-theme] .xJC7vG_iconOn{color:#0e1536}";
 		const tagId = "dsh-focus-reader/ReaderPage.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -48,6 +53,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ReaderPage_module_css_default = {
+			"add": "xJC7vG_add",
+			"addInput": "xJC7vG_addInput",
 			"anchor": "xJC7vG_anchor",
 			"badge": "xJC7vG_badge",
 			"badgeButton": "xJC7vG_badgeButton",
@@ -62,6 +69,7 @@ window.__ModuleLoader__.load({
 			"empty": "xJC7vG_empty",
 			"error": "xJC7vG_error",
 			"field": "xJC7vG_field",
+			"figure": "xJC7vG_figure",
 			"flash": "xJC7vG_flash",
 			"folded": "xJC7vG_folded",
 			"fr-settle": "xJC7vG_fr-settle",
@@ -86,13 +94,17 @@ window.__ModuleLoader__.load({
 			"mdPre": "xJC7vG_mdPre",
 			"msgAi": "xJC7vG_msgAi",
 			"msgMe": "xJC7vG_msgMe",
+			"msgNote": "xJC7vG_msgNote",
 			"msgText": "xJC7vG_msgText",
 			"muted": "xJC7vG_muted",
+			"note": "xJC7vG_note",
+			"noteTone": "xJC7vG_noteTone",
 			"page": "xJC7vG_page",
 			"paper": "xJC7vG_paper",
 			"para": "xJC7vG_para",
 			"pick": "xJC7vG_pick",
 			"picker": "xJC7vG_picker",
+			"picture": "xJC7vG_picture",
 			"pn": "xJC7vG_pn",
 			"primary": "xJC7vG_primary",
 			"quote": "xJC7vG_quote",
@@ -100,6 +112,9 @@ window.__ModuleLoader__.load({
 			"row": "xJC7vG_row",
 			"selbar": "xJC7vG_selbar",
 			"select": "xJC7vG_select",
+			"table": "xJC7vG_table",
+			"tex": "xJC7vG_tex",
+			"texBlock": "xJC7vG_texBlock",
 			"toggle": "xJC7vG_toggle"
 		};
 		//#endregion
@@ -201,7 +216,9 @@ window.__ModuleLoader__.load({
 		* position, highlights, and AI sessions that open beside the passage they are
 		* anchored to. A session follows its passage, holds at the top once it gets
 		* there, and folds into a one-line chip when the next open session arrives.
-		* Opening a session closes every other one that is not pinned.
+		* Opening a session closes every other one that is not pinned. The document
+		* bar also takes an arXiv link, which the Host saves into the library and the
+		* page then opens.
 		*/
 		/** Container width above which sessions sit in a lane beside the text. */
 		const WIDE = 980;
@@ -230,6 +247,45 @@ window.__ModuleLoader__.load({
 			if (!response.ok) throw new Error(body.error ?? `HTTP ${response.status}`);
 			return body;
 		}
+		/** A block that is one Markdown image: `![alt](target)`. */
+		const PICTURE_LINE = /^!\[([^\]]*)\]\(([^)\s]+)\)$/;
+		const TABLE_RULE = /^\|(?:\s*:?-+:?\s*\|)+$/;
+		/** A display formula `$$…$$`, or an inline `$…$` whose content neither starts nor ends with a space. */
+		const FORMULA = /(\$\$[^$]+\$\$|\$(?!\s)[^$\n]*[^\s$]\$(?!\d))/g;
+		const isTable = (text) => {
+			const lines = text.split("\n");
+			return lines.length >= 2 && TABLE_RULE.test(lines[1] ?? "") && lines.every((line) => line.startsWith("|"));
+		};
+		/**
+		* Address of a picture named by a document.
+		* @param doc - document name relative to the library.
+		* @param target - the image line's target.
+		* @returns the picture route address, or `undefined` when the target is not a plain path beside or below the document.
+		*/
+		function pictureSrc(doc, target) {
+			if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.split("/").some((part) => part === "" || part.startsWith("."))) return void 0;
+			return `${READER_PICTURE_ROUTE}?name=${encodeURIComponent(doc.slice(0, doc.lastIndexOf("/") + 1) + target)}`;
+		}
+		/** One formula, drawn by the shared Markdown renderer. `data-tex` keeps its source for offsets and copying. */
+		const Tex = (0, react.memo)(function Tex({ source, labels }) {
+			const display = source.startsWith("$$");
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+				className: display ? ReaderPage_module_css_default.texBlock : ReaderPage_module_css_default.tex,
+				"data-tex": source,
+				children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.MarkdownText, {
+					text: display ? `$$\n${source.slice(2, -2).trim()}\n$$` : source,
+					labels,
+					omitHtml: true
+				})
+			});
+		});
+		/** Split text into plain runs and drawn formulas. */
+		function rich(text, key, labels) {
+			return text.split(FORMULA).map((part, index) => index % 2 === 1 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Tex, {
+				source: part,
+				labels
+			}, `${key}-${index}`) : part);
+		}
 		function remembered() {
 			try {
 				return localStorage.getItem(LAST_DOC_KEY) ?? "";
@@ -256,24 +312,30 @@ window.__ModuleLoader__.load({
 				};
 			}
 		}
+		/** Class list for an element that takes a session's colour: comments use their own tone. */
+		const toned = (base, session) => session.kind === "comment" ? `${base ?? ""} ${ReaderPage_module_css_default.noteTone ?? ""}` : base ?? "";
+		const openKey = (session) => session.kind === "comment" ? "comment.open" : "session.open";
 		function SessionBox(props) {
 			const { session, sessions, busy, anyBusy, error, picking, t } = props;
+			const note = session.kind === "comment";
 			const [draft, setDraft] = (0, react.useState)("");
+			const [removing, setRemoving] = (0, react.useState)(false);
 			const bodyRef = (0, react.useRef)(null);
 			(0, react.useEffect)(() => {
 				const body = bodyRef.current;
 				if (body !== null) body.scrollTop = body.scrollHeight;
 			}, [session.msgs.length, busy]);
+			const blocked = !note && anyBusy;
 			const send = () => {
 				const text = draft.trim();
-				if (text === "" || anyBusy) return;
+				if (text === "" || blocked) return;
 				setDraft("");
 				props.onAsk(text);
 			};
 			const linked = session.links.map((id) => sessions.find((other) => other.id === id)).filter((other) => other !== void 0);
 			const others = sessions.filter((other) => other.id !== session.id && !session.links.includes(other.id));
 			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
-				className: session.pinned ? ReaderPage_module_css_default.boxPinned : ReaderPage_module_css_default.box,
+				className: toned(session.pinned ? ReaderPage_module_css_default.boxPinned : ReaderPage_module_css_default.box, session),
 				"data-box": session.id,
 				"data-slot": session.id,
 				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
@@ -283,9 +345,21 @@ window.__ModuleLoader__.load({
 							className: ReaderPage_module_css_default.badge,
 							children: session.n
 						}),
-						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 							className: ReaderPage_module_css_default.boxTitle,
-							children: ["¶", session.p + 1]
+							children: note ? t("comment.title", { p: session.p + 1 }) : `¶${session.p + 1}`
+						}),
+						note && session.msgs.length > 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ReaderPage_module_css_default.icon,
+							onBlur: () => {
+								setRemoving(false);
+							},
+							onClick: () => {
+								if (removing) props.onRemove();
+								else setRemoving(true);
+							},
+							children: removing ? t("comment.deleteConfirm") : t("comment.delete")
 						}),
 						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 							type: "button",
@@ -313,15 +387,18 @@ window.__ModuleLoader__.load({
 							onClick: props.onJump,
 							children: [
 								"“",
-								session.text,
+								rich(session.text, "quote", props.labels),
 								"”"
 							]
 						}),
 						session.msgs.length === 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: ReaderPage_module_css_default.muted,
-							children: t("session.new")
+							children: note ? t("comment.new") : t("session.new")
 						}),
-						session.msgs.map((message, index) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						session.msgs.map((message, index) => note ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: ReaderPage_module_css_default.msgNote,
+							children: message.text
+						}, index) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 							className: message.role === "me" ? ReaderPage_module_css_default.msgMe : ReaderPage_module_css_default.msgAi,
 							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 								className: ReaderPage_module_css_default.role,
@@ -345,8 +422,8 @@ window.__ModuleLoader__.load({
 								className: ReaderPage_module_css_default.field,
 								type: "text",
 								value: draft,
-								placeholder: t("session.placeholder"),
-								"aria-label": t("session.placeholder"),
+								placeholder: note ? t("comment.placeholder") : t("session.placeholder"),
+								"aria-label": note ? t("comment.placeholder") : t("session.placeholder"),
 								onChange: (event) => {
 									setDraft(event.target.value);
 								},
@@ -356,9 +433,9 @@ window.__ModuleLoader__.load({
 							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 								type: "button",
 								className: ReaderPage_module_css_default.primary,
-								disabled: anyBusy || draft.trim() === "",
+								disabled: blocked || draft.trim() === "",
 								onClick: send,
-								children: t("session.send")
+								children: note ? t("comment.save") : t("session.send")
 							})]
 						}),
 						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
@@ -429,6 +506,11 @@ window.__ModuleLoader__.load({
 			});
 			const [error, setError] = (0, react.useState)("");
 			const [saveError, setSaveError] = (0, react.useState)("");
+			const [paperLink, setPaperLink] = (0, react.useState)("");
+			const [adding, setAdding] = (0, react.useState)(false);
+			const [addNote, setAddNote] = (0, react.useState)(void 0);
+			/** Counts imports, so a paper fetched again is read again although its name is unchanged. */
+			const [opened, setOpened] = (0, react.useState)(0);
 			const [dim, setDim] = (0, react.useState)(true);
 			const [wide, setWide] = (0, react.useState)(true);
 			const [selected, setSelected] = (0, react.useState)(void 0);
@@ -474,7 +556,53 @@ window.__ModuleLoader__.load({
 				return () => {
 					live = false;
 				};
-			}, [name]);
+			}, [name, opened]);
+			const labels = (0, react.useMemo)(() => ({
+				code: {
+					copyLabel: t("md.copy"),
+					copiedLabel: t("md.copied")
+				},
+				footnotes: t("md.footnotes")
+			}), [t]);
+			/** Import a link into the library, then open the paper. `refresh` fetches a paper again that is already there. */
+			const importLink = (url, refresh) => {
+				if (url === "" || adding) return;
+				setAdding(true);
+				setAddNote(void 0);
+				api(READER_ADD_ROUTE, {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({
+						url,
+						refresh
+					})
+				}).then(async (added) => {
+					setLibrary(await api(READER_DOCS_ROUTE));
+					setName(added.name);
+					setOpened((count) => count + 1);
+					setPaperLink("");
+					if (added.existing) setAddNote({
+						failed: false,
+						text: t("add.existing"),
+						again: url
+					});
+					else if (added.missingPictures > 0) setAddNote({
+						failed: false,
+						text: t("add.missing", { count: added.missingPictures })
+					});
+				}).catch((reason) => {
+					setAddNote({
+						failed: true,
+						text: t("add.failed", { message: fail(reason) })
+					});
+				}).finally(() => {
+					setAdding(false);
+				});
+			};
+			const addLink = (event) => {
+				event.preventDefault();
+				importLink(paperLink.trim(), false);
+			};
 			/** Apply a change to the notes and save the result for the current document. */
 			const update = (0, react.useCallback)((change) => {
 				const next = change(notesRef.current);
@@ -614,13 +742,35 @@ window.__ModuleLoader__.load({
 					}]
 				}));
 			};
-			const addSession = (range) => {
+			/** Save the reader's own comment. Nothing is sent to the model. */
+			const comment = (session, text) => {
+				patchSession(session.id, (item) => ({
+					...item,
+					msgs: [...item.msgs, {
+						role: "me",
+						text
+					}]
+				}));
+			};
+			const removeSession = (session) => {
+				setOpen((current) => new Set([...current].filter((id) => id !== session.id)));
+				setPicking("");
+				update((current) => ({
+					highlights: current.highlights,
+					sessions: current.sessions.filter((item) => item.id !== session.id).map((item) => ({
+						...item,
+						links: item.links.filter((id) => id !== session.id)
+					}))
+				}));
+			};
+			const addSession = (range, kind) => {
 				if (overlaps(range.p, range.start, range.end)) return;
-				const id = newId("s");
+				const id = newId(kind === "comment" ? "c" : "s");
 				update((current) => ({
 					...current,
 					sessions: [...current.sessions, {
 						id,
+						kind,
 						p: range.p,
 						start: range.start,
 						end: range.end,
@@ -744,21 +894,33 @@ window.__ModuleLoader__.load({
 					const range = selection.getRangeAt(0);
 					const paraOf = (node) => (node instanceof Element ? node : node.parentElement)?.closest("[data-p]") ?? null;
 					const para = paraOf(range.startContainer);
-					if (para === null || para !== paraOf(range.endContainer) || !page.contains(para)) {
+					if (para === null || para !== paraOf(range.endContainer) || !page.contains(para) || para.dataset.fixed !== void 0) {
 						setSelected(void 0);
 						return;
 					}
-					const before = document.createRange();
-					before.selectNodeContents(para);
-					before.setEnd(range.startContainer, range.startOffset);
-					const fragment = before.cloneContents();
-					fragment.querySelectorAll("[data-skip]").forEach((el) => {
-						el.remove();
-					});
-					const start = fragment.textContent?.length ?? 0;
-					const text = range.toString();
+					const texOf = (node) => (node instanceof Element ? node : node.parentElement)?.closest("[data-tex]") ?? null;
+					const offset = (node, at, edge) => {
+						const before = document.createRange();
+						before.selectNodeContents(para);
+						const tex = texOf(node);
+						if (tex === null) before.setEnd(node, at);
+						else if (edge === "start") before.setEndBefore(tex);
+						else before.setEndAfter(tex);
+						const fragment = before.cloneContents();
+						fragment.querySelectorAll("[data-skip]").forEach((el) => {
+							el.remove();
+						});
+						fragment.querySelectorAll("[data-tex]").forEach((el) => {
+							el.replaceWith(el.getAttribute("data-tex") ?? "");
+						});
+						return fragment.textContent?.length ?? 0;
+					};
+					const start = offset(range.startContainer, range.startOffset, "start");
+					const end = offset(range.endContainer, range.endOffset, "end");
 					const p = Number(para.dataset.p);
-					if (text.trim().length < 3 || paras[p]?.slice(start, start + text.length) !== text) {
+					const text = paras[p]?.slice(start, end) ?? "";
+					const drawn = range.cloneContents().querySelector("[data-tex]") !== null || texOf(range.startContainer) !== null || texOf(range.endContainer) !== null;
+					if (text.trim().length < 3 || !drawn && range.toString() !== text) {
 						setSelected(void 0);
 						return;
 					}
@@ -766,7 +928,7 @@ window.__ModuleLoader__.load({
 					setSelected({
 						p,
 						start,
-						end: start + text.length,
+						end,
 						text,
 						left: rect.left + rect.width / 2,
 						top: rect.top
@@ -795,8 +957,13 @@ window.__ModuleLoader__.load({
 				error: askError.id === session.id ? askError.message : "",
 				picking: picking === session.id,
 				t,
+				labels,
 				onAsk: (text) => {
-					ask(session, text);
+					if (session.kind === "comment") comment(session, text);
+					else ask(session, text);
+				},
+				onRemove: () => {
+					removeSession(session);
 				},
 				onPin: () => {
 					patchSession(session.id, (item) => ({
@@ -829,11 +996,37 @@ window.__ModuleLoader__.load({
 					item,
 					session: item
 				}))].sort((a, b) => a.item.start - b.item.start);
+				let fixed;
+				const picture = block.kind === "para" ? PICTURE_LINE.exec(block.text) : null;
+				if (picture !== null) {
+					const src = pictureSrc(name, picture[2] ?? "");
+					fixed = /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: ReaderPage_module_css_default.figure,
+						"data-p": p,
+						"data-fixed": "",
+						children: src === void 0 ? block.text : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("img", {
+							className: ReaderPage_module_css_default.picture,
+							src,
+							alt: picture[1] ?? "",
+							loading: "lazy"
+						})
+					});
+				} else if (block.kind === "para" && isTable(block.text)) fixed = /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					className: ReaderPage_module_css_default.table,
+					"data-p": p,
+					"data-fixed": "",
+					children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.MarkdownText, {
+						text: block.text,
+						labels,
+						omitHtml: true
+					})
+				});
+				const show = (text, key) => block.kind === "code" ? text : rich(text, key, labels);
 				const parts = [];
 				let at = 0;
 				for (const { item, session } of anchors) {
 					if (item.start < at) continue;
-					parts.push(block.text.slice(at, item.start));
+					parts.push(show(block.text.slice(at, item.start), `${item.id}-before`));
 					if (session === void 0) parts.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)("mark", {
 						className: ReaderPage_module_css_default.hl,
 						title: t("highlight.remove"),
@@ -844,20 +1037,20 @@ window.__ModuleLoader__.load({
 								highlights: current.highlights.filter((other) => other.id !== item.id)
 							}));
 						},
-						children: item.text
+						children: show(item.text, item.id)
 					}, item.id));
 					else parts.push(/* @__PURE__ */ (0, react_jsx_runtime.jsx)("mark", {
-						className: ReaderPage_module_css_default.anchor,
-						title: t("session.open", { n: session.n }),
+						className: toned(ReaderPage_module_css_default.anchor, session),
+						title: t(openKey(session), { n: session.n }),
 						onClick: () => {
 							openSession(session.id);
 						},
-						children: item.text
+						children: show(item.text, item.id)
 					}, item.id), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 						type: "button",
 						"data-skip": "",
-						className: ReaderPage_module_css_default.badgeButton,
-						"aria-label": t("session.open", { n: session.n }),
+						className: toned(ReaderPage_module_css_default.badgeButton, session),
+						"aria-label": t(openKey(session), { n: session.n }),
 						onClick: () => {
 							openSession(session.id);
 						},
@@ -865,8 +1058,8 @@ window.__ModuleLoader__.load({
 					}, `${item.id}-badge`));
 					at = item.end;
 				}
-				parts.push(block.text.slice(at));
-				return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
+				parts.push(show(block.text.slice(at), "rest"));
+				return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", { children: [fixed ?? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 					className: block.kind === "code" ? ReaderPage_module_css_default.code : ReaderPage_module_css_default.para,
 					"data-p": p,
 					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
@@ -878,7 +1071,7 @@ window.__ModuleLoader__.load({
 					className: ReaderPage_module_css_default.inlineSlot,
 					children: open.has(session.id) ? box(session) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
 						type: "button",
-						className: ReaderPage_module_css_default.folded,
+						className: toned(ReaderPage_module_css_default.folded, session),
 						onClick: () => {
 							openSession(session.id);
 						},
@@ -917,30 +1110,66 @@ window.__ModuleLoader__.load({
 				children: [
 					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: ReaderPage_module_css_default.bar,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("select", {
-							className: ReaderPage_module_css_default.select,
-							value: name,
-							"aria-label": t("choose"),
-							onChange: (event) => {
-								setName(event.target.value);
-							},
-							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
-								value: "",
-								disabled: true,
-								children: t("choose")
-							}), (library?.docs ?? []).map((doc) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
-								value: doc.name,
-								children: doc.name
-							}, doc.name))]
-						}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
-							className: ReaderPage_module_css_default.toggle,
-							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
-								type: "checkbox",
-								checked: dim,
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("select", {
+								className: ReaderPage_module_css_default.select,
+								value: name,
+								"aria-label": t("choose"),
 								onChange: (event) => {
-									setDim(event.target.checked);
-								}
-							}), t("fade")]
+									setName(event.target.value);
+								},
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+									value: "",
+									disabled: true,
+									children: t("choose")
+								}), (library?.docs ?? []).map((doc) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+									value: doc.name,
+									children: doc.name
+								}, doc.name))]
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+								className: ReaderPage_module_css_default.toggle,
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									type: "checkbox",
+									checked: dim,
+									onChange: (event) => {
+										setDim(event.target.checked);
+									}
+								}), t("fade")]
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
+								className: ReaderPage_module_css_default.add,
+								onSubmit: addLink,
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									className: ReaderPage_module_css_default.addInput,
+									type: "text",
+									inputMode: "url",
+									value: paperLink,
+									placeholder: t("add.placeholder"),
+									"aria-label": t("add.label"),
+									disabled: adding,
+									onChange: (event) => {
+										setPaperLink(event.target.value);
+									}
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "submit",
+									className: ReaderPage_module_css_default.button,
+									disabled: adding || paperLink.trim() === "",
+									children: adding ? t("add.busy") : t("add.go")
+								})]
+							})
+						]
+					}),
+					addNote !== void 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
+						className: addNote.failed ? ReaderPage_module_css_default.error : ReaderPage_module_css_default.note,
+						children: [addNote.text, addNote.again !== void 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ReaderPage_module_css_default.button,
+							disabled: adding,
+							onClick: () => {
+								importLink(addNote.again ?? "", true);
+							},
+							children: t("add.again")
 						})]
 					}),
 					error !== "" && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
@@ -977,7 +1206,7 @@ window.__ModuleLoader__.load({
 							children: openList.map((session) => docked.has(session.id) ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
 								type: "button",
 								"data-slot": session.id,
-								className: ReaderPage_module_css_default.laneChip,
+								className: toned(ReaderPage_module_css_default.laneChip, session),
 								title: t("session.goto"),
 								onClick: () => {
 									flash(session.p);
@@ -1002,25 +1231,42 @@ window.__ModuleLoader__.load({
 							left: selected.left,
 							top: selected.top
 						},
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-							type: "button",
-							onPointerDown: (event) => {
-								event.preventDefault();
-							},
-							onClick: () => {
-								act(addHighlight);
-							},
-							children: t("select.highlight")
-						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-							type: "button",
-							onPointerDown: (event) => {
-								event.preventDefault();
-							},
-							onClick: () => {
-								act(addSession);
-							},
-							children: t("select.session")
-						})]
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								onPointerDown: (event) => {
+									event.preventDefault();
+								},
+								onClick: () => {
+									act(addHighlight);
+								},
+								children: t("select.highlight")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								onPointerDown: (event) => {
+									event.preventDefault();
+								},
+								onClick: () => {
+									act((range) => {
+										addSession(range, "comment");
+									});
+								},
+								children: t("select.comment")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								onPointerDown: (event) => {
+									event.preventDefault();
+								},
+								onClick: () => {
+									act((range) => {
+										addSession(range, "ai");
+									});
+								},
+								children: t("select.session")
+							})
+						]
 					})
 				]
 			});
@@ -1037,12 +1283,31 @@ window.__ModuleLoader__.load({
 			fade: "Fade text I am not reading",
 			loading: "Opening…",
 			"empty.title": "Nothing to read yet",
-			"empty.body": "Put .md or .txt files in {folder}, then reload this page.",
+			"empty.body": "Paste an arXiv link above, or put .md or .txt files in {folder} and reload this page.",
+			"add.label": "Add a paper by link",
+			"add.placeholder": "Paste an arXiv link",
+			"add.go": "Add",
+			"add.busy": "Fetching…",
+			"add.existing": "This paper was already in your library, so it was opened as it is.",
+			"add.failed": "The paper was not added: {message}",
+			"add.again": "Fetch it again",
+			"add.missing": "{count} pictures could not be downloaded. The text is complete.",
+			"md.copy": "Copy",
+			"md.copied": "Copied",
+			"md.footnotes": "Footnotes",
 			"pick.title": "Choose a document above to start reading.",
 			failed: "That did not work: {message}",
 			"save.failed": "Your last change was not saved: {message}",
 			"select.highlight": "Highlight",
 			"select.session": "Open AI session",
+			"select.comment": "Comment",
+			"comment.open": "Open comment {n}",
+			"comment.title": "Comment on ¶{p}",
+			"comment.new": "Your own note on this passage. It is not sent to the AI.",
+			"comment.placeholder": "Write a comment",
+			"comment.save": "Save",
+			"comment.delete": "Delete",
+			"comment.deleteConfirm": "Delete for good?",
 			"highlight.remove": "Remove this highlight",
 			"session.open": "Open AI session {n}",
 			"session.goto": "Go to this passage",
@@ -1071,12 +1336,31 @@ window.__ModuleLoader__.load({
 			fade: "淡化我没在读的文字",
 			loading: "正在打开…",
 			"empty.title": "还没有可读的内容",
-			"empty.body": "把 .md 或 .txt 文件放进 {folder}，然后重新加载此页面。",
+			"empty.body": "在上方粘贴 arXiv 链接，或把 .md、.txt 文件放进 {folder} 后重新加载此页面。",
+			"add.label": "通过链接添加论文",
+			"add.placeholder": "粘贴 arXiv 链接",
+			"add.go": "添加",
+			"add.busy": "正在获取…",
+			"add.existing": "这篇论文已在你的文库中，已直接打开。",
+			"add.failed": "论文没有添加成功：{message}",
+			"add.again": "重新获取",
+			"add.missing": "有 {count} 张图片没有下载成功。正文是完整的。",
+			"md.copy": "复制",
+			"md.copied": "已复制",
+			"md.footnotes": "脚注",
 			"pick.title": "在上方选择一个文档开始阅读。",
 			failed: "操作未成功：{message}",
 			"save.failed": "上一次修改没有保存：{message}",
 			"select.highlight": "高亮",
 			"select.session": "开启 AI 会话",
+			"select.comment": "评论",
+			"comment.open": "打开评论 {n}",
+			"comment.title": "对 ¶{p} 的评论",
+			"comment.new": "你自己对这段文字的笔记，不会发送给 AI。",
+			"comment.placeholder": "写一条评论",
+			"comment.save": "保存",
+			"comment.delete": "删除",
+			"comment.deleteConfirm": "确定永久删除？",
 			"highlight.remove": "移除这条高亮",
 			"session.open": "打开 AI 会话 {n}",
 			"session.goto": "跳到这段文字",

@@ -2,8 +2,11 @@
   --fr-ai: var(--dsw-alias-state-business-primary);
   --fr-ai-soft: color-mix(in srgb, var(--dsw-alias-state-business-primary) 14%, transparent);
   --fr-hl: rgba(255, 208, 60, 0.5);
+  --fr-note: #4f8a73;
+  --fr-note-soft: color-mix(in srgb, #4f8a73 24%, transparent);
   --fr-read: "Source Serif 4", "Iowan Old Style", Georgia, "Songti SC", serif;
   --fr-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   min-width: 0;
@@ -28,6 +31,8 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: 10px 0;
+  /* With the sidebar hidden, the window buttons and the frame's two controls sit over the bar's leading edge. */
+  padding-inline-start: max(0px, calc(var(--dsh-frame-leading-clearance, 0px) - 16px));
   background: var(--dsw-alias-bg-base);
 }
 
@@ -47,6 +52,101 @@
   gap: 6px;
   align-items: center;
   color: var(--dsw-alias-label-secondary);
+}
+
+.add {
+  display: flex;
+  flex: 1 1 240px;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  max-width: 380px;
+  margin-inline-start: auto;
+}
+
+.addInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-md);
+  color: inherit;
+  background: var(--dsw-alias-bg-layer-1);
+  font: inherit;
+}
+
+.addInput::placeholder {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.add .button {
+  padding: 6px 12px;
+  font-size: inherit;
+}
+
+.add .button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto 8px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* A drawn formula sits in the line of text; the shared renderer's own block wrappers are flattened. */
+.tex,
+.texBlock {
+  white-space: normal;
+}
+
+.tex > div,
+.tex > div > p {
+  display: inline;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.texBlock {
+  display: block;
+  overflow-x: auto;
+  padding: 2px 0;
+  text-align: center;
+}
+
+.texBlock > div {
+  color: inherit;
+  font-size: inherit;
+}
+
+.figure,
+.table {
+  margin: 0 0 16px;
+  transition: opacity 0.18s linear;
+}
+
+.figure {
+  overflow-wrap: anywhere;
+  color: var(--dsw-alias-label-tertiary);
+  text-align: center;
+}
+
+.picture {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--dsw-radius-md);
+  background: #fff;
+}
+
+.table {
+  overflow-x: auto;
+  font-size: 14px;
 }
 
 .grid,
@@ -243,6 +343,20 @@
 .msgAi {
   margin-right: 6%;
   background: var(--fr-ai-soft);
+}
+
+/* A comment's mark, badge and box take the comment colour wherever a model discussion takes the AI colour. */
+.noteTone {
+  --fr-ai: var(--fr-note);
+  --fr-ai-soft: var(--fr-note-soft);
+}
+
+.msgNote {
+  padding: 7px 10px;
+  border-radius: var(--dsw-radius-md);
+  background: var(--fr-ai-soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .msgMe .msgText {

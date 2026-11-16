@@ -3,15 +3,18 @@
  * position, highlights, and AI sessions that open beside the passage they are
  * anchored to. A session follows its passage, holds at the top once it gets
  * there, and folds into a one-line chip when the next open session arrives.
- * Opening a session closes every other one that is not pinned.
+ * Opening a session closes every other one that is not pinned. The document
+ * bar also takes an arXiv link, which the Host saves into the library and the
+ * page then opens.
  */
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
+import { MarkdownText, type MarkdownLabels } from '@deepseek-ai/dsh-client-ui-primitives'
 import {
-  READER_ASK_ROUTE, READER_DOC_ROUTE, READER_DOCS_ROUTE, READER_NOTES_ROUTE,
-  type ReaderAnchor, type ReaderAskPayload, type ReaderAskRequest, type ReaderBlock, type ReaderDocPayload,
-  type ReaderDocsPayload, type ReaderNotes, type ReaderSession,
+  READER_ADD_ROUTE, READER_ASK_ROUTE, READER_DOC_ROUTE, READER_DOCS_ROUTE, READER_NOTES_ROUTE, READER_PICTURE_ROUTE,
+  type ReaderAddPayload, type ReaderAddRequest, type ReaderAnchor, type ReaderAskPayload, type ReaderAskRequest,
+  type ReaderBlock, type ReaderDocPayload, type ReaderDocsPayload, type ReaderNotes, type ReaderSession,
 } from '../shared.ts'
 import { Markdown } from './Markdown.tsx'
 import css from './ReaderPage.module.css'
@@ -38,6 +41,43 @@ async function api<T>(route: string, init?: RequestInit): Promise<T> {
   const body = await response.json() as T & { error?: string }
   if (!response.ok) throw new Error(body.error ?? `HTTP ${response.status}`)
   return body
+}
+
+/** A block that is one Markdown image: `![alt](target)`. */
+const PICTURE_LINE = /^!\[([^\]]*)\]\(([^)\s]+)\)$/
+const TABLE_RULE = /^\|(?:\s*:?-+:?\s*\|)+$/
+/** A display formula `$$…$$`, or an inline `$…$` whose content neither starts nor ends with a space. */
+const FORMULA = /(\$\$[^$]+\$\$|\$(?!\s)[^$\n]*[^\s$]\$(?!\d))/g
+
+const isTable = (text: string): boolean => {
+  const lines = text.split('\n')
+  return lines.length >= 2 && TABLE_RULE.test(lines[1] ?? '') && lines.every(line => line.startsWith('|'))
+}
+
+/**
+ * Address of a picture named by a document.
+ * @param doc - document name relative to the library.
+ * @param target - the image line's target.
+ * @returns the picture route address, or `undefined` when the target is not a plain path beside or below the document.
+ */
+function pictureSrc(doc: string, target: string): string | undefined {
+  if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.split('/').some(part => part === '' || part.startsWith('.'))) return undefined
+  return `${READER_PICTURE_ROUTE}?name=${encodeURIComponent(doc.slice(0, doc.lastIndexOf('/') + 1) + target)}`
+}
+
+/** One formula, drawn by the shared Markdown renderer. `data-tex` keeps its source for offsets and copying. */
+const Tex = memo(function Tex({ source, labels }: { source: string; labels: MarkdownLabels }) {
+  const display = source.startsWith('$$')
+  return (
+    <span className={display ? css.texBlock : css.tex} data-tex={source}>
+      <MarkdownText text={display ? `$$\n${source.slice(2, -2).trim()}\n$$` : source} labels={labels} omitHtml />
+    </span>
+  )
+})
+
+/** Split text into plain runs and drawn formulas. */
+function rich(text: string, key: string, labels: MarkdownLabels): ReactNode[] {
+  return text.split(FORMULA).map((part, index) => (index % 2 === 1 ? <Tex key={`${key}-${index}`} source={part} labels={labels} /> : part))
 }
 
 function remembered(): string {
@@ -78,7 +118,9 @@ interface BoxProps {
   readonly error: string
   readonly picking: boolean
   readonly t: Translate
+  readonly labels: MarkdownLabels
   readonly onAsk: (text: string) => void
+  readonly onRemove: () => void
   readonly onPin: () => void
   readonly onClose: () => void
   readonly onJump: () => void
@@ -87,41 +129,56 @@ interface BoxProps {
   readonly onOpenLinked: (other: ReaderSession) => void
 }
 
+/** Class list for an element that takes a session's colour: comments use their own tone. */
+const toned = (base: string | undefined, session: ReaderSession): string => (session.kind === 'comment' ? `${base ?? ''} ${css.noteTone ?? ''}` : base ?? '')
+const openKey = (session: ReaderSession): 'comment.open' | 'session.open' => (session.kind === 'comment' ? 'comment.open' : 'session.open')
+
 function SessionBox(props: BoxProps) {
   const { session, sessions, busy, anyBusy, error, picking, t } = props
+  const note = session.kind === 'comment'
   const [draft, setDraft] = useState('')
+  const [removing, setRemoving] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const body = bodyRef.current
     if (body !== null) body.scrollTop = body.scrollHeight
   }, [session.msgs.length, busy])
+  // A comment is saved at once and never waits for the model.
+  const blocked = !note && anyBusy
   const send = (): void => {
     const text = draft.trim()
-    if (text === '' || anyBusy) return
+    if (text === '' || blocked) return
     setDraft('')
     props.onAsk(text)
   }
   const linked = session.links.map(id => sessions.find(other => other.id === id)).filter(other => other !== undefined)
   const others = sessions.filter(other => other.id !== session.id && !session.links.includes(other.id))
   return (
-    <div className={session.pinned ? css.boxPinned : css.box} data-box={session.id} data-slot={session.id}>
+    <div className={toned(session.pinned ? css.boxPinned : css.box, session)} data-box={session.id} data-slot={session.id}>
       <div className={css.boxHead}>
         <span className={css.badge}>{session.n}</span>
-        <span className={css.boxTitle}>¶{session.p + 1}</span>
+        <span className={css.boxTitle}>{note ? t('comment.title', { p: session.p + 1 }) : `¶${session.p + 1}`}</span>
+        {note && session.msgs.length > 0 && (
+          <button type="button" className={css.icon} onBlur={() => { setRemoving(false) }} onClick={() => { if (removing) props.onRemove(); else setRemoving(true) }}>
+            {removing ? t('comment.deleteConfirm') : t('comment.delete')}
+          </button>
+        )}
         <button type="button" className={session.pinned ? css.iconOn : css.icon} aria-pressed={session.pinned} title={t('session.pinHint')} onClick={props.onPin}>
           {session.pinned ? t('session.pinned') : t('session.pin')}
         </button>
         <button type="button" className={css.icon} onClick={props.onClose}>{t('session.close')}</button>
       </div>
       <div className={css.boxBody} ref={bodyRef}>
-        <button type="button" className={css.quote} title={t('session.goto')} onClick={props.onJump}>“{session.text}”</button>
-        {session.msgs.length === 0 && <div className={css.muted}>{t('session.new')}</div>}
-        {session.msgs.map((message, index) => (
+        <button type="button" className={css.quote} title={t('session.goto')} onClick={props.onJump}>“{rich(session.text, 'quote', props.labels)}”</button>
+        {session.msgs.length === 0 && <div className={css.muted}>{note ? t('comment.new') : t('session.new')}</div>}
+        {session.msgs.map((message, index) => (note ? (
+          <div key={index} className={css.msgNote}>{message.text}</div>
+        ) : (
           <div key={index} className={message.role === 'me' ? css.msgMe : css.msgAi}>
             <div className={css.role}>{message.role === 'me' ? t('session.me') : t('session.ai')}</div>
             <div className={css.msgText}>{message.role === 'ai' ? <Markdown text={message.text} /> : message.text}</div>
           </div>
-        ))}
+        )))}
         {busy && <div className={css.muted}>{t('session.thinking')}</div>}
         {error !== '' && <div className={css.error}>{t('failed', { message: error })}</div>}
         <div className={css.row}>
@@ -129,12 +186,12 @@ function SessionBox(props: BoxProps) {
             className={css.field}
             type="text"
             value={draft}
-            placeholder={t('session.placeholder')}
-            aria-label={t('session.placeholder')}
+            placeholder={note ? t('comment.placeholder') : t('session.placeholder')}
+            aria-label={note ? t('comment.placeholder') : t('session.placeholder')}
             onChange={(event) => { setDraft(event.target.value) }}
             onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing) send() }}
           />
-          <button type="button" className={css.primary} disabled={anyBusy || draft.trim() === ''} onClick={send}>{t('session.send')}</button>
+          <button type="button" className={css.primary} disabled={blocked || draft.trim() === ''} onClick={send}>{note ? t('comment.save') : t('session.send')}</button>
         </div>
         <div className={css.row}>
           {linked.map(other => (
@@ -185,6 +242,11 @@ export function ReaderPage({ t }: ReaderPageProps) {
   const [askError, setAskError] = useState<{ id: string; message: string }>({ id: '', message: '' })
   const [error, setError] = useState('')
   const [saveError, setSaveError] = useState('')
+  const [paperLink, setPaperLink] = useState('')
+  const [adding, setAdding] = useState(false)
+  const [addNote, setAddNote] = useState<{ failed: boolean; text: string; again?: string } | undefined>(undefined)
+  /** Counts imports, so a paper fetched again is read again although its name is unchanged. */
+  const [opened, setOpened] = useState(0)
   const [dim, setDim] = useState(true)
   const [wide, setWide] = useState(true)
   const [selected, setSelected] = useState<Selected | undefined>(undefined)
@@ -224,7 +286,35 @@ export function ReaderPage({ t }: ReaderPageProps) {
       pageRef.current?.scrollTo({ top: 0 })
     }).catch((reason: unknown) => { if (live) setError(fail(reason)) })
     return () => { live = false }
-  }, [name])
+  }, [name, opened])
+
+  const labels = useMemo<MarkdownLabels>(() => ({
+    code: { copyLabel: t('md.copy'), copiedLabel: t('md.copied') }, footnotes: t('md.footnotes'),
+  }), [t])
+
+  /** Import a link into the library, then open the paper. `refresh` fetches a paper again that is already there. */
+  const importLink = (url: string, refresh: boolean): void => {
+    if (url === '' || adding) return
+    setAdding(true)
+    setAddNote(undefined)
+    const request: ReaderAddRequest = { url, refresh }
+    api<ReaderAddPayload>(READER_ADD_ROUTE, {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(request),
+    }).then(async (added) => {
+      setLibrary(await api<ReaderDocsPayload>(READER_DOCS_ROUTE))
+      setName(added.name)
+      setOpened(count => count + 1)
+      setPaperLink('')
+      if (added.existing) setAddNote({ failed: false, text: t('add.existing'), again: url })
+      else if (added.missingPictures > 0) setAddNote({ failed: false, text: t('add.missing', { count: added.missingPictures }) })
+    }).catch((reason: unknown) => {
+      setAddNote({ failed: true, text: t('add.failed', { message: fail(reason) }) })
+    }).finally(() => { setAdding(false) })
+  }
+  const addLink = (event: FormEvent): void => {
+    event.preventDefault()
+    importLink(paperLink.trim(), false)
+  }
 
   /** Apply a change to the notes and save the result for the current document. */
   const update = useCallback((change: (current: ReaderNotes) => ReaderNotes): ReaderNotes => {
@@ -316,13 +406,28 @@ export function ReaderPage({ t }: ReaderPageProps) {
     update(current => ({ ...current, highlights: [...current.highlights, { id: newId('h'), p: range.p, start: range.start, end: range.end, text: range.text }] }))
   }
 
-  const addSession = (range: Selected): void => {
+  /** Save the reader's own comment. Nothing is sent to the model. */
+  const comment = (session: ReaderSession, text: string): void => {
+    patchSession(session.id, item => ({ ...item, msgs: [...item.msgs, { role: 'me', text }] }))
+  }
+
+  const removeSession = (session: ReaderSession): void => {
+    setOpen(current => new Set([...current].filter(id => id !== session.id)))
+    setPicking('')
+    update(current => ({
+      highlights: current.highlights,
+      sessions: current.sessions.filter(item => item.id !== session.id)
+        .map(item => ({ ...item, links: item.links.filter(id => id !== session.id) })),
+    }))
+  }
+
+  const addSession = (range: Selected, kind: ReaderSession['kind']): void => {
     if (overlaps(range.p, range.start, range.end)) return
-    const id = newId('s')
+    const id = newId(kind === 'comment' ? 'c' : 's')
     update(current => ({
       ...current,
       sessions: [...current.sessions, {
-        id, p: range.p, start: range.start, end: range.end, text: range.text,
+        id, kind, p: range.p, start: range.start, end: range.end, text: range.text,
         n: Math.max(0, ...current.sessions.map(item => item.n)) + 1, msgs: [], links: [], pinned: false,
       }],
     }))
@@ -436,19 +541,30 @@ export function ReaderPage({ t }: ReaderPageProps) {
       const range = selection.getRangeAt(0)
       const paraOf = (node: Node): HTMLElement | null => (node instanceof Element ? node : node.parentElement)?.closest<HTMLElement>('[data-p]') ?? null
       const para = paraOf(range.startContainer)
-      if (para === null || para !== paraOf(range.endContainer) || !page.contains(para)) { setSelected(undefined); return }
-      const before = document.createRange()
-      before.selectNodeContents(para)
-      before.setEnd(range.startContainer, range.startOffset)
-      // Offsets are measured in the paragraph's own text, so the paragraph number and session badges are left out.
-      const fragment = before.cloneContents()
-      fragment.querySelectorAll('[data-skip]').forEach((el) => { el.remove() })
-      const start = fragment.textContent?.length ?? 0
-      const text = range.toString()
+      if (para === null || para !== paraOf(range.endContainer) || !page.contains(para) || para.dataset.fixed !== undefined) { setSelected(undefined); return }
+      const texOf = (node: Node): Element | null => (node instanceof Element ? node : node.parentElement)?.closest('[data-tex]') ?? null
+      // Offsets are measured in the paragraph's own text: the paragraph number and session badges are left out, and
+      // a drawn formula counts as its source. A selection edge inside a formula moves out to take the whole formula.
+      const offset = (node: Node, at: number, edge: 'start' | 'end'): number => {
+        const before = document.createRange()
+        before.selectNodeContents(para)
+        const tex = texOf(node)
+        if (tex === null) before.setEnd(node, at)
+        else if (edge === 'start') before.setEndBefore(tex)
+        else before.setEndAfter(tex)
+        const fragment = before.cloneContents()
+        fragment.querySelectorAll('[data-skip]').forEach((el) => { el.remove() })
+        fragment.querySelectorAll('[data-tex]').forEach((el) => { el.replaceWith(el.getAttribute('data-tex') ?? '') })
+        return fragment.textContent?.length ?? 0
+      }
+      const start = offset(range.startContainer, range.startOffset, 'start')
+      const end = offset(range.endContainer, range.endOffset, 'end')
       const p = Number(para.dataset.p)
-      if (text.trim().length < 3 || paras[p]?.slice(start, start + text.length) !== text) { setSelected(undefined); return }
+      const text = paras[p]?.slice(start, end) ?? ''
+      const drawn = range.cloneContents().querySelector('[data-tex]') !== null || texOf(range.startContainer) !== null || texOf(range.endContainer) !== null
+      if (text.trim().length < 3 || (!drawn && range.toString() !== text)) { setSelected(undefined); return }
       const rect = range.getBoundingClientRect()
-      setSelected({ p, start, end: start + text.length, text, left: rect.left + rect.width / 2, top: rect.top })
+      setSelected({ p, start, end, text, left: rect.left + rect.width / 2, top: rect.top })
     }
     const onChange = (): void => { clearTimeout(timer); timer = window.setTimeout(read, 180) }
     document.addEventListener('selectionchange', onChange)
@@ -471,7 +587,9 @@ export function ReaderPage({ t }: ReaderPageProps) {
       error={askError.id === session.id ? askError.message : ''}
       picking={picking === session.id}
       t={t}
-      onAsk={(text) => { ask(session, text) }}
+      labels={labels}
+      onAsk={(text) => { if (session.kind === 'comment') comment(session, text); else ask(session, text) }}
+      onRemove={() => { removeSession(session) }}
       onPin={() => { patchSession(session.id, item => ({ ...item, pinned: !item.pinned })) }}
       onClose={() => { closeSession(session) }}
       onJump={() => { flash(session.p) }}
@@ -486,37 +604,57 @@ export function ReaderPage({ t }: ReaderPageProps) {
       ...highlights.filter(item => item.p === p).map(item => ({ item, session: undefined as ReaderSession | undefined })),
       ...sessions.filter(item => item.p === p).map(item => ({ item, session: item as ReaderSession | undefined })),
     ].sort((a, b) => a.item.start - b.item.start)
+    // A picture or a table is shown whole: it takes no highlight and no session.
+    let fixed: ReactNode
+    const picture = block.kind === 'para' ? PICTURE_LINE.exec(block.text) : null
+    if (picture !== null) {
+      const src = pictureSrc(name, picture[2] ?? '')
+      fixed = (
+        <div className={css.figure} data-p={p} data-fixed="">
+          {src === undefined ? block.text : <img className={css.picture} src={src} alt={picture[1] ?? ''} loading="lazy" />}
+        </div>
+      )
+    } else if (block.kind === 'para' && isTable(block.text)) {
+      fixed = (
+        <div className={css.table} data-p={p} data-fixed="">
+          <MarkdownText text={block.text} labels={labels} omitHtml />
+        </div>
+      )
+    }
+    const show = (text: string, key: string): ReactNode => (block.kind === 'code' ? text : rich(text, key, labels))
     const parts: ReactNode[] = []
     let at = 0
     for (const { item, session } of anchors) {
       if (item.start < at) continue
-      parts.push(block.text.slice(at, item.start))
+      parts.push(show(block.text.slice(at, item.start), `${item.id}-before`))
       if (session === undefined) {
         parts.push(
           <mark key={item.id} className={css.hl} title={t('highlight.remove')} onClick={() => {
             if (getSelection()?.isCollapsed === false) return
             update(current => ({ ...current, highlights: current.highlights.filter(other => other.id !== item.id) }))
-          }}>{item.text}</mark>,
+          }}>{show(item.text, item.id)}</mark>,
         )
       } else {
         parts.push(
-          <mark key={item.id} className={css.anchor} title={t('session.open', { n: session.n })} onClick={() => { openSession(session.id) }}>{item.text}</mark>,
-          <button key={`${item.id}-badge`} type="button" data-skip="" className={css.badgeButton} aria-label={t('session.open', { n: session.n })} onClick={() => { openSession(session.id) }}>{session.n}</button>,
+          <mark key={item.id} className={toned(css.anchor, session)} title={t(openKey(session), { n: session.n })} onClick={() => { openSession(session.id) }}>{show(item.text, item.id)}</mark>,
+          <button key={`${item.id}-badge`} type="button" data-skip="" className={toned(css.badgeButton, session)} aria-label={t(openKey(session), { n: session.n })} onClick={() => { openSession(session.id) }}>{session.n}</button>,
         )
       }
       at = item.end
     }
-    parts.push(block.text.slice(at))
+    parts.push(show(block.text.slice(at), 'rest'))
     return (
       <div key={`p${p}`}>
-        <p className={block.kind === 'code' ? css.code : css.para} data-p={p}>
-          <span className={css.pn} data-skip="">¶{p + 1}</span>
-          {parts}
-        </p>
+        {fixed ?? (
+          <div className={block.kind === 'code' ? css.code : css.para} data-p={p}>
+            <span className={css.pn} data-skip="">¶{p + 1}</span>
+            {parts}
+          </div>
+        )}
         {!wide && sessions.filter(item => item.p === p).map(session => (
           <div key={session.id} className={css.inlineSlot}>
             {open.has(session.id) ? box(session) : (
-              <button type="button" className={css.folded} onClick={() => { openSession(session.id) }}>
+              <button type="button" className={toned(css.folded, session)} onClick={() => { openSession(session.id) }}>
                 <span className={css.badge}>{session.n}</span>
                 <span className={css.grow}>{session.msgs.length > 0 ? short(session.msgs.at(-1)?.text ?? '', 80) : t('session.blank')}</span>
                 <span className={css.muted}>{t('session.count', { count: session.msgs.length })}</span>
@@ -549,7 +687,28 @@ export function ReaderPage({ t }: ReaderPageProps) {
           <input type="checkbox" checked={dim} onChange={(event) => { setDim(event.target.checked) }} />
           {t('fade')}
         </label>
+        <form className={css.add} onSubmit={addLink}>
+          <input
+            className={css.addInput}
+            type="text"
+            inputMode="url"
+            value={paperLink}
+            placeholder={t('add.placeholder')}
+            aria-label={t('add.label')}
+            disabled={adding}
+            onChange={(event) => { setPaperLink(event.target.value) }}
+          />
+          <button type="submit" className={css.button} disabled={adding || paperLink.trim() === ''}>{adding ? t('add.busy') : t('add.go')}</button>
+        </form>
       </div>
+      {addNote !== undefined && (
+        <p className={addNote.failed ? css.error : css.note}>
+          {addNote.text}
+          {addNote.again !== undefined && (
+            <button type="button" className={css.button} disabled={adding} onClick={() => { importLink(addNote.again ?? '', true) }}>{t('add.again')}</button>
+          )}
+        </p>
+      )}
       {error !== '' && <p className={css.error}>{t('failed', { message: error })}</p>}
       {saveError !== '' && <p className={css.error}>{t('save.failed', { message: saveError })}</p>}
       {library !== undefined && library.docs.length === 0 && (
@@ -569,7 +728,7 @@ export function ReaderPage({ t }: ReaderPageProps) {
           {laneOn && (
             <div className={css.lane} ref={laneRef}>
               {openList.map(session => (docked.has(session.id) ? (
-                <button key={session.id} type="button" data-slot={session.id} className={css.laneChip} title={t('session.goto')} onClick={() => { flash(session.p) }}>
+                <button key={session.id} type="button" data-slot={session.id} className={toned(css.laneChip, session)} title={t('session.goto')} onClick={() => { flash(session.p) }}>
                   <span className={css.badge}>{session.n}</span>
                   <span>↑ ¶{session.p + 1}</span>
                   <span className={css.grow}>{session.msgs.length > 0 ? short(session.msgs.at(-1)?.text ?? '', 80) : t('session.blank')}</span>
@@ -582,7 +741,8 @@ export function ReaderPage({ t }: ReaderPageProps) {
       {selected !== undefined && (
         <div className={css.selbar} style={{ left: selected.left, top: selected.top }}>
           <button type="button" onPointerDown={(event) => { event.preventDefault() }} onClick={() => { act(addHighlight) }}>{t('select.highlight')}</button>
-          <button type="button" onPointerDown={(event) => { event.preventDefault() }} onClick={() => { act(addSession) }}>{t('select.session')}</button>
+          <button type="button" onPointerDown={(event) => { event.preventDefault() }} onClick={() => { act((range) => { addSession(range, 'comment') }) }}>{t('select.comment')}</button>
+          <button type="button" onPointerDown={(event) => { event.preventDefault() }} onClick={() => { act((range) => { addSession(range, 'ai') }) }}>{t('select.session')}</button>
         </div>
       )}
     </div>

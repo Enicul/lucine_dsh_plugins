@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "../../../node_modules/.bin/tsc -b . && ../../../node_modules/.bin/tsdown && node ../../scripts/strip-local-paths.mjs .",
-    "test": "node --import tsx/esm --test tests/library.test.ts"
+    "test": "node --import tsx/esm --test tests/library.test.ts tests/arxiv.test.ts"
   },
   "license": "MIT",
   "peerDependencies": {

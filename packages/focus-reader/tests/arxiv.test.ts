@@ -1,0 +1,133 @@
+import assert from 'node:assert/strict'
+import { mkdtemp, readFile, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { test } from 'node:test'
+import { arxivPaper, arxivToMarkdown, paperFileName } from '../src/arxiv.ts'
+import { findDoc, LibraryError, parseBlocks, readPicture, saveDoc, savePicture } from '../src/library.ts'
+
+const SOURCE = { sourceUrl: 'https://arxiv.org/abs/2610.11291', pageUrl: 'https://arxiv.org/html/2610.11291', pictureFolder: '2610.11291' }
+
+test('arxivPaper recognises abstract, PDF and web-page addresses and bare identifiers', () => {
+  const paper = { id: '2610.11291', htmlUrl: 'https://arxiv.org/html/2610.11291', absUrl: 'https://arxiv.org/abs/2610.11291' }
+  for (const link of [
+    'https://arxiv.org/pdf/2610.11291', 'https://arxiv.org/pdf/2610.11291.pdf', ' https://arxiv.org/abs/2610.11291 ',
+    'http://www.arxiv.org/html/2610.11291', 'arXiv:2610.11291', '2610.11291',
+  ]) assert.deepEqual(arxivPaper(link), paper, link)
+  assert.deepEqual(arxivPaper('https://arxiv.org/abs/2610.11291v3?context=cs.LG'), { ...paper, htmlUrl: 'https://arxiv.org/html/2610.11291v3' })
+})
+
+test('arxivPaper refuses other sites, other arXiv pages and malformed identifiers', () => {
+  for (const link of [
+    '', 'https://example.com/abs/2610.11291', 'https://arxiv.org.example.com/abs/2610.11291', 'https://arxiv.org/list/cs.LG/recent',
+    'https://arxiv.org/abs/2610.11291/../../x', 'file:///etc/passwd', '2610.1', 'https://arxiv.org/abs/hep-th/9901001',
+  ]) assert.equal(arxivPaper(link), undefined, link)
+})
+
+test('paperFileName keeps letters and drops characters that are unsafe in file names', () => {
+  assert.equal(paperFileName('2610.11291', 'When Do We Need It? A/B: "Tests" of $x^2$ <b>'), '2610.11291 When Do We Need It A B Tests of b.md')
+  assert.equal(paperFileName('2610.11291', '../..'), '2610.11291.md')
+  assert.equal(paperFileName('2610.11291', '蒸馏 何时需要'), '2610.11291 蒸馏 何时需要.md')
+})
+
+const PAGE = `<!DOCTYPE html><html><head><title>ignored</title><style>p { color: red }</style></head><body>
+<nav class="ltx_TOC"><p class="ltx_p">Contents</p></nav>
+<article class="ltx_document">
+<h1 class="ltx_title ltx_title_document">A Paper &amp; Its Title</h1>
+<div class="ltx_authors"><span class="ltx_creator"><span class="ltx_personname">Ada One</span></span>
+<span class="ltx_creator"><span class="ltx_personname">Bo Two<sup class="ltx_note">1</sup></span></span></div>
+<div class="ltx_abstract"><h6 class="ltx_title ltx_title_abstract">Abstract</h6><p class="ltx_p">We show
+ a <span class="ltx_text">11.4<math alttext="\\times" display="inline"><mo>×</mo><annotation>\\times</annotation></math></span> speedup.</p></div>
+<section class="ltx_section"><h2 class="ltx_title ltx_title_section"><span class="ltx_tag">1 </span>Intro</h2>
+<div class="ltx_para"><p class="ltx_p">First<span class="ltx_note">hidden footnote</span> paragraph &#8212; done.</p>
+<table class="ltx_equation ltx_eqn_table"><tr><td><math alttext="a&lt;b" display="block"><mi>a</mi></math></td></tr></table></div>
+<ul class="ltx_itemize"><li class="ltx_item"><div class="ltx_para"><p class="ltx_p">One item.</p><p class="ltx_p">Its second paragraph.</p></div></li></ul>
+<figure id="F1" class="ltx_figure"><object type="image/svg+xml" data="2610.11291v1/fig one.svg" class="ltx_graphics ltx_centering"></object>
+<img src="https://evil.example/x.png" class="ltx_graphics"><img src="2610.11291v1/notes.txt" class="ltx_graphics">
+<figcaption class="ltx_caption">Figure 1: A curve.</figcaption></figure>
+<figure class="ltx_figure"><div class="ltx_listing">only a drawing</div><figcaption class="ltx_caption">Figure 2: Lost.</figcaption></figure>
+<figure class="ltx_table"><figcaption class="ltx_caption">Table 1: Numbers.</figcaption>
+<table id="T1" class="ltx_tabular"><thead><tr class="ltx_tr"><th class="ltx_td ltx_th" colspan="2">Model</th><th class="ltx_td ltx_th">Acc</th></tr></thead>
+<tbody><tr class="ltx_tr"><td class="ltx_td">a|b</td><td class="ltx_td"><math alttext="|x|"><mi>x</mi></math></td><td class="ltx_td"><span class="ltx_text ltx_font_bold">9.5</span></td></tr>
+<tr class="ltx_tr"><td class="ltx_td"></td><td class="ltx_td"></td><td class="ltx_td"></td></tr></tbody></table></figure>
+<svg class="ltx_picture"><g><foreignObject width="10" height="10"><span class="ltx_foreignobject_content"><p class="ltx_p">Boxed example.</p></span></foreignObject>
+<foreignObject><span class="ltx_foreignobject_content">Bare label</span></foreignObject><path d="M0 0"/></g></svg>
+<section class="ltx_subsection"><h3 class="ltx_title ltx_title_subsection">1.1 Detail</h3><p class="ltx_p">Deep.</p></section>
+</section>
+<section class="ltx_bibliography"><h2 class="ltx_title ltx_title_bibliography">References</h2>
+<ul><li class="ltx_bibitem"><span class="ltx_tag">[1]</span><span class="ltx_bibblock">A. One. A book.</span></li></ul></section>
+</article><footer class="ltx_page_footer"><p class="ltx_p">Generated by LaTeXML</p></footer>
+<script>document.write('<p class="ltx_p">never</p>')</script></body></html>`
+
+test('arxivToMarkdown writes headings, text, formulas, tables, pictures, boxed text and references the reader parses', () => {
+  const converted = arxivToMarkdown(PAGE, SOURCE)
+  assert.equal(converted.title, 'A Paper & Its Title')
+  assert.deepEqual(parseBlocks(`${converted.blocks.join('\n\n')}\n`), [
+    { kind: 'heading', level: 1, text: 'A Paper & Its Title' },
+    { kind: 'para', text: 'Source: https://arxiv.org/abs/2610.11291' },
+    { kind: 'para', text: 'Ada One, Bo Two' },
+    { kind: 'heading', level: 2, text: 'Abstract' },
+    { kind: 'para', text: 'We show a 11.4$\\times$ speedup.' },
+    { kind: 'heading', level: 2, text: '1 Intro' },
+    { kind: 'para', text: 'First paragraph — done.' },
+    { kind: 'para', text: '$$ a<b $$' },
+    { kind: 'para', text: '- One item.' },
+    { kind: 'para', text: 'Its second paragraph.' },
+    { kind: 'para', text: '![Figure](2610.11291/fig_20one.svg)' },
+    { kind: 'para', text: 'Figure 1: A curve.' },
+    { kind: 'para', text: '[Figure — see the original] Figure 2: Lost.' },
+    { kind: 'para', text: 'Table 1: Numbers.' },
+    { kind: 'para', text: '| Model |  | Acc |\n| --- | --- | --- |\n| a\\|b | $\\vert x\\vert $ | **9.5** |' },
+    { kind: 'para', text: 'Boxed example.' },
+    { kind: 'para', text: 'Bare label' },
+    { kind: 'heading', level: 3, text: '1.1 Detail' },
+    { kind: 'para', text: 'Deep.' },
+    { kind: 'heading', level: 2, text: 'References' },
+    { kind: 'para', text: '[1]A. One. A book.' },
+  ])
+  assert.equal(converted.paragraphs, 16)
+})
+
+test('arxivToMarkdown lists only pictures under arxiv.org/html with a picture file type', () => {
+  assert.deepEqual(arxivToMarkdown(PAGE, SOURCE).pictures, [{
+    url: 'https://arxiv.org/html/2610.11291v1/fig%20one.svg',
+    file: 'fig_20one.svg',
+    line: '![Figure](2610.11291/fig_20one.svg)',
+  }])
+})
+
+test('arxivToMarkdown reports a page without a paper as having no title', () => {
+  assert.equal(arxivToMarkdown('<html><body><h1>No HTML for this paper</h1><p>Sorry.</p></body></html>', SOURCE).title, '')
+})
+
+test('saveDoc adds a document that findDoc then finds by its identifier', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'focus-reader-'))
+  try {
+    assert.equal(await findDoc(dir, 'papers', '2610.11291'), undefined)
+    await saveDoc(dir, 'papers/2610.11291 A title.md', '# A title\n')
+    await saveDoc(dir, 'papers/2610.112910 Another.md', '# Another\n')
+    assert.equal(await findDoc(dir, 'papers', '2610.11291'), 'papers/2610.11291 A title.md')
+    assert.equal(await readFile(join(dir, 'papers', '2610.11291 A title.md'), 'utf8'), '# A title\n')
+    await assert.rejects(saveDoc(dir, '../outside.md', 'x'), LibraryError)
+    await assert.rejects(findDoc(dir, '../papers', '2610.11291'), LibraryError)
+  } finally {
+    await rm(dir, { recursive: true, force: true })
+  }
+})
+
+test('a saved picture is read back with its media type; other files and oversized pictures are refused', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'focus-reader-'))
+  try {
+    await savePicture(dir, 'papers/2610.11291/x1.PNG', new Uint8Array([1, 2, 3]))
+    assert.deepEqual(await readPicture(dir, 'papers/2610.11291/x1.PNG', 10), { bytes: Buffer.from([1, 2, 3]), type: 'image/png' })
+    await assert.rejects(readPicture(dir, 'papers/2610.11291/x1.PNG', 2), (error: unknown) => error instanceof LibraryError && error.status === 413)
+    await assert.rejects(readPicture(dir, 'papers/2610.11291/none.svg', 10), (error: unknown) => error instanceof LibraryError && error.status === 404)
+    await saveDoc(dir, 'papers/a.md', 'secret')
+    for (const name of ['papers/a.md', '../x.png', '.focus-reader/x.png', 'papers/2610.11291/x1.PNG/../../a.md']) {
+      await assert.rejects(readPicture(dir, name, 10), LibraryError, name)
+    }
+    await assert.rejects(savePicture(dir, '../x.png', new Uint8Array([1])), LibraryError)
+  } finally {
+    await rm(dir, { recursive: true, force: true })
+  }
+})

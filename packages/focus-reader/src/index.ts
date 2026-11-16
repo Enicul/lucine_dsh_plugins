@@ -2,7 +2,10 @@
  * Host half of focus-reader: authenticated routes on the composition's
  * `webServer` that list the documents of one library folder, return a
  * document's blocks with its saved notes, replace those notes, and answer an AI
- * session message with the composition's default model.
+ * session message with the composition's default model. One more route imports
+ * an arXiv paper: it fetches the paper's web-page version and its pictures from
+ * arxiv.org and saves them in the library folder, the text as Markdown. A last
+ * route returns one picture of the library.
  *
  * Every route asks the `connection` service for a rejection first. The model
  * call runs outside any Session: its prompt and reply are stored only in the
@@ -15,12 +18,14 @@ import Schema from '@deepseek-ai/schemastery'
 import type {} from '@deepseek-ai/dsh-host-webserver'
 import type {} from '@deepseek-ai/dsh-agent-default-model'
 import { BlockAssembler } from '@deepseek-ai/dsh-llm'
+import { arxivPaper, arxivToMarkdown, paperFileName } from './arxiv.ts'
 import {
-  cleanNotes, contextAround, expandDir, LibraryError, listDocs, readDoc, readNotes, writeNotes,
+  cleanNotes, contextAround, expandDir, findDoc, LibraryError, listDocs, readDoc, readNotes, readPicture, resolveDoc, saveDoc,
+  savePicture, writeNotes,
 } from './library.ts'
 import {
-  READER_ASK_PATH, READER_DOC_PATH, READER_DOCS_PATH, READER_NOTES_PATH,
-  type ReaderAskPayload, type ReaderDocPayload, type ReaderDocsPayload, type ReaderMessage,
+  READER_ADD_PATH, READER_ASK_PATH, READER_DOC_PATH, READER_DOCS_PATH, READER_NOTES_PATH, READER_PICTURE_PATH,
+  type ReaderAddPayload, type ReaderAskPayload, type ReaderDocPayload, type ReaderDocsPayload, type ReaderMessage,
 } from './shared.ts'
 
 export type * from './shared.ts'
@@ -46,6 +51,16 @@ export interface Config {
   askTimeoutMs: number
   /** Instructions given to the model before the passage. */
   systemPrompt: string
+  /** Folder inside the library where imported papers are saved, with `/` separators. */
+  importFolder: string
+  /** Largest web page an import downloads, in bytes. */
+  maxImportBytes: number
+  /** Longest an import may wait for one file from arxiv.org, in milliseconds. */
+  importTimeoutMs: number
+  /** Most pictures one import downloads; further pictures are left as a line of text. */
+  maxImportPictures: number
+  /** Largest picture an import downloads or the reader shows, in bytes. */
+  maxPictureBytes: number
 }
 
 /** Validated configuration with defaults. */
@@ -61,6 +76,11 @@ export const Config: Schema<Config> = Schema.object({
     + 'Answer about that passage and the surrounding text you are given. Be direct and brief: a few sentences unless asked for more. '
     + 'Say plainly when the given text does not support a claim or does not contain the answer. Reply in the language of the question.',
   ),
+  importFolder: Schema.string().default('papers'),
+  maxImportBytes: Schema.number().default(16 * 1024 * 1024),
+  importTimeoutMs: Schema.number().default(30_000),
+  maxImportPictures: Schema.number().default(80),
+  maxPictureBytes: Schema.number().default(8 * 1024 * 1024),
 })
 
 /** Request bodies are one JSON object: notes for a document, or one session's messages. */
@@ -95,6 +115,43 @@ function sendJson(res: ServerResponse, status: number, payload: unknown): void {
   res.end(JSON.stringify(payload))
 }
 
+/**
+ * Download one file from arxiv.org.
+ * @param url - address on arxiv.org.
+ * @param maxBytes - the download stops with a failure once the body is larger.
+ * @param timeoutMs - longest wait for the whole download.
+ * @returns the file's bytes and the address that answered after redirects.
+ * @throws {LibraryError} 404 when arXiv has no such file, 413 when it is too large, 502 for any other failed download.
+ */
+async function fetchArxiv(url: string, maxBytes: number, timeoutMs: number): Promise<{ bytes: Buffer; url: string }> {
+  let response: Response
+  try {
+    response = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), headers: { 'user-agent': 'dsh-focus-reader' } })
+  } catch (error: unknown) {
+    throw new LibraryError(502, `arxiv.org could not be reached: ${error instanceof Error ? error.message : String(error)}`)
+  }
+  if (response.status === 404) throw new LibraryError(404, `arxiv.org has no file at ${url}`)
+  if (!response.ok || !/(^|\.)arxiv\.org$/.test(new URL(response.url).hostname) || response.body === null) {
+    throw new LibraryError(502, `arxiv.org answered ${response.status} for ${url}`)
+  }
+  const chunks: Uint8Array[] = []
+  let size = 0
+  try {
+    for await (const chunk of response.body) {
+      size += chunk.length
+      if (size > maxBytes) throw new LibraryError(413, `${url} is larger than ${maxBytes} bytes`)
+      chunks.push(chunk)
+    }
+  } catch (error: unknown) {
+    if (error instanceof LibraryError) throw error
+    throw new LibraryError(502, `the download from arxiv.org stopped: ${error instanceof Error ? error.message : String(error)}`)
+  }
+  return { bytes: Buffer.concat(chunks), url: response.url }
+}
+
+/** Downloads of one paper's pictures that run at the same time. */
+const PICTURE_LANES = 4
+
 type Handler = (req: IncomingMessage, url: URL) => Promise<unknown>
 
 /**
@@ -104,6 +161,8 @@ type Handler = (req: IncomingMessage, url: URL) => Promise<unknown>
  */
 export function apply(ctx: Context, config: Config): void {
   const libraryDir = expandDir(config.libraryDir)
+  // A folder name that leaves the library, or enters a dot folder, stops the plugin at load.
+  resolveDoc(libraryDir, `${config.importFolder}/x.md`)
   const connection = Reflect.get(ctx, 'connection') as TrustConnection
 
   const route = (path: string, methods: Record<string, Handler>): void => {
@@ -156,6 +215,83 @@ export function apply(ctx: Context, config: Config): void {
       return { saved: true }
     },
   })
+
+  route(READER_ADD_PATH, {
+    POST: async (req): Promise<ReaderAddPayload> => {
+      const body = await readJsonBody(req)
+      const link = typeof body === 'object' && body !== null && 'url' in body && typeof body.url === 'string' ? body.url : ''
+      const paper = arxivPaper(link)
+      if (paper === undefined) {
+        throw new LibraryError(400, 'this is not an arXiv paper link. Paste an address such as https://arxiv.org/abs/2610.11291')
+      }
+      const refresh = typeof body === 'object' && body !== null && 'refresh' in body && body.refresh === true
+      const existing = await findDoc(libraryDir, config.importFolder, paper.id)
+      if (existing !== undefined && !refresh) return { name: existing, existing: true, pictures: 0, missingPictures: 0 }
+      let page: { bytes: Buffer; url: string }
+      try {
+        page = await fetchArxiv(paper.htmlUrl, config.maxImportBytes, config.importTimeoutMs)
+      } catch (error: unknown) {
+        if (error instanceof LibraryError && error.status === 404) {
+          throw new LibraryError(404, 'arXiv has no web-page version of this paper. It only has the PDF, which the reader cannot convert.')
+        }
+        throw error
+      }
+      const converted = arxivToMarkdown(page.bytes.toString('utf8'), { sourceUrl: paper.absUrl, pageUrl: page.url, pictureFolder: paper.id })
+      if (converted.title === '' || converted.paragraphs < 3) {
+        throw new LibraryError(502, 'the page arxiv.org returned holds no paper text')
+      }
+      // A picture that cannot be downloaded leaves a line of text where it would be shown.
+      const missing = new Set<string>(converted.pictures.slice(config.maxImportPictures).map(picture => picture.line))
+      const queue = converted.pictures.slice(0, config.maxImportPictures)
+      await Promise.all(Array.from({ length: PICTURE_LANES }, async () => {
+        for (let picture = queue.shift(); picture !== undefined; picture = queue.shift()) {
+          try {
+            const file = await fetchArxiv(picture.url, config.maxPictureBytes, config.importTimeoutMs)
+            await savePicture(libraryDir, `${config.importFolder}/${paper.id}/${picture.file}`, file.bytes)
+          } catch (error: unknown) {
+            if (!(error instanceof LibraryError)) throw error
+            missing.add(picture.line)
+          }
+        }
+      }))
+      const blocks = converted.blocks.map(block => (missing.has(block) ? '[Picture not downloaded — see the original]' : block))
+      const doc = existing ?? `${config.importFolder}/${paperFileName(paper.id, converted.title)}`
+      await saveDoc(libraryDir, doc, `${blocks.join('\n\n')}\n`)
+      return { name: doc, existing: false, pictures: converted.pictures.length - missing.size, missingPictures: missing.size }
+    },
+  })
+
+  ctx.effect(() => ctx.webServer.register({
+    kind: 'exact',
+    path: READER_PICTURE_PATH,
+    handler: async (req, res) => {
+      const rejection = connection.requestRejection(req)
+      if (rejection !== undefined) {
+        res.statusCode = rejection
+        res.end()
+        return
+      }
+      if (req.method !== 'GET') {
+        res.statusCode = 405
+        res.setHeader('allow', 'GET')
+        res.end()
+        return
+      }
+      try {
+        const picture = await readPicture(libraryDir, nameOf(new URL(req.url ?? '', 'http://local')), config.maxPictureBytes)
+        res.statusCode = 200
+        res.setHeader('content-type', picture.type)
+        res.setHeader('x-content-type-options', 'nosniff')
+        // A downloaded SVG is shown as an image only; opened on its own it may run no script and load nothing.
+        res.setHeader('content-security-policy', 'sandbox; default-src \'none\'; style-src \'unsafe-inline\'')
+        res.setHeader('cache-control', 'private, max-age=3600')
+        res.end(picture.bytes)
+      } catch (error: unknown) {
+        const status = error instanceof LibraryError ? error.status : 500
+        sendJson(res, status, { error: error instanceof Error ? error.message : String(error) })
+      }
+    },
+  }), `focus-reader: ${READER_PICTURE_PATH}`)
 
   route(READER_ASK_PATH, {
     POST: async (req): Promise<ReaderAskPayload> => {

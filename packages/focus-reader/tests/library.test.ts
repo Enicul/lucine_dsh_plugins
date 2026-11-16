@@ -60,10 +60,11 @@ test('notes round-trip through the sidecar file and never touch the document', a
     highlights: [{ id: 'h1', p: 0, start: 0, end: 5, text: 'hello' }, { id: '', p: 0, start: 0, end: 5, text: 'bad' }, { id: 'h2', p: 0, start: 4, end: 2, text: 'bad' }],
     sessions: [
       { id: 's1', p: 0, start: 6, end: 11, text: 'world', n: 1, msgs: [{ role: 'me', text: 'q' }, { role: 'system', text: 'x' }], links: ['s2', 's1', 'gone'], pinned: true },
-      { id: 's2', p: 0, start: 0, end: 5, text: 'hello', n: 2, msgs: [], links: ['s1'] },
+      { id: 's2', p: 0, start: 0, end: 5, text: 'hello', n: 2, msgs: [], links: ['s1'], kind: 'comment' },
     ],
   })
   assert.equal(notes.highlights.length, 1)
+  assert.deepEqual(notes.sessions.map(session => session.kind), ['ai', 'comment'])
   assert.deepEqual(notes.sessions[0]?.links, ['s2'])
   assert.deepEqual(notes.sessions[0]?.msgs, [{ role: 'me', text: 'q' }])
   assert.equal(notes.sessions[1]?.pinned, false)
