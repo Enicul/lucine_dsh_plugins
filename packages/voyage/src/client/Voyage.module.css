@@ -42,6 +42,8 @@
 .tabs {
   display: flex;
   gap: 4px;
+  /* With the sidebar hidden, the window buttons and the reopen controls sit over this corner; the frame says how wide they are. */
+  margin-inline-start: max(0px, calc(var(--dsh-frame-leading-clearance, 0px) - 20px));
 }
 
 .tab,

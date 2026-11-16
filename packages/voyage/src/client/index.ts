@@ -4,13 +4,14 @@
  */
 
 import type { Context } from '@deepseek-ai/cordis'
-import type {} from '@deepseek-ai/dsh-client-locale/client'
+import type { LocaleId } from '@deepseek-ai/dsh-client-locale/client'
+import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 import type {} from '@deepseek-ai/dsh-client-ui-theme/client'
 import type { ShortcutBinding, ShortcutCommandId } from '@deepseek-ai/dsh-client-shortcuts/client'
 import type { MainPanelId } from '@deepseek-ai/dsh-client-ui-layout/client'
-import { BrandMark, BrandName } from './Brand.tsx'
+import { BrandMark, BrandName, HeroMark } from './Brand.tsx'
 import { setCaptureOpen } from './capture.ts'
 import { CaptureBox } from './CaptureBox.tsx'
 import { en, NS, zh, type VoyageKey } from './locales.ts'
@@ -57,6 +58,27 @@ const NIGHT_NEUTRALS: Record<string, readonly [string, string]> = {
   '--dsw-static-neutral-bluish-700': ['rgb(97, 102, 107)', '#40508f'],
 }
 
+/**
+ * Language packs that replace the app's own product wording. Each falls back, key by key, to the built-in
+ * language it is based on, so only the listed text changes.
+ */
+const PACKS: readonly { readonly id: LocaleId; readonly base: LocaleId; readonly label: string; readonly common: Record<string, string>; readonly conversation: Record<string, string> }[] = [
+  {
+    id: 'en-deepsea' as LocaleId,
+    base: 'en' as LocaleId,
+    label: 'English · Deep Sea',
+    common: { 'brand.localBuild': 'Deep Sea' },
+    conversation: { 'hero.headline': 'One step into the deep sea', 'hero.preview': 'today' },
+  },
+  {
+    id: 'zh-deepsea' as LocaleId,
+    base: 'zh' as LocaleId,
+    label: '中文 · 深海',
+    common: { 'brand.localBuild': '深海' },
+    conversation: { 'hero.headline': '每天往深海走一步', 'hero.preview': '今天' },
+  },
+]
+
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
     /** Voyage page and capture box copy. */
@@ -67,13 +89,30 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 /** Required browser services: slots, localized copy, keyboard commands, the panel switcher, and themes. */
 export const inject = ['slots', 'locale', 'shortcuts', 'layout', 'theme']
 
+/** Namespaces whose product wording the language packs replace. */
+const COMMON_NS: string = 'common'
+const CONVERSATION_NS: string = 'conversation'
+
 /**
- * Register the dictionaries, the theme, the page with its sidebar entry, the sidebar brand, and the capture box with its command.
+ * Register the dictionaries, the theme, the page with its sidebar entry, the sidebar brand, the product wording and welcome mark, and the capture box with its command.
  * @param ctx - browser services used by these contributions.
  */
 export function apply(ctx: Context): void {
   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'voyage: dictionaries')
   const t = ctx.locale.bind(NS)
+
+  for (const pack of PACKS) {
+    ctx.effect(() => ctx.locale.addLanguage({ id: pack.id, label: pack.label, fallback: pack.base }), `voyage: ${pack.id} language`)
+    ctx.effect(() => ctx.locale.register(COMMON_NS, pack.id, pack.common), `voyage: ${pack.id} product name`)
+    ctx.effect(() => ctx.locale.register(CONVERSATION_NS, pack.id, pack.conversation), `voyage: ${pack.id} welcome text`)
+  }
+  // Choosing English or Chinese selects its Deep Sea pack, at start and whenever the language is changed in settings.
+  const usePack = (active: LocaleId): void => {
+    const pack = PACKS.find(candidate => candidate.base === active)
+    if (pack !== undefined) ctx.locale.setLocale(pack.id)
+  }
+  ctx.on('locale/change', (snapshot) => { usePack(snapshot.active) })
+  usePack(ctx.locale.getLocale().active)
 
   ctx.effect(() => ctx.theme.overrideTokens(THEME_ID, {
     ...Object.fromEntries(Object.entries(NIGHT_NEUTRALS).map(([token, [light, dark]]) => [token, { light, dark }])),
@@ -98,6 +137,8 @@ export function apply(ctx: Context): void {
 
   ctx.effect(() => ctx.slots.inject('sidebar.brand.mark', () => ctx.slots.register({ name: 'sidebar.brand.mark' }, BrandMark)), 'voyage: brand mark')
   ctx.effect(() => ctx.slots.inject('sidebar.brand.name', () => ctx.slots.register({ name: 'sidebar.brand.name' }, BrandName)), 'voyage: brand name')
+
+  ctx.effect(() => ctx.slots.inject('conversation.hero.brand.mark', () => ctx.slots.register({ name: 'conversation.hero.brand.mark' }, HeroMark)), 'voyage: welcome mark')
 
   ctx.effect(() => ctx.slots.inject('shell.overlay', () => ctx.slots.register({
     name: 'shell.overlay',

@@ -8,7 +8,7 @@ window.__ModuleLoader__.load({
 		let react = require("react");
 		let react_dom = require("react-dom");
 		//#region \0dsh-css:./src/client/Voyage.module.css.mjs
-		const css = ".Hm-TGG_page{--vy-ink:#eef2ff;--vy-dim:#b4bfdf;--vy-glass:#141c3ead;--vy-line:#c8d7ff33;--vy-fire:#ffd27a;--vy-tide:#8cfff0;width:100%;min-width:0;height:100%;min-height:0;color:var(--vy-ink);background:#141c44;font-size:14px;line-height:1.5;display:flex;position:relative;overflow:hidden}.Hm-TGG_scene{object-fit:cover;width:100%;height:100%;position:absolute;inset:0}.Hm-TGG_stage{flex-direction:column;flex:1;gap:12px;min-width:0;min-height:0;padding:14px 20px 24px;display:flex;position:relative;overflow:auto}.Hm-TGG_tabs{gap:4px;display:flex}.Hm-TGG_tab,.Hm-TGG_tabOn{color:var(--vy-dim);background:var(--vy-glass);backdrop-filter:blur(8px);font:inherit;cursor:pointer;border:0;border-radius:999px;padding:6px 14px}.Hm-TGG_tab:hover{color:var(--vy-ink)}.Hm-TGG_tabOn{color:var(--vy-fire);background:#3c3446bf;font-weight:600}.Hm-TGG_small{color:var(--vy-dim);letter-spacing:.03em;font-size:12px}.Hm-TGG_title{text-wrap:balance;margin:0;font-size:18px;font-weight:600;line-height:1.3}.Hm-TGG_error{border:1px solid var(--vy-fire);color:var(--vy-fire);background:var(--vy-glass);border-radius:10px;margin:0;padding:8px 12px}.Hm-TGG_next{background:var(--vy-glass);backdrop-filter:blur(10px);border-radius:16px;flex-direction:column;align-self:flex-start;gap:4px;max-width:min(520px,100%);margin-top:auto;padding:16px;display:flex}.Hm-TGG_column{flex-direction:column;gap:10px;width:min(640px,100%);margin:0 auto;display:flex}.Hm-TGG_head{flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;display:flex}.Hm-TGG_sort{color:var(--vy-tide);font:inherit;cursor:pointer;background:#143c50b3;border:1px solid #8cfff080;border-radius:999px;padding:7px 14px;font-weight:600}.Hm-TGG_sort:disabled{opacity:.6;cursor:default}.Hm-TGG_group{flex-direction:column;gap:8px;display:flex}.Hm-TGG_groupName{color:var(--vy-fire);letter-spacing:.06em;text-transform:uppercase;margin:8px 0 0;font-size:12px;font-weight:600}.Hm-TGG_row{border:1px solid var(--vy-line);background:var(--vy-glass);backdrop-filter:blur(8px);border-radius:12px;align-items:center;gap:10px;padding:9px 11px;display:flex}.Hm-TGG_rowText{overflow-wrap:anywhere;flex:1;min-width:0}.Hm-TGG_rowDone,.Hm-TGG_fold{border:1px solid var(--vy-line);color:var(--vy-dim);font:inherit;cursor:pointer;background:0 0;border-radius:999px;padding:3px 10px;font-size:12px}.Hm-TGG_rowDone:hover,.Hm-TGG_fold:hover{color:var(--vy-ink)}.Hm-TGG_side{border-left:1px solid var(--vy-line);backdrop-filter:blur(12px);background:#0c122c80;flex-direction:column;flex:none;gap:12px;width:310px;padding:14px;display:flex;position:relative;overflow:auto}.Hm-TGG_fold{align-self:flex-end}.Hm-TGG_unfold{border:0;border-left:1px solid var(--vy-line);width:28px;color:var(--vy-dim);font:inherit;cursor:pointer;background:#0c122c80;flex:none;position:relative}.Hm-TGG_widget{border:1px solid var(--vy-line);border-radius:14px;flex-direction:column;gap:8px;padding:14px;display:flex}.Hm-TGG_step{border:1px solid var(--vy-line);border-radius:12px;align-items:flex-start;gap:10px;padding:8px 10px;display:flex}.Hm-TGG_tick,.Hm-TGG_tickOn{border:2px solid var(--vy-dim);color:#0000;cursor:pointer;background:0 0;border-radius:50%;flex:none;place-items:center;width:22px;height:22px;margin-top:2px;padding:0;font-size:12px;display:grid}.Hm-TGG_tick:disabled{opacity:.4;cursor:default}.Hm-TGG_tickOn{border-color:var(--vy-fire);color:#2a2340;background:var(--vy-fire)}.Hm-TGG_stepBody{flex-direction:column;flex:1;min-width:0;display:flex}.Hm-TGG_kind{color:var(--vy-dim);font-size:12px;font-weight:600}.Hm-TGG_stepInput,.Hm-TGG_stepInputDone{width:100%;color:var(--vy-ink);font:inherit;background:0 0;border:0;border-bottom:1px solid #0000;padding:2px 0}.Hm-TGG_stepInput:focus,.Hm-TGG_stepInputDone:focus{border-bottom-color:var(--vy-tide);outline:none}.Hm-TGG_stepInput::placeholder{color:var(--vy-dim);opacity:.7}.Hm-TGG_captureInput::placeholder{color:var(--dsw-alias-label-secondary);opacity:.8}.Hm-TGG_stepInputDone{color:var(--vy-dim);text-decoration:line-through}.Hm-TGG_capture{width:100%;color:var(--vy-fire);font:inherit;text-align:left;cursor:pointer;background:#ffd27a1f;border:1px solid #ffd27a80;border-radius:12px;padding:10px 12px;font-weight:600}.Hm-TGG_peek{color:var(--vy-dim);text-overflow:ellipsis;white-space:nowrap;margin:0;font-size:13px;overflow:hidden}.Hm-TGG_tab:focus-visible,.Hm-TGG_tabOn:focus-visible,.Hm-TGG_sort:focus-visible,.Hm-TGG_rowDone:focus-visible,.Hm-TGG_fold:focus-visible,.Hm-TGG_unfold:focus-visible,.Hm-TGG_tick:focus-visible,.Hm-TGG_tickOn:focus-visible,.Hm-TGG_capture:focus-visible{outline:2px solid var(--vy-fire);outline-offset:2px}.Hm-TGG_captureVeil{z-index:1000;pointer-events:auto;background:#141c3e47;place-items:start center;padding:18vh 20px 0;display:grid;position:fixed;inset:0}.Hm-TGG_captureBox{border:1px solid var(--dsw-alias-border-l2);width:min(520px,100%);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border-radius:16px;flex-direction:column;gap:10px;padding:18px;font-size:14px;display:flex;box-shadow:0 20px 60px #141c3e40}.Hm-TGG_captureBox .Hm-TGG_small{color:var(--dsw-alias-label-secondary)}.Hm-TGG_captureInput{border:1px solid var(--dsw-alias-border-l2);width:100%;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;border-radius:12px;padding:12px 14px;font-size:17px}.Hm-TGG_captureInput:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.Hm-TGG_captureNote{z-index:1000;border:1px solid var(--dsw-alias-border-l2);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);white-space:nowrap;pointer-events:none;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;position:fixed;bottom:48px;left:50%;transform:translate(-50%);box-shadow:0 8px 24px #141c3e2e}@container (width<=700px){.Hm-TGG_side{width:240px}}.Hm-TGG_brandName{letter-spacing:.02em;font-size:15px;font-weight:600}";
+		const css = ".Hm-TGG_page{--vy-ink:#eef2ff;--vy-dim:#b4bfdf;--vy-glass:#141c3ead;--vy-line:#c8d7ff33;--vy-fire:#ffd27a;--vy-tide:#8cfff0;width:100%;min-width:0;height:100%;min-height:0;color:var(--vy-ink);background:#141c44;font-size:14px;line-height:1.5;display:flex;position:relative;overflow:hidden}.Hm-TGG_scene{object-fit:cover;width:100%;height:100%;position:absolute;inset:0}.Hm-TGG_stage{flex-direction:column;flex:1;gap:12px;min-width:0;min-height:0;padding:14px 20px 24px;display:flex;position:relative;overflow:auto}.Hm-TGG_tabs{gap:4px;margin-inline-start:max(0px, calc(var(--dsh-frame-leading-clearance,0px) - 20px));display:flex}.Hm-TGG_tab,.Hm-TGG_tabOn{color:var(--vy-dim);background:var(--vy-glass);backdrop-filter:blur(8px);font:inherit;cursor:pointer;border:0;border-radius:999px;padding:6px 14px}.Hm-TGG_tab:hover{color:var(--vy-ink)}.Hm-TGG_tabOn{color:var(--vy-fire);background:#3c3446bf;font-weight:600}.Hm-TGG_small{color:var(--vy-dim);letter-spacing:.03em;font-size:12px}.Hm-TGG_title{text-wrap:balance;margin:0;font-size:18px;font-weight:600;line-height:1.3}.Hm-TGG_error{border:1px solid var(--vy-fire);color:var(--vy-fire);background:var(--vy-glass);border-radius:10px;margin:0;padding:8px 12px}.Hm-TGG_next{background:var(--vy-glass);backdrop-filter:blur(10px);border-radius:16px;flex-direction:column;align-self:flex-start;gap:4px;max-width:min(520px,100%);margin-top:auto;padding:16px;display:flex}.Hm-TGG_column{flex-direction:column;gap:10px;width:min(640px,100%);margin:0 auto;display:flex}.Hm-TGG_head{flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;display:flex}.Hm-TGG_sort{color:var(--vy-tide);font:inherit;cursor:pointer;background:#143c50b3;border:1px solid #8cfff080;border-radius:999px;padding:7px 14px;font-weight:600}.Hm-TGG_sort:disabled{opacity:.6;cursor:default}.Hm-TGG_group{flex-direction:column;gap:8px;display:flex}.Hm-TGG_groupName{color:var(--vy-fire);letter-spacing:.06em;text-transform:uppercase;margin:8px 0 0;font-size:12px;font-weight:600}.Hm-TGG_row{border:1px solid var(--vy-line);background:var(--vy-glass);backdrop-filter:blur(8px);border-radius:12px;align-items:center;gap:10px;padding:9px 11px;display:flex}.Hm-TGG_rowText{overflow-wrap:anywhere;flex:1;min-width:0}.Hm-TGG_rowDone,.Hm-TGG_fold{border:1px solid var(--vy-line);color:var(--vy-dim);font:inherit;cursor:pointer;background:0 0;border-radius:999px;padding:3px 10px;font-size:12px}.Hm-TGG_rowDone:hover,.Hm-TGG_fold:hover{color:var(--vy-ink)}.Hm-TGG_side{border-left:1px solid var(--vy-line);backdrop-filter:blur(12px);background:#0c122c80;flex-direction:column;flex:none;gap:12px;width:310px;padding:14px;display:flex;position:relative;overflow:auto}.Hm-TGG_fold{align-self:flex-end}.Hm-TGG_unfold{border:0;border-left:1px solid var(--vy-line);width:28px;color:var(--vy-dim);font:inherit;cursor:pointer;background:#0c122c80;flex:none;position:relative}.Hm-TGG_widget{border:1px solid var(--vy-line);border-radius:14px;flex-direction:column;gap:8px;padding:14px;display:flex}.Hm-TGG_step{border:1px solid var(--vy-line);border-radius:12px;align-items:flex-start;gap:10px;padding:8px 10px;display:flex}.Hm-TGG_tick,.Hm-TGG_tickOn{border:2px solid var(--vy-dim);color:#0000;cursor:pointer;background:0 0;border-radius:50%;flex:none;place-items:center;width:22px;height:22px;margin-top:2px;padding:0;font-size:12px;display:grid}.Hm-TGG_tick:disabled{opacity:.4;cursor:default}.Hm-TGG_tickOn{border-color:var(--vy-fire);color:#2a2340;background:var(--vy-fire)}.Hm-TGG_stepBody{flex-direction:column;flex:1;min-width:0;display:flex}.Hm-TGG_kind{color:var(--vy-dim);font-size:12px;font-weight:600}.Hm-TGG_stepInput,.Hm-TGG_stepInputDone{width:100%;color:var(--vy-ink);font:inherit;background:0 0;border:0;border-bottom:1px solid #0000;padding:2px 0}.Hm-TGG_stepInput:focus,.Hm-TGG_stepInputDone:focus{border-bottom-color:var(--vy-tide);outline:none}.Hm-TGG_stepInput::placeholder{color:var(--vy-dim);opacity:.7}.Hm-TGG_captureInput::placeholder{color:var(--dsw-alias-label-secondary);opacity:.8}.Hm-TGG_stepInputDone{color:var(--vy-dim);text-decoration:line-through}.Hm-TGG_capture{width:100%;color:var(--vy-fire);font:inherit;text-align:left;cursor:pointer;background:#ffd27a1f;border:1px solid #ffd27a80;border-radius:12px;padding:10px 12px;font-weight:600}.Hm-TGG_peek{color:var(--vy-dim);text-overflow:ellipsis;white-space:nowrap;margin:0;font-size:13px;overflow:hidden}.Hm-TGG_tab:focus-visible,.Hm-TGG_tabOn:focus-visible,.Hm-TGG_sort:focus-visible,.Hm-TGG_rowDone:focus-visible,.Hm-TGG_fold:focus-visible,.Hm-TGG_unfold:focus-visible,.Hm-TGG_tick:focus-visible,.Hm-TGG_tickOn:focus-visible,.Hm-TGG_capture:focus-visible{outline:2px solid var(--vy-fire);outline-offset:2px}.Hm-TGG_captureVeil{z-index:1000;pointer-events:auto;background:#141c3e47;place-items:start center;padding:18vh 20px 0;display:grid;position:fixed;inset:0}.Hm-TGG_captureBox{border:1px solid var(--dsw-alias-border-l2);width:min(520px,100%);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);border-radius:16px;flex-direction:column;gap:10px;padding:18px;font-size:14px;display:flex;box-shadow:0 20px 60px #141c3e40}.Hm-TGG_captureBox .Hm-TGG_small{color:var(--dsw-alias-label-secondary)}.Hm-TGG_captureInput{border:1px solid var(--dsw-alias-border-l2);width:100%;color:inherit;background:var(--dsw-alias-bg-base);font:inherit;border-radius:12px;padding:12px 14px;font-size:17px}.Hm-TGG_captureInput:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.Hm-TGG_captureNote{z-index:1000;border:1px solid var(--dsw-alias-border-l2);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);white-space:nowrap;pointer-events:none;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;position:fixed;bottom:48px;left:50%;transform:translate(-50%);box-shadow:0 8px 24px #141c3e2e}@container (width<=700px){.Hm-TGG_side{width:240px}}.Hm-TGG_brandName{letter-spacing:.02em;font-size:15px;font-weight:600}";
 		const tagId = "dsh-voyage/Voyage.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -57,13 +57,9 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region src/client/Brand.tsx
-		/**
-		* Render the moon-over-water mark at the size the sidebar asks for.
-		* @param props - the sidebar's share: the requested edge.
-		* @returns decorative mark.
-		*/
-		function BrandMark({ size }) {
+		function Mark({ size, className }) {
 			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("svg", {
+				className,
 				width: size,
 				height: size,
 				viewBox: "0 0 24 24",
@@ -90,6 +86,25 @@ window.__ModuleLoader__.load({
 						opacity: "0.6"
 					})
 				]
+			});
+		}
+		/**
+		* Render the moon-over-water mark at the size the sidebar asks for.
+		* @param props - the sidebar's share: the requested edge.
+		* @returns decorative mark.
+		*/
+		function BrandMark({ size }) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Mark, { size });
+		}
+		/**
+		* Render the same mark before the New Session headline.
+		* @param props - the headline's share: the requested edge and the class that keeps the mark's place in the row.
+		* @returns decorative mark.
+		*/
+		function HeroMark({ size, className }) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Mark, {
+				size,
+				className
 			});
 		}
 		/**
@@ -1103,6 +1118,29 @@ window.__ModuleLoader__.load({
 			"--dsw-static-neutral-bluish-750": ["rgb(67, 69, 74)", "#2b3b7a"],
 			"--dsw-static-neutral-bluish-700": ["rgb(97, 102, 107)", "#40508f"]
 		};
+		/**
+		* Language packs that replace the app's own product wording. Each falls back, key by key, to the built-in
+		* language it is based on, so only the listed text changes.
+		*/
+		const PACKS = [{
+			id: "en-deepsea",
+			base: "en",
+			label: "English · Deep Sea",
+			common: { "brand.localBuild": "Deep Sea" },
+			conversation: {
+				"hero.headline": "One step into the deep sea",
+				"hero.preview": "today"
+			}
+		}, {
+			id: "zh-deepsea",
+			base: "zh",
+			label: "中文 · 深海",
+			common: { "brand.localBuild": "深海" },
+			conversation: {
+				"hero.headline": "每天往深海走一步",
+				"hero.preview": "今天"
+			}
+		}];
 		/** Required browser services: slots, localized copy, keyboard commands, the panel switcher, and themes. */
 		const inject = [
 			"slots",
@@ -1111,8 +1149,11 @@ window.__ModuleLoader__.load({
 			"layout",
 			"theme"
 		];
+		/** Namespaces whose product wording the language packs replace. */
+		const COMMON_NS = "common";
+		const CONVERSATION_NS = "conversation";
 		/**
-		* Register the dictionaries, the theme, the page with its sidebar entry, the sidebar brand, and the capture box with its command.
+		* Register the dictionaries, the theme, the page with its sidebar entry, the sidebar brand, the product wording and welcome mark, and the capture box with its command.
 		* @param ctx - browser services used by these contributions.
 		*/
 		function apply(ctx) {
@@ -1121,6 +1162,23 @@ window.__ModuleLoader__.load({
 				en
 			}), "voyage: dictionaries");
 			const t = ctx.locale.bind(NS);
+			for (const pack of PACKS) {
+				ctx.effect(() => ctx.locale.addLanguage({
+					id: pack.id,
+					label: pack.label,
+					fallback: pack.base
+				}), `voyage: ${pack.id} language`);
+				ctx.effect(() => ctx.locale.register(COMMON_NS, pack.id, pack.common), `voyage: ${pack.id} product name`);
+				ctx.effect(() => ctx.locale.register(CONVERSATION_NS, pack.id, pack.conversation), `voyage: ${pack.id} welcome text`);
+			}
+			const usePack = (active) => {
+				const pack = PACKS.find((candidate) => candidate.base === active);
+				if (pack !== void 0) ctx.locale.setLocale(pack.id);
+			};
+			ctx.on("locale/change", (snapshot) => {
+				usePack(snapshot.active);
+			});
+			usePack(ctx.locale.getLocale().active);
 			ctx.effect(() => ctx.theme.overrideTokens(THEME_ID, {
 				...Object.fromEntries(Object.entries(NIGHT_NEUTRALS).map(([token, [light, dark]]) => [token, {
 					light,
@@ -1150,6 +1208,7 @@ window.__ModuleLoader__.load({
 			}, VoyageIcon)), "voyage: sidebar entry");
 			ctx.effect(() => ctx.slots.inject("sidebar.brand.mark", () => ctx.slots.register({ name: "sidebar.brand.mark" }, BrandMark)), "voyage: brand mark");
 			ctx.effect(() => ctx.slots.inject("sidebar.brand.name", () => ctx.slots.register({ name: "sidebar.brand.name" }, BrandName)), "voyage: brand name");
+			ctx.effect(() => ctx.slots.inject("conversation.hero.brand.mark", () => ctx.slots.register({ name: "conversation.hero.brand.mark" }, HeroMark)), "voyage: welcome mark");
 			ctx.effect(() => ctx.slots.inject("shell.overlay", () => ctx.slots.register({
 				name: "shell.overlay",
 				id: "voyage-capture",
