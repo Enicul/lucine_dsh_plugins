@@ -1,0 +1,7 @@
+# Layer applied when a profile lists this bundle. The defaults run the ChatGPT
+# sign-in of the built-in model adapter (entry `llm-pi-ai`, provider
+# `openai-codex`); override the row's `config` in the profile's own
+# cordis.patch.yml to run another provider's sign-in.
+- insert:
+    - id: chatgpt-signin
+      name: dsh-chatgpt-signin

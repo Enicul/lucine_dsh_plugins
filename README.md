@@ -5,6 +5,7 @@ Personal [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DS
 ```
 research-os/
 ├── packages/
+│   ├── chatgpt-signin/      # sign in with a ChatGPT account so GPT models appear in the model picker
 │   ├── focus-reader/        # read Markdown and text with highlights and AI sessions
 │   └── voyage/              # night-sea home page, daily steps, capture box, Waiting list, theme
 ├── package.json

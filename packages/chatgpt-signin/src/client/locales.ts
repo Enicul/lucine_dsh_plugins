@@ -1,0 +1,81 @@
+/** Web dictionaries for the ChatGPT sign-in card. */
+
+/** Locale namespace owned by this card. */
+export const NS = 'chatgpt-signin'
+
+/** English dictionary and key source. */
+export const en = {
+  summary: 'Sign in with your ChatGPT account to use GPT models in the model picker.',
+  loading: 'Checking…',
+  failed: 'That did not work: {message}',
+  unavailable: 'This DSH has no ChatGPT sign-in to run. It needs the built-in model adapter (llm-pi-ai) switched on.',
+  'out.title': 'Not signed in',
+  'out.body': 'Sign in once with your ChatGPT account. GPT models then appear in the model picker and use your ChatGPT plan, not API credit.',
+  'out.browser': 'Sign in with ChatGPT',
+  'out.code': 'Sign in with a code instead',
+  'run.title': 'Signing in',
+  'run.starting': 'Starting…',
+  'run.step1': 'Step 1',
+  'run.step2': 'Step 2',
+  'run.open': 'Open the ChatGPT sign-in page',
+  'run.openCode': 'Open the code page',
+  'run.finish': 'Sign in there. This page updates by itself when you are done.',
+  'run.type': 'Type this code on that page:',
+  'run.copy': 'Copy',
+  'run.copied': 'Copied',
+  'run.stop': 'Stop',
+  'paste.toggle': 'The browser ended on a page that will not load?',
+  'paste.body': 'Copy the whole address from the browser\'s address bar and paste it here.',
+  'paste.label': 'Address from the browser',
+  'paste.send': 'Send',
+  'in.title': 'Signed in',
+  'in.body': 'GPT models are in the model picker at the bottom of the message box.',
+  'in.noPicker': 'You are signed in, but the GPT models are not in the model picker yet.',
+  'in.noPickerWhy': 'Adding them failed: {message}',
+  'in.add': 'Add GPT models to the picker',
+  'in.signOut': 'Sign out',
+  'in.signOutConfirm': 'Sign out and remove GPT models?',
+  'in.cancel': 'Keep',
+  'last.cancelled': 'The sign-in was stopped. Nothing was changed.',
+  'last.failed': 'The sign-in did not finish: {message}',
+} satisfies Record<string, string>
+
+/** Card locale key union. */
+export type ChatgptSigninKey = keyof typeof en
+
+/** Simplified Chinese dictionary checked against the English key set. */
+export const zh = {
+  summary: '用你的 ChatGPT 账号登录，在模型选择器里使用 GPT 模型。',
+  loading: '正在检查…',
+  failed: '操作未成功：{message}',
+  unavailable: '这个 DSH 没有可运行的 ChatGPT 登录。需要启用内置的模型适配器（llm-pi-ai）。',
+  'out.title': '未登录',
+  'out.body': '用你的 ChatGPT 账号登录一次。之后 GPT 模型会出现在模型选择器里，使用的是你的 ChatGPT 套餐，而不是 API 额度。',
+  'out.browser': '用 ChatGPT 登录',
+  'out.code': '改用验证码登录',
+  'run.title': '正在登录',
+  'run.starting': '正在开始…',
+  'run.step1': '第 1 步',
+  'run.step2': '第 2 步',
+  'run.open': '打开 ChatGPT 登录页',
+  'run.openCode': '打开验证码页面',
+  'run.finish': '在那里完成登录。完成后此页面会自动更新。',
+  'run.type': '在那个页面输入这个验证码：',
+  'run.copy': '复制',
+  'run.copied': '已复制',
+  'run.stop': '停止',
+  'paste.toggle': '浏览器最后停在一个打不开的页面？',
+  'paste.body': '复制浏览器地址栏里的完整地址，粘贴到这里。',
+  'paste.label': '浏览器里的地址',
+  'paste.send': '发送',
+  'in.title': '已登录',
+  'in.body': 'GPT 模型已在消息框底部的模型选择器里。',
+  'in.noPicker': '你已登录，但 GPT 模型还没有出现在模型选择器里。',
+  'in.noPickerWhy': '添加失败：{message}',
+  'in.add': '把 GPT 模型加入选择器',
+  'in.signOut': '退出登录',
+  'in.signOutConfirm': '退出登录并移除 GPT 模型？',
+  'in.cancel': '保留',
+  'last.cancelled': '登录已停止，没有任何改动。',
+  'last.failed': '登录没有完成：{message}',
+} satisfies Record<ChatgptSigninKey, string>
